@@ -1,0 +1,9 @@
+com\proton\models\repositories\MunicipeRepository.class
+com\proton\ProtonApplication.class
+com\proton\controller\resources\endereco\EnderecoController.class
+com\proton\models\entities\Municipe.class
+com\proton\models\entities\Endereco.class
+com\proton\services\municipe\MunicipeService.class
+com\proton\services\endereco\EnderecoService.class
+com\proton\models\repositories\EnderecoRepository.class
+com\proton\controller\resources\municipe\MunicipeController.class
