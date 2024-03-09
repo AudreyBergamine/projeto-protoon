@@ -33,9 +33,11 @@ public class MunicipeService {
 		return repository.save(obj);
 	}
 
-    public void delete(Integer id) {
-		repository.deleteById(id);	
-	}
+    // NÃO VAI DELETAR > REGRA DE NEGÓCIO 
+    // public void delete(Integer id) {
+	// 	repository.deleteById(id);	
+	// }
+    
 
     public Municipe update(Integer id, Municipe obj) {
 		Municipe entity = repository.getReferenceById(id); //instancia o usuário sem mexer no banco de dados
