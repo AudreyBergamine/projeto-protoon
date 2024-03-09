@@ -46,12 +46,12 @@ public class MunicipeController {
 		return ResponseEntity.created(uri).body(obj); //Código 201
 	}
 
-    //TODO: trocar o método remover para desativar posteriormente!
-    @DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
-		service.delete(id);
-		return ResponseEntity.noContent().build(); //Resposta para sem conteúdo, código 204
-	}
+    //TODO: NÃO TERÁ DELETE PARA O USUÁRIO: REGRA DE NEGÓCIO
+    // @DeleteMapping(value = "/{id}")
+	// public ResponseEntity<Void> delete(@PathVariable Integer id){
+	// 	service.delete(id);
+	// 	return ResponseEntity.noContent().build(); //Resposta para sem conteúdo, código 204
+	// }
 
     @PutMapping(value = "{id}")
 	public ResponseEntity<Municipe> update(@PathVariable Integer id, @RequestBody Municipe obj){
