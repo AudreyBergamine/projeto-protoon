@@ -1,3 +1,5 @@
+// CLASSE AUXILIAR DE CONFIGURAÇÃO ESPECÍFICA PARA O PERFIL DE TESTE
+
 package com.proton.config;
 
 import org.springframework.context.annotation.Configuration;
