@@ -14,7 +14,7 @@ import com.proton.models.repositories.MunicipeRepository;
 @Component
 public class MunicipeService {
 
-    @Autowired
+    @Autowired // Para que o Spring faça essa injeção de Dependência do Repository
     private MunicipeRepository repository;
 
     public List<Municipe> findAll(){
