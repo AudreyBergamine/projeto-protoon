@@ -27,6 +27,8 @@ public class MunicipeController {
    private MunicipeService service;
 
     // TODO Remover acesso a lista completa! E retirar retorno do atributo senha!
+    
+    // Método que responde á requisição do tipo GET do HTTP
     @GetMapping()
     public ResponseEntity<List<Municipe>> findAll(){
         List<Municipe> list = service.findAll();

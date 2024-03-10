@@ -37,7 +37,7 @@ public class Municipe implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO) // AUTO ou IDENTITY
     @Column(name = "id_municipe")
     private Integer id_municipe;
 
