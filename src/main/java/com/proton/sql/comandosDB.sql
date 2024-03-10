@@ -93,7 +93,7 @@ CREATE TABLE protocolo (
     descricao TEXT,
     assunto VARCHAR(255),
     data_reclamacao DATE,
-    status VARCHAR(50),
+    status VARCHAR(50), -- ("Aberto" "Andamento" "Ciência/Entrega" "Finalizado")    
     comprovante_protocolo BLOB
 );
 
