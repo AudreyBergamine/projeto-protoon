@@ -35,7 +35,7 @@ public class EnderecoService {
 	}
 
     public Endereco update(Integer id, Endereco obj) {
-		Endereco entity = repository.getReferenceById(id); //instancia o usuário sem mexer no banco de dados
+		Endereco entity = repository.getReferenceById(id); //instancia o ENDEREÇO sem mexer no banco de dados
 		updateData(entity, obj);
 			return repository.save(entity);
 	}

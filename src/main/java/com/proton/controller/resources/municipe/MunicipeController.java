@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+// import org.springframework.web.bind.annotation.DeleteMapping;  >> NÃO VAI DELETAR USUÁRIO
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +26,7 @@ public class MunicipeController {
     @Autowired
    private MunicipeService service;
 
-    //TODO: Remover acesso a lista completa! E retirar retorno do atributo senha!
+    // TODO Remover acesso a lista completa! E retirar retorno do atributo senha!
     @GetMapping()
     public ResponseEntity<List<Municipe>> findAll(){
         List<Municipe> list = service.findAll();
@@ -46,7 +46,7 @@ public class MunicipeController {
 		return ResponseEntity.created(uri).body(obj); //Código 201
 	}
 
-    //TODO: NÃO TERÁ DELETE PARA O USUÁRIO: REGRA DE NEGÓCIO
+    //TODO NÃO TERÁ DELETE PARA O USUÁRIO >>>> REGRA DE NEGÓCIO
     // @DeleteMapping(value = "/{id}")
 	// public ResponseEntity<Void> delete(@PathVariable Integer id){
 	// 	service.delete(id);

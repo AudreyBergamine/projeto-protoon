@@ -44,7 +44,7 @@ public class EnderecoController {
 		return ResponseEntity.created(uri).body(obj); //Código 201
 	}
 
-    //TODO: trocar o método remover para desativar posteriormente!
+    // TODO: VAI PODER EXCLUIR ENDEREÇO?? Pois iria perder o histórico de reclamações >>>> REGRA DE NEGÓCIO 
     @DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);

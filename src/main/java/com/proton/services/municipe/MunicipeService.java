@@ -33,7 +33,7 @@ public class MunicipeService {
 		return repository.save(obj);
 	}
 
-    // NÃO VAI DELETAR > REGRA DE NEGÓCIO 
+    // NÃO VAI DELETAR USUÁRIOS >>>> REGRA DE NEGÓCIO 
     // public void delete(Integer id) {
 	// 	repository.deleteById(id);	
 	// }
