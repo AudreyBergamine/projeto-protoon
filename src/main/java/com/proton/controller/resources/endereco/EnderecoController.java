@@ -22,21 +22,23 @@ import com.proton.services.endereco.EnderecoService;
 @RestController
 @RequestMapping(value = "/endereco")
 public class EnderecoController {
-    @Autowired
-    private EnderecoService service;
+    @Autowired // Para que o Spring faça essa injeção de Dependência do Service
+    private EnderecoService service; // Dependência para o Service
 
+    // Método que responde á requisição do tipo GET do HTTP
      @GetMapping()
     public ResponseEntity<List<Endereco>> findAll(){
         List<Endereco> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}") // A requisição vai aceitar um ID dentro do URL
     public ResponseEntity<Endereco> findById(@PathVariable Integer id){
         Endereco obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
+    // Método que responde á requisição do tipo POST do HTTP
     @PostMapping
     public ResponseEntity<Endereco> insert(@RequestBody Endereco obj){
 		obj = service.insert(obj);
@@ -51,7 +53,7 @@ public class EnderecoController {
 		return ResponseEntity.noContent().build(); //Resposta para sem conteúdo, código 204
 	}
 
-    @PutMapping(value = "{id}")
+    @PutMapping(value = "{id}") // A requisição vai aceitar um ID dentro do URL
 	public ResponseEntity<Endereco> update(@PathVariable Integer id, @RequestBody Endereco obj){
 		obj = service.update(id, obj);
 		return ResponseEntity.ok(obj);
