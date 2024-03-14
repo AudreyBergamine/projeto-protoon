@@ -1,5 +1,7 @@
 com\proton\models\repositories\MunicipeRepository.class
 com\proton\ProtonApplication.class
+com\proton\config\WebConfig.class
+com\proton\config\CustomLocalDateDeserializer.class
 com\proton\models\entities\Endereco.class
 com\proton\services\municipe\MunicipeService.class
 com\proton\services\endereco\EnderecoService.class
