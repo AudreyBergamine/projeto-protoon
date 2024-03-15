@@ -43,6 +43,7 @@ public class MunicipeController {
         return ResponseEntity.ok().body(obj);
     }
 
+    // Método que responde á requisição do tipo POST do HTTP
     @PostMapping
     public ResponseEntity<Municipe> insert(@RequestBody Municipe obj){
 		obj = service.insert(obj);
@@ -56,8 +57,10 @@ public class MunicipeController {
 	// 	service.delete(id);
 	// 	return ResponseEntity.noContent().build(); //Resposta para sem conteúdo, código 204
 	// }
+    
 
-    @PutMapping(value = "{id}")
+    
+    @PutMapping(value = "{id}") // A requisição vai aceitar um ID dentro do URL
 	public ResponseEntity<Municipe> update(@PathVariable Integer id, @RequestBody Municipe obj){
 		obj = service.update(id, obj);
 		return ResponseEntity.ok(obj);

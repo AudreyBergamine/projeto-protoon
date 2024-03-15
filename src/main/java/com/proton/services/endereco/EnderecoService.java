@@ -14,18 +14,21 @@ import com.proton.models.repositories.MunicipeRepository;
 @Component
 public class EnderecoService {
 
-     @Autowired
+     @Autowired // Para que o Spring faça essa injeção de Dependência do Repository
     private EnderecoRepository repository;
 
+    //Método que retorna uma lista Json com todos os enderecos
     public List<Endereco> findAll(){
         return repository.findAll();
     }
 
+    //Método que retorna um objeto Json endereco com base no id inserido
     public Endereco findById(Integer id){
         Optional<Endereco> obj = repository.findById(id);
         return obj.get();
     }
 
+    //Método que insere um endereco novo no banco de dados
     public Endereco insert(Endereco obj) {
 		return repository.save(obj);
 	}
@@ -34,6 +37,7 @@ public class EnderecoService {
 		repository.deleteById(id);	
 	}
 
+  //Método que atualiza as informações do endereco
     public Endereco update(Integer id, Endereco obj) {
 		Endereco entity = repository.getReferenceById(id); //instancia o ENDEREÇO sem mexer no banco de dados
 		updateData(entity, obj);

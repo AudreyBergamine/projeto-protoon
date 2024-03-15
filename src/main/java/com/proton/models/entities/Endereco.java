@@ -12,40 +12,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+//O anotação @Entity, diz que é uma tabela do banco de dados. Já @Table, é para incluir o nome da tabela
 @Entity
 @Table(name = "endereco")
 public class Endereco implements Serializable{
 
 
-    public Endereco(){
-
-    }
-
-    public Endereco(Integer id_endereco, String tipo_endereco, String num_cep, String logradouro, String nome_endereco,
-            String num_endereco, String complemento, String bairro, String cidade, String estado, String pais) {
-        this.id_endereco = id_endereco;
-        this.tipo_endereco = tipo_endereco;
-        this.num_cep = num_cep;
-        this.logradouro = logradouro;
-        this.nome_endereco = nome_endereco;
-        this.num_endereco = num_endereco;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.pais = pais;
-    }
-
+    //Implements Serializable é uma interface que transforma os dados do objeto em dados bytes, para transmitir pela web.
     private static final long serialVersionUID = 1L;
 
+    //O atributo id_municipe, precisa ter as anotações abaixo para dizer que é um id, autoincrement e o seu nome
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_endereco")
     private Integer id_endereco;
     
-    @JsonIgnore
-    @OneToOne(mappedBy = "endereco")
-    private Municipe municipe;
+    
 
     public Municipe getMunicipe() {
         return municipe;
@@ -84,6 +66,32 @@ public class Endereco implements Serializable{
 
     @Column(name = "pais", nullable = false)
     private String pais;
+
+    //A anotação @JsonIgnore serve para evitar um loop quando se pesquisa uma entidade relacionada
+    //O OneToOne, está mapeado pela atributo "endereco" que está em municipe
+    @JsonIgnore
+    @OneToOne(mappedBy = "endereco")
+    private Municipe municipe;
+
+    public Endereco(){
+
+    }
+
+    public Endereco(Integer id_endereco, String tipo_endereco, String num_cep, String logradouro, String nome_endereco,
+            String num_endereco, String complemento, String bairro, String cidade, String estado, String pais) {
+        this.id_endereco = id_endereco;
+        this.tipo_endereco = tipo_endereco;
+        this.num_cep = num_cep;
+        this.logradouro = logradouro;
+        this.nome_endereco = nome_endereco;
+        this.num_endereco = num_endereco;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.pais = pais;
+    }
+
 
     public Integer getId_endereco() {
         return id_endereco;
@@ -173,6 +181,7 @@ public class Endereco implements Serializable{
         this.pais = pais;
     }
 
+    //A anotação @OneToOne é para dizer que é uma relação 1 para 1 e o @JoinColumn diz que é uma chave estrangeira
     @Override
     public int hashCode() {
         final int prime = 31;

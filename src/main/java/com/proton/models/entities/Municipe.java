@@ -15,27 +15,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+//O anotação @Entity, diz que é uma tabela do banco de dados. Já @Table, é para incluir o nome da tabela
 @Entity
 @Table(name = "municipe")
 public class Municipe implements Serializable {
 
+    //Implements Serializable é uma interface que transforma os dados do objeto em dados bytes, para transmitir pela web.
     private static final long serialVersionUID = 1L;
 
-    public Municipe(Integer id_municipe, String nome_municipe, String email, String senha, String num_CPF, LocalDate data_nascimento,
-            Endereco id_enderecoFK) {
-        this.id_municipe = id_municipe;
-        this.nome_municipe = nome_municipe;
-        this.email = email;
-        this.senha = senha;
-        this.num_CPF = num_CPF;
-        this.data_nascimento = data_nascimento;
-        this.endereco = id_enderecoFK;
-    }
-
-    public Municipe(){
-
-    }
-
+    //O atributo id_municipe, precisa ter as anotações abaixo para dizer que é um id, autoincrement e o seu nome
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // AUTO ou IDENTITY
     @Column(name = "id_municipe")
@@ -66,10 +54,28 @@ public class Municipe implements Serializable {
     private LocalDate data_nascimento;
 
     
-
+    //A anotação @OneToOne é para dizer que é uma relação 1 para 1 e o @JoinColumn diz que é uma chave estrangeira
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
     private Endereco endereco;
+
+    
+    public Municipe(){
+
+    }
+    //É necessário ter dois construtores, um padrão e um com todos os atributos do municipe
+    public Municipe(Integer id_municipe, String nome_municipe, String email, String senha, String num_CPF, LocalDate data_nascimento,
+            Endereco id_enderecoFK) {
+        this.id_municipe = id_municipe;
+        this.nome_municipe = nome_municipe;
+        this.email = email;
+        this.senha = senha;
+        this.num_CPF = num_CPF;
+        this.data_nascimento = data_nascimento;
+        this.endereco = id_enderecoFK;
+    }
+
+
 
     public Endereco getEndereco() {
         return endereco;
@@ -120,6 +126,7 @@ public class Municipe implements Serializable {
     }
 
 
+    //O Hashcode e Equals serve para poder se comparar 2 ids diferentes
     @Override
     public int hashCode() {
         final int prime = 31;
