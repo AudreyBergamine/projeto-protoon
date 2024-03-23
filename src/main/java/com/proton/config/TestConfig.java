@@ -53,17 +53,17 @@ public class TestConfig implements CommandLineRunner {
 	
 
 		// Manda para o banco de dados
-		enderecoRepository.saveAll(Arrays.asList(end1,end2));
-		secretariaRepository.saveAll(Arrays.asList(sec1,sec2));
+		//enderecoRepository.saveAll(Arrays.asList(end1,end2));
+		//secretariaRepository.saveAll(Arrays.asList(sec1,sec2));
 
 
 		/*O erro q tava dando é pq o endereço já existia no banco de dados... O municipe salva o endereço no banco de dados na sua criação!
 		não necessitando já ter sido criado.
 		*/
-		LocalDate date = LocalDate.of(2020, 1, 8);
-				Municipe mun1= new Municipe(null, "Fulano", "fulano@example.com", "senha123", "123.456.789-10",
-						date, end3);
-		municipeRepository.save(mun1);
+	//	LocalDate date = LocalDate.of(2020, 1, 8);
+		//		Municipe mun1= new Municipe(null, "Fulano", "fulano@example.com", "senha123", "123.456.789-10",
+		//				date, end3);
+		//municipeRepository.save(mun1);
 		
 
 
