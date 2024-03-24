@@ -6,6 +6,7 @@ import java.security.interfaces.RSAPublicKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,12 +38,10 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(
             auth -> auth
-            .requestMatchers("/authenticate").permitAll() //Aqui permite todos acessar esta página e seus métodos
+            // .requestMatchers("/authenticate").permitAll() //Aqui permite todos acessar esta página e seus métodos
             .requestMatchers("/endereco").permitAll()
             .requestMatchers("/municipes").permitAll()
-            .requestMatchers("/users/**").permitAll()
-            .requestMatchers("/welcomeUser").hasRole("MUNICIPE") // Nesta página somente user.role = MUNICIPE
-            .requestMatchers("/welcomeAdmin").hasRole("ADMIN")
+            .requestMatchers("/users").permitAll()
                 .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .oauth2ResourceServer(

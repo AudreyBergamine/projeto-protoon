@@ -30,8 +30,6 @@ public class UserService {
 
     //Método que insere um user novo no banco de dados, junto com o endereço
     public User insert(User obj) {
-        String hashedPassword = new BCryptPasswordEncoder().encode(obj.getPassword());
-        obj.setPassword(hashedPassword);
         return userRepository.save(obj); // Salva o usuário com a Role definida
     }
 

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.Municipe;
+import com.proton.models.entities.User;
 import com.proton.services.municipe.MunicipeService;
+import com.proton.services.user.UserService;
 
 @RestController
 @RequestMapping(value = "/municipes")
@@ -25,7 +27,9 @@ import com.proton.services.municipe.MunicipeService;
 public class MunicipeController {
     
     @Autowired // Para que o Spring faça essa injeção de Dependência do Service
-   private MunicipeService service; // Dependência para o Service
+    private MunicipeService service; // Dependência para o Service
+    @Autowired
+    private UserService userService;
 
     
    // TODO Remover acesso a lista completa! E retirar retorno do atributo senha!
@@ -46,6 +50,11 @@ public class MunicipeController {
     // Método que responde á requisição do tipo POST do HTTP
     @PostMapping
     public ResponseEntity<Municipe> insert(@RequestBody Municipe obj){
+        User user = new User();
+        user.setUsername(obj.getEmail());
+        user.setPassword(obj.getSenha());
+        user.setRole("MUNICIPE");
+		userService.insert(user);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId_municipe()).toUri();
 		return ResponseEntity.created(uri).body(obj); //Código 201
