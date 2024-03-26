@@ -61,9 +61,20 @@ public class UserController {
 		return ResponseEntity.noContent().build(); //Resposta para sem conteúdo, código 204
 	}
     
+    // @PutMapping(value = "{username}") // A requisição vai aceitar um ID dentro do URL
+    // @PreAuthorize("hasRole('ADMIN')")
+	// public ResponseEntity<User> update(@PathVariable String username, @RequestBody User obj){
+    //     User user = userService.findById(username);
+    //     obj.setRole(user.getRole()); // Setar a role do usuário encontrado no objeto a ser atualizado
+    //     obj = userService.update(username, obj);
+    //     return ResponseEntity.ok(obj);
+	// }
+    
     @PutMapping(value = "{username}") // A requisição vai aceitar um ID dentro do URL
-	public ResponseEntity<User> update(@PathVariable String username, @RequestBody User obj){
+    // @PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<User> update(@PathVariable String username, @PathVariable String password, @RequestBody User obj){
         User user = userService.findById(username);
+        obj.setPassword(password);
         obj.setRole(user.getRole()); // Setar a role do usuário encontrado no objeto a ser atualizado
         obj = userService.update(username, obj);
         return ResponseEntity.ok(obj);

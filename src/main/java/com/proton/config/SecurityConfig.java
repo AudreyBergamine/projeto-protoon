@@ -41,7 +41,7 @@ public class SecurityConfig {
             // .requestMatchers("/authenticate").permitAll() //Aqui permite todos acessar esta página e seus métodos
             .requestMatchers("/endereco").permitAll()
             .requestMatchers("/municipes").permitAll()
-            .requestMatchers("/users").permitAll()
+            .requestMatchers("/users/**").permitAll()
                 .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .oauth2ResourceServer(
