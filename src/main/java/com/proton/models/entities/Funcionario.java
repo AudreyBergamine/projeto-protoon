@@ -11,7 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+//TODO: Precisamos adicionar o atributo Reclamação, o Funcionário terá uma lista de reclamações para visualizar
 @Entity
 @Table(name = "funcionario")
 public class Funcionario implements Serializable  {
@@ -23,12 +23,15 @@ public class Funcionario implements Serializable  {
     @Column(name = "id_funcionario")
     private Integer idFuncionario;
 
+    //TODO: Precisa-se relacionar a entidade Funcionário com Departamento 
     @Column(name = "id_departamentoFK")
     private Integer idDepartamentoFK;
 
+    //TODO: Precisa-se relacionar a entidade Funcionário com Secretaria 
     @Column(name = "id_secretariaFK")
     private Integer idSecretariaFK;
 
+    //TODO: Precisa-se relacionar a entidade Funcionário com Endereco 1x1 
     @Column(name = "id_enderecoFK")
     private Integer idEnderecoFK;
 
@@ -45,6 +48,7 @@ public class Funcionario implements Serializable  {
     @Column(name = "cargo_funcionario")
     private String cargoFuncionario;
 
+    //TODO: Não temos a entidade departamento, teriamos que fazê-la ou remover esse atributo caso formos fazê-la
     @Column(name = "email_departamento")
     private String emailDepartamento;
 

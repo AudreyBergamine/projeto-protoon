@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.proton.services.endereco.EnderecoService;
 
 @RestController
 @RequestMapping(value = "/endereco")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EnderecoController {
     @Autowired // Para que o Spring faça essa injeção de Dependência do Service
     private EnderecoService service; // Dependência para o Service
