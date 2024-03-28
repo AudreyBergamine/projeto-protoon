@@ -38,7 +38,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             auth -> auth
             .requestMatchers("/authenticate").permitAll() //Aqui permite todos acessar esta página e seus métodos
-            .requestMatchers("/endereco").permitAll()
+            // .requestMatchers("/endereco").permitAll()
             .requestMatchers("/municipes").permitAll()
             .requestMatchers("/users/**").permitAll()
             .requestMatchers("/welcomeUser").hasRole("MUNICIPE") // Nesta página somente user.role = MUNICIPE
