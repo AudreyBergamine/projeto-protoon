@@ -77,7 +77,103 @@ public class Funcionario implements Serializable  {
         this.numTelefoneFixo = numTelefoneFixo;
     }
 
-    // getters and setters
+    // Getters
+    public Integer getIdFuncionario() {
+        return idFuncionario;
+    }
+
+    public Integer getIdDepartamentoFK() {
+        return idDepartamentoFK;
+    }
+
+    public Integer getIdSecretariaFK() {
+        return idSecretariaFK;
+    }
+
+    public Integer getIdEnderecoFK() {
+        return idEnderecoFK;
+    }
+
+    public String getNomeFuncionario() {
+        return nomeFuncionario;
+    }
+
+    public String getNumCPF() {
+        return numCPF;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public String getCargoFuncionario() {
+        return cargoFuncionario;
+    }
+
+    public String getEmailDepartamento() {
+        return emailDepartamento;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public String getNumTelefoneMovel() {
+        return numTelefoneMovel;
+    }
+
+    public String getNumTelefoneFixo() {
+        return numTelefoneFixo;
+    }
+
+    // SETTERS
+    public void setIdFuncionario(Integer idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
+
+    public void setIdDepartamentoFK(Integer idDepartamentoFK) {
+        this.idDepartamentoFK = idDepartamentoFK;
+    }
+
+    public void setIdSecretariaFK(Integer idSecretariaFK) {
+        this.idSecretariaFK = idSecretariaFK;
+    }
+
+    public void setIdEnderecoFK(Integer idEnderecoFK) {
+        this.idEnderecoFK = idEnderecoFK;
+    }
+
+    public void setNomeFuncionario(String nomeFuncionario) {
+        this.nomeFuncionario = nomeFuncionario;
+    }
+
+    public void setNumCPF(String numCPF) {
+        this.numCPF = numCPF;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public void setCargoFuncionario(String cargoFuncionario) {
+        this.cargoFuncionario = cargoFuncionario;
+    }
+
+    public void setEmailDepartamento(String emailDepartamento) {
+        this.emailDepartamento = emailDepartamento;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setNumTelefoneMovel(String numTelefoneMovel) {
+        this.numTelefoneMovel = numTelefoneMovel;
+    }
+
+    public void setNumTelefoneFixo(String numTelefoneFixo) {
+        this.numTelefoneFixo = numTelefoneFixo;
+    }
 
     @Override
     public int hashCode() {

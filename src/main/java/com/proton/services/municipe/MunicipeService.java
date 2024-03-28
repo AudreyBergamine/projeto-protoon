@@ -50,7 +50,6 @@ public class MunicipeService {
 	}
 
     private void updateData(Municipe entity, Municipe obj) {
-		// TODO Auto-generated method stub
         entity.setNome_municipe(obj.getNome_municipe());
 		entity.setEmail(obj.getEmail());
         entity.setSenha(obj.getSenha());

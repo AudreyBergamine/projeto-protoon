@@ -10,7 +10,7 @@ import com.proton.models.entities.Funcionario;
 import com.proton.models.repositories.FuncionarioRepository;
 
 @Component
-public class funcionarioService {
+public class FuncionarioService {
 
     @Autowired
     private FuncionarioRepository repository;
@@ -20,29 +20,35 @@ public class funcionarioService {
     }
 
     public Funcionario findById(Integer id) {
-        Optional<Funcionario> obj = repository.findById(id);
-        return obj.get();
+        Optional<Funcionario> optionalFuncionario = repository.findById(id);
+        return optionalFuncionario.orElse(null); // Retorna null se não encontrar o funcionário
     }
 
-    public Funcionario insert(Funcionario obj) {
-        return repository.save(obj);
+    @SuppressWarnings("null")
+    public Funcionario insert(Funcionario funcionario) {
+        return repository.save(funcionario);
     }
 
-    public Funcionario update(Integer id, Funcionario obj) {
-        Funcionario entity = repository.getOne(id);
-        updateData(entity, obj);
-        return repository.save(entity);
+    public Funcionario update(Integer id, Funcionario funcionario) {
+        Optional<Funcionario> optionalFuncionario = repository.findById(id);
+        if (optionalFuncionario.isPresent()) {
+            Funcionario entity = optionalFuncionario.get();
+            updateData(entity, funcionario);
+            return repository.save(entity);
+        }
+        return null; // Retorna null se não encontrar o funcionário
     }
 
-    private void updateData(Funcionario entity, Funcionario obj) {
-        entity.setNomeFuncionario(obj.getNomeFuncionario());
-        entity.setNumCPF(obj.getNumCPF());
-        entity.setDataNascimento(obj.getDataNascimento());
-        entity.setCargoFuncionario(obj.getCargoFuncionario());
-        entity.setEmailDepartamento(obj.getEmailDepartamento());
-        entity.setSenha(obj.getSenha());
-        entity.setNumTelefoneMovel(obj.getNumTelefoneMovel());
-        entity.setNumTelefoneFixo(obj.getNumTelefoneFixo());
+    private void updateData(Funcionario entity, Funcionario funcionario) {
+        entity.setNomeFuncionario(funcionario.getNomeFuncionario());
+        entity.setNumCPF(funcionario.getNumCPF());
+        entity.setDataNascimento(funcionario.getDataNascimento());
+        entity.setCargoFuncionario(funcionario.getCargoFuncionario());
+        entity.setEmailDepartamento(funcionario.getEmailDepartamento());
+        entity.setSenha(funcionario.getSenha());
+        entity.setNumTelefoneMovel(funcionario.getNumTelefoneMovel());
+        entity.setNumTelefoneFixo(funcionario.getNumTelefoneFixo());
+        
     }
 
 }
