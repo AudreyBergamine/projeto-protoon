@@ -14,6 +14,7 @@ public class ProtonApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProtonApplication.class, args);
+		System.out.println("\nusername: admin  password: admin\n");
 		System.out.println("\nRodando...\n");
 	}
 

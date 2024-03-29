@@ -20,13 +20,14 @@ public class JwtService {
 
   public String generateToken(Authentication authentication) {
     Instant now = Instant.now();
-    long expiry = 360L;
+    long expiry = 100L; // 100 segundos
 
     String scope = authentication
         .getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
-        .collect(Collectors
-            .joining(" "));
+        .map(authority -> "SCOPE_" + authority) // Adiciona "SCOPE_" antes da autoridade
+        .collect(Collectors.joining(" "));
+
 
     JwtClaimsSet claims = JwtClaimsSet.builder()
         .issuer("spring-security-jwt")

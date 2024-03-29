@@ -37,12 +37,9 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(
             auth -> auth
-            .requestMatchers("/authenticate").permitAll() //Aqui permite todos acessar esta página e seus métodos
-            // .requestMatchers("/endereco").permitAll()
+            .requestMatchers("/endereco").permitAll()
             .requestMatchers("/municipes").permitAll()
             .requestMatchers("/users/**").permitAll()
-            .requestMatchers("/welcomeUser").hasRole("MUNICIPE") // Nesta página somente user.role = MUNICIPE
-            .requestMatchers("/welcomeAdmin").hasRole("ADMIN")
                 .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .oauth2ResourceServer(
