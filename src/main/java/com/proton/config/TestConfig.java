@@ -55,19 +55,19 @@ public class TestConfig implements CommandLineRunner {
 
 		Secretaria sec3 = new Secretaria(null, "Secretaria de Meio Ambiente", "Mariana Oliveira", "mariana@example.com", "senha789", end1);
 
-		Municipe mun1= new Municipe(null, "Fulano", "fulano@example.com", "senha123", "123.456.789-10",
-                LocalDate.of(1990, 5, 15), end3);
+		// Municipe mun1= new Municipe(null, "Fulano", "fulano@example.com", "senha123", "123.456.789-10",
+        //         LocalDate.of(1990, 5, 15), end3);
 
-		municipeRepository.save(mun1);
+		// municipeRepository.save(mun1);
 		
-		Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", Instant.now(), "Descrição do protocolo", 1, 100.0);
+		// Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", Instant.now(), "Descrição do protocolo", 1, 100.0);
 
 		
 		
 		// Manda para o banco de dados
 		enderecoRepository.saveAll(Arrays.asList(end1,end2,end3));
 		secretariaRepository.saveAll(Arrays.asList(sec1,sec2,sec3));
-		protocoloRepository.saveAll(Arrays.asList(prot1));
+		// protocoloRepository.saveAll(Arrays.asList(prot1));
 		
 		
 		
