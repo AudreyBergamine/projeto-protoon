@@ -17,6 +17,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -37,10 +40,8 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(
             auth -> auth
-            .requestMatchers("/authenticate").permitAll()
-            .requestMatchers("/endereco").permitAll()
-            .requestMatchers("/municipes").permitAll()
-            .requestMatchers("/users/**").permitAll()
+            .requestMatchers(GET, "/authenticate", "/endereco/**", "/municipes/**", "/users/**").permitAll()
+            .requestMatchers(POST, "/authenticate", "/endereco/**", "/municipes/**").permitAll()
                 .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .oauth2ResourceServer(

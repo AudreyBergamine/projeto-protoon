@@ -15,6 +15,7 @@ public class AuthenticationController {
   @PostMapping("authenticate")
   public String authenticate(
   Authentication authentication) {
+    
     return authenticationService.authenticate(authentication);
   }
 }

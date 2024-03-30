@@ -19,8 +19,11 @@ public class JwtService {
   }
 
   public String generateToken(Authentication authentication) {
+    if (authentication == null) {
+      throw new IllegalArgumentException("Authentication object cannot be null");
+  }
     Instant now = Instant.now();
-    long expiry = 15L; // 100 segundos
+    long expiry = 150000L; // 100 segundos
 
     String scope = authentication
         .getAuthorities().stream()
@@ -41,5 +44,7 @@ public class JwtService {
         JwtEncoderParameters.from(claims))
         .getTokenValue();
   }
+
+
 
 }
