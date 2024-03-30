@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.proton.models.entities.User;
@@ -30,8 +29,6 @@ public class UserService {
 
     //Método que insere um user novo no banco de dados, junto com o endereço
     public User insert(User obj) {
-        String hashedPassword = new BCryptPasswordEncoder().encode(obj.getPassword());
-        obj.setPassword(hashedPassword);
         return userRepository.save(obj); // Salva o usuário com a Role definida
     }
 

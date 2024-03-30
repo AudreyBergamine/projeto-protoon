@@ -33,8 +33,12 @@ public class MunicipeService {
         Endereco endereco = obj.getEndereco();
         endereco.setMunicipe(obj);
         obj.setEndereco(endereco);
+        String role = "MUNICIPE";
+        obj.setRole(role);
 		return repository.save(obj);
 	}
+
+    
 
     // NÃO VAI DELETAR USUÁRIOS >>>> REGRA DE NEGÓCIO 
     // public void delete(Integer id) {

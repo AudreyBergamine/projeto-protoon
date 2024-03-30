@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.Funcionario;
 import com.proton.models.repositories.FuncionarioRepository;
 
 @Component
+@Service
 public class FuncionarioService {
 
     @Autowired
@@ -24,7 +26,6 @@ public class FuncionarioService {
         return optionalFuncionario.orElse(null); // Retorna null se não encontrar o funcionário
     }
     //TODO: Verificar se o método insert está correto!
-    @SuppressWarnings("null")
     public Funcionario insert(Funcionario funcionario) {
         return repository.save(funcionario);
     }
