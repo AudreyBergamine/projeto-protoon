@@ -24,7 +24,6 @@ public class FuncionarioService {
         return optionalFuncionario.orElse(null); // Retorna null se não encontrar o funcionário
     }
     //TODO: Verificar se o método insert está correto!
-    @SuppressWarnings("null")
     public Funcionario insert(Funcionario funcionario) {
         return repository.save(funcionario);
     }
