@@ -21,6 +21,7 @@ public class Secretaria implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_secretaria;
+	
 	private String nome_secretaria;
 	private String nome_responsavel;
 	private String email;

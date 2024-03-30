@@ -1,5 +1,6 @@
 package com.proton.config;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -10,9 +11,11 @@ import org.springframework.context.annotation.Profile;
 
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.Municipe;
+import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
 import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.MunicipeRepository;
+import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
 
 //Por enquanto, isso vai servir de data base seeding
@@ -28,6 +31,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private SecretariaRepository secretariaRepository;
+	
+	@Autowired
+	private ProtocoloRepository protocoloRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -42,28 +48,28 @@ public class TestConfig implements CommandLineRunner {
 		Endereco end3 = new Endereco(null, "casa", "11111-222", "Rua dos Fundos", "Casa 303",
 	            "101", "Bloco C", "Periferia", "Belo Horizonte", "MG", "Brasil");
 		
-				
 		
 		Secretaria sec1 = new Secretaria(null, "Secretaria de Educação", "Ana Silva", "ana@example.com", "senha123", end2);
 
-		Secretaria sec2 = new Secretaria(null, "Secretaria de Saúde", "Carlos Santos", "carlos@example.com", "senha456", end1);
+		Secretaria sec2 = new Secretaria(null, "Secretaria de Saúde", "Carlos Santos", "carlos@example.com", "senha456", end3);
 
-	//	Secretaria sec3 = new Secretaria(null, "Secretaria de Meio Ambiente", "Mariana Oliveira", "mariana@example.com", "senha789", end3);
+		Secretaria sec3 = new Secretaria(null, "Secretaria de Meio Ambiente", "Mariana Oliveira", "mariana@example.com", "senha789", end1);
 
-	
+		Municipe mun1= new Municipe(null, "Fulano", "fulano@example.com", "senha123", "123.456.789-10",
+                LocalDate.of(1990, 5, 15), end3);
 
+		municipeRepository.save(mun1);
+		
+		Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", Instant.now(), "Descrição do protocolo", 1, 100.0);
+
+		
+		
 		// Manda para o banco de dados
-		//enderecoRepository.saveAll(Arrays.asList(end1,end2));
-		//secretariaRepository.saveAll(Arrays.asList(sec1,sec2));
-
-
-		/*O erro q tava dando é pq o endereço já existia no banco de dados... O municipe salva o endereço no banco de dados na sua criação!
-		não necessitando já ter sido criado.
-		*/
-	//	LocalDate date = LocalDate.of(2020, 1, 8);
-		//		Municipe mun1= new Municipe(null, "Fulano", "fulano@example.com", "senha123", "123.456.789-10",
-		//				date, end3);
-		//municipeRepository.save(mun1);
+		enderecoRepository.saveAll(Arrays.asList(end1,end2,end3));
+		secretariaRepository.saveAll(Arrays.asList(sec1,sec2,sec3));
+		protocoloRepository.saveAll(Arrays.asList(prot1));
+		
+		
 		
 
 
