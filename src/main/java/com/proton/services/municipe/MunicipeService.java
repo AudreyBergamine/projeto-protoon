@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.proton.models.entities.Endereco;
@@ -34,8 +33,6 @@ public class MunicipeService {
         Endereco endereco = obj.getEndereco();
         endereco.setMunicipe(obj);
         obj.setEndereco(endereco);
-        String hashedPassword = new BCryptPasswordEncoder().encode(obj.getSenha());
-        obj.setSenha(hashedPassword);
         String role = "MUNICIPE";
         obj.setRole(role);
 		return repository.save(obj);

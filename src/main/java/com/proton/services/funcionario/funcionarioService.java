@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.Funcionario;
 import com.proton.models.repositories.FuncionarioRepository;
 
 @Component
+@Service
 public class FuncionarioService {
 
     @Autowired
