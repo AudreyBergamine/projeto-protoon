@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
-  
   private JwtService jwtService;
 
   public AuthenticationService(JwtService jwtService) {
@@ -13,8 +12,6 @@ public class AuthenticationService {
   }
 
   public String authenticate(Authentication authentication) {
-
-
     return jwtService.generateToken(authentication);
   }
 }

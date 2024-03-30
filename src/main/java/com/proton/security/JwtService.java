@@ -19,18 +19,14 @@ public class JwtService {
   }
 
   public String generateToken(Authentication authentication) {
-    if (authentication == null) {
-      throw new IllegalArgumentException("Authentication object cannot be null");
-  }
     Instant now = Instant.now();
-    long expiry = 150000L; // 100 segundos
+    long expiry = 1000L;
 
     String scope = authentication
         .getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
-        .map(authority -> "SCOPE_" + authority) // Adiciona "SCOPE_" antes da autoridade
-        .collect(Collectors.joining(" "));
-
+        .collect(Collectors
+            .joining(" "));
 
     JwtClaimsSet claims = JwtClaimsSet.builder()
         .issuer("spring-security-jwt")
@@ -44,7 +40,5 @@ public class JwtService {
         JwtEncoderParameters.from(claims))
         .getTokenValue();
   }
-
-
 
 }

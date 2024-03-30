@@ -6,6 +6,7 @@ import java.security.interfaces.RSAPublicKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,9 +17,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -40,8 +38,10 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(
             auth -> auth
-            .requestMatchers(GET, "/authenticate", "/endereco/**", "/municipes/**", "/users/**").permitAll()
-            .requestMatchers(POST, "/authenticate", "/endereco/**", "/municipes/**").permitAll()
+            // .requestMatchers("/authenticate").permitAll() //Aqui permite todos acessar esta página e seus métodos
+            .requestMatchers("/endereco").permitAll()
+            .requestMatchers("/municipes").permitAll()
+            .requestMatchers("/users/**").permitAll()
                 .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .oauth2ResourceServer(

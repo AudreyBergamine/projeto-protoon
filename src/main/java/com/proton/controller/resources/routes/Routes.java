@@ -34,7 +34,6 @@ public class Routes {
     }
 
     @GetMapping("/authenticate")
-    // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> authenticate(Authentication authentication) {
         String token = authenticationService.authenticate(authentication);
         return ResponseEntity.ok(token);
