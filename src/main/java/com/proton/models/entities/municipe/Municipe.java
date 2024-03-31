@@ -1,9 +1,10 @@
-package com.proton.models.entities;
+package com.proton.models.entities.municipe;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.proton.models.entities.Endereco;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

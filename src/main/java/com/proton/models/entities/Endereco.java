@@ -3,6 +3,7 @@ package com.proton.models.entities;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.proton.models.entities.municipe.Municipe;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

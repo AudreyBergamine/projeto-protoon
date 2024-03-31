@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.proton.models.entities.Endereco;
-import com.proton.models.entities.Municipe;
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;

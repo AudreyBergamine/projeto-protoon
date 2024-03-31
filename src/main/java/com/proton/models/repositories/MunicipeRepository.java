@@ -7,10 +7,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.proton.models.entities.Municipe;
+import com.proton.models.entities.municipe.Municipe;
 public interface MunicipeRepository extends JpaRepository<Municipe, Integer>  {
-    Optional<Municipe> findByEmail(String email);
-    Optional<Municipe> findByEmailAndSenha(String email, String senha);
+   Optional<Municipe> findByEmail(String email);
 }
     
 

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.proton.models.entities.municipe.Municipe;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
