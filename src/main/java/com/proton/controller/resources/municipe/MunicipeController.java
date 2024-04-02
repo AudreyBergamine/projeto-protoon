@@ -20,40 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.municipe.Municipe;
-import com.proton.models.entities.municipe.TokenReqRes;
-import com.proton.services.municipe.JwtTokenService;
 import com.proton.services.municipe.MunicipeService;
 
 @RestController
-@RequestMapping(value = "/municipes")
+@RequestMapping(value = "protoon/municipe/municipes")
 @CrossOrigin(origins = "http://localhost:3000")
 public class MunicipeController {
 
     @Autowired // Para que o Spring faça essa injeção de Dependência do Service
     private MunicipeService service; // Dependência para o Service
 
-    @Autowired
-    private JwtTokenService jwtTokenService;
 
     // TODO Remover acesso a lista completa! E retirar retorno do atributo senha!
 
     // Método que responde á requisição do tipo GET do HTTP
     @GetMapping
-    public ResponseEntity<List<Municipe>> findAll(@RequestHeader(value = "Authorization", required = false) String token) throws NotFoundException {
-        if (service.checkToken(token)) { //Chega se o token é válido
-            String email = jwtTokenService.getEmailFromToken(token.substring(7)); //Extrai o email do token
-            System.out.println(email);
-            String role = service.getRoleByEmail(email); //Pega o valor da role
-            System.out.println(role);
-            if ("MUNICIPE".equals(role)) { //Verifica se a role é de municipe, se for, o método tá liberado.
-                List<Municipe> list = service.findAll();
+    public ResponseEntity<List<Municipe>> findAll(){
+            List<Municipe> list = service.findAll();
                 return ResponseEntity.ok().body(list);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
+        
     }
     @GetMapping(value = "/{id}") // A requisição vai aceitar um ID dentro do URL
     public ResponseEntity<Municipe> findById(@PathVariable Integer id) {
@@ -84,14 +69,6 @@ public class MunicipeController {
         return ResponseEntity.ok(obj);
     }
 
-    @PostMapping("/login") //Método que gera o token, praticamente é o método de login
-    public ResponseEntity<Object> generateToken(@RequestBody TokenReqRes tokenReqRes){
-        return ResponseEntity.ok(service.generateToken(tokenReqRes));
-    }
 
-    @PostMapping("/validar-token")
-    public ResponseEntity<Object> validateToken(@RequestBody TokenReqRes tokenReqRes){
-        return ResponseEntity.ok(service.validateToken(tokenReqRes));
-    }
 
 }

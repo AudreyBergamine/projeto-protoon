@@ -1,54 +1,38 @@
 package com.proton.services.user;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.proton.models.entities.User;
+import com.proton.models.entities.user.User;
 import com.proton.models.repositories.UserRepository;
 
+import java.security.Principal;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired // Para que o Spring faça essa injeção de Dependência do Repository
-    private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository repository;
+    public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
-    //Método que retorna uma lista Json com todos os users
-    public List<User> findAll(){
-        return userRepository.findAll();
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        // check if the current password is correct
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalStateException("Wrong password");
+        }
+        // check if the two new passwords are the same
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new IllegalStateException("Password are not the same");
+        }
+
+        // update the password
+        user.setSenha(passwordEncoder.encode(request.getNewPassword()));
+
+        // save the new password
+        repository.save(user);
     }
-
-    //Método que retorna um objeto Json user com base no id inserido
-    public User findById(String username){
-        Optional<User> obj = userRepository.findByUsername(username);
-        return obj.get();
-    }
-
-    //Método que insere um user novo no banco de dados, junto com o endereço
-    public User insert(User obj) {
-        return userRepository.save(obj); // Salva o usuário com a Role definida
-    }
-
-    // NÃO VAI DELETAR USUÁRIOS >>>> REGRA DE NEGÓCIO 
-    public void delete(String username) {
-		userRepository.deleteById(username);	
-	}
-    
-
-    //Método que atualiza as informações do user
-    public User update(String username, User obj) {
-		User entity = userRepository.getReferenceById(username); //instancia o usuário sem mexer no banco de dados
-		updateData(entity, obj);
-			return userRepository.save(entity);
-	}
-
-    private void updateData(User entity, User obj) {
-		// TODO Auto-generated method stub
-        entity.setUsername(obj.getUsername());
-        entity.setPassword(obj.getPassword());
-        entity.setRole(obj.getRole());
-	}    
 }

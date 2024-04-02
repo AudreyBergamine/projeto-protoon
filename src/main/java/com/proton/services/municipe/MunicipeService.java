@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.municipe.Municipe;
-import com.proton.models.entities.municipe.TokenReqRes;
 import com.proton.models.repositories.MunicipeRepository;
-import com.proton.models.repositories.UserRepository;
 
 
 @Component
@@ -23,11 +21,7 @@ public class MunicipeService {
     @Autowired // Para que o Spring faça essa injeção de Dependência do Repository
     private MunicipeRepository repository;
 
-    @Autowired 
-    JwtTokenService jwtTokenService; //Serviço q lida na validação e criação do token
 
-    @Autowired 
-    private BCryptPasswordEncoder bCryptPasswordEncoder; //Serviço que lida com o hash da senha
 
     //Método que retorna uma lista Json com todos os municipes
     public List<Municipe> findAll(){
@@ -46,15 +40,7 @@ public class MunicipeService {
         Endereco endereco = obj.getEndereco();
         endereco.setMunicipe(obj);
         obj.setEndereco(endereco);
-
         //Diz a permissão do municipe no código
-        String role = "MUNICIPE";
-        obj.setRole(role);
-
-        //Encripta a senha
-        String hashedPassword = bCryptPasswordEncoder.encode(obj.getSenha());
-        obj.setSenha(hashedPassword);
-
 		return repository.save(obj);
 	}
     
@@ -78,49 +64,5 @@ public class MunicipeService {
         entity.setData_nascimento(obj.getData_nascimento());
         entity.setEndereco(obj.getEndereco());
 	}
-
-    public TokenReqRes generateToken(TokenReqRes tokenReqRes) {
-        Optional<Municipe> optionalMunicipe = repository.findByEmail(tokenReqRes.getEmail());
-        
-        if (optionalMunicipe.isPresent()) {
-            Municipe databaseMunicipe = optionalMunicipe.get();
-            if (new BCryptPasswordEncoder().matches(tokenReqRes.getSenha(), databaseMunicipe.getSenha())) {
-                String token = jwtTokenService.generateToken(tokenReqRes.getEmail());
-                tokenReqRes.setToken(token);
-                tokenReqRes.setExpirationTime("10 min");
-                return tokenReqRes;
-            } else {
-                System.out.println("Senha incorreta!");
-            }
-        } else {
-            System.out.println("Usuário não encontrado!");
-        }
-        return null;
-    }
-    public String validateToken(TokenReqRes tokenReqRes){
-        return jwtTokenService.validateToken(tokenReqRes.getToken());
-    }
-
-      public String getRoleByEmail(String email) throws NotFoundException {
-        Optional<Municipe> optionalMunicipe = repository.findByEmail(email);
-        Municipe municipe = optionalMunicipe.orElseThrow(NotFoundException::new);
-        return municipe.getRole();
-    }
-
-    public Boolean checkToken(String token){
-        if(token == null){
-            return false;
-        }else{
-            String realToken = token.substring(7);
-            String tokenCheckResult = jwtTokenService.validateToken(realToken);
-            if (tokenCheckResult.equalsIgnoreCase("valid")){
-                return true;
-            }
-            return false;
-        }
-    }
-
-
-
-
+    
 }

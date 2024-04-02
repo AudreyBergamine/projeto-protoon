@@ -21,7 +21,7 @@ import com.proton.models.entities.municipe.Municipe;
 import com.proton.services.endereco.EnderecoService;
 
 @RestController
-@RequestMapping(value = "/endereco")
+@RequestMapping(value = "protoon/municipe/endereco")
 @CrossOrigin(origins = "http://localhost:3000")
 public class EnderecoController {
     @Autowired // Para que o Spring faça essa injeção de Dependência do Service

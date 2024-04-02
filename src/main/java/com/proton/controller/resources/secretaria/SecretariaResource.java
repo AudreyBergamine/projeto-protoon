@@ -12,7 +12,7 @@ import com.proton.models.entities.Secretaria;
 import com.proton.services.seretaria.SecretariaService;
 
 @RestController
-@RequestMapping(value = "/secretaria")
+@RequestMapping(value = "protoon/secretaria")
 public class SecretariaResource {
     
     @Autowired

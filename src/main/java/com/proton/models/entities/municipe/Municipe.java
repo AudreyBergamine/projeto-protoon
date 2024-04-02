@@ -60,7 +60,6 @@ public class Municipe implements Serializable {
     @JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
     private Endereco endereco;
 
-    private String role;
   
 
     public Municipe(){
@@ -68,7 +67,7 @@ public class Municipe implements Serializable {
     }
     //É necessário ter dois construtores, um padrão e um com todos os atributos do municipe
     public Municipe(Integer id_municipe, String nome_municipe, String email, String senha, String num_CPF, LocalDate data_nascimento,
-            Endereco id_enderecoFK, String role) {
+            Endereco id_enderecoFK) {
         this.id_municipe = id_municipe;
         this.nome_municipe = nome_municipe;
         this.email = email;
@@ -76,7 +75,6 @@ public class Municipe implements Serializable {
         this.num_CPF = num_CPF;
         this.data_nascimento = data_nascimento;
         this.endereco = id_enderecoFK;
-        this.role = role;
     }
 
 
@@ -121,13 +119,8 @@ public class Municipe implements Serializable {
         this.num_CPF = num_CPF;
     }
 
-    public String getRole() {
-        return role;
-    }
+   
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public LocalDate getData_nascimento() {
         return data_nascimento;
