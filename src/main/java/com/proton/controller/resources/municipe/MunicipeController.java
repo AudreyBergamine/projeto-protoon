@@ -50,7 +50,7 @@ public class MunicipeController {
     @PostMapping
     public ResponseEntity<Municipe> insert(@RequestBody Municipe obj) {
         obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId_municipe())
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(obj); // Código 201
     }

@@ -2,11 +2,14 @@ package com.proton.services.user;
 
 import com.proton.services.jwt.JwtService;
 import com.proton.models.entities.token.Token;
+import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.TokenRepository;
 import com.proton.models.entities.token.TokenType;
 import com.proton.controller.resources.auth.AuthenticationRequest;
 import com.proton.controller.resources.auth.AuthenticationResponse;
 import com.proton.controller.resources.auth.RegisterRequest;
+import com.proton.controller.resources.auth.RegisterRequestMunicipe;
+import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.roles.Role;
 import com.proton.models.entities.user.User;
 import com.proton.models.repositories.UserRepository;
@@ -22,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
+import static com.proton.models.entities.roles.Role.MUNICIPE;
 
 import java.io.IOException;
 
@@ -30,6 +34,7 @@ import java.io.IOException;
 public class AuthenticationService {
   private final UserRepository repository;
   private final TokenRepository tokenRepository;
+  private final MunicipeRepository municipeRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
@@ -49,6 +54,27 @@ public class AuthenticationService {
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
         .build();
+  }
+
+  public AuthenticationResponse registerMunicipe(RegisterRequestMunicipe request){
+    var user = Municipe.builder()
+    .nome(request.getNome())
+    .email(request.getEmail())
+    .senha(request.getSenha())
+    .role(MUNICIPE)
+    .num_CPF(request.getNum_CPF())
+    .data_nascimento(request.getData_nascimento())
+    .endereco(request.getEndereco())
+    .build();
+    
+    var savedUser = municipeRepository.save(user);
+    var jwtToken = jwtService.generateToken(user);
+    var refreshToken = jwtService.generateRefreshToken(user);
+    saveUserToken(savedUser, jwtToken);
+    return AuthenticationResponse.builder()
+    .accessToken(jwtToken)
+        .refreshToken(refreshToken)
+    .build();
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -80,6 +106,8 @@ public class AuthenticationService {
         .build();
     tokenRepository.save(token);
   }
+
+  
 
   private void revokeAllUserTokens(User user) {
     var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());

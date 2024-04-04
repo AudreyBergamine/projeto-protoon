@@ -3,6 +3,8 @@ package com.proton.services.municipe;
 import java.util.List;
 import java.util.Optional;
 
+import javax.management.relation.Role;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.repositories.MunicipeRepository;
+import static com.proton.models.entities.roles.Role.MUNICIPE;
 
 
 @Component
@@ -20,7 +23,6 @@ public class MunicipeService {
 
     @Autowired // Para que o Spring faça essa injeção de Dependência do Repository
     private MunicipeRepository repository;
-
 
 
     //Método que retorna uma lista Json com todos os municipes
@@ -40,7 +42,9 @@ public class MunicipeService {
         Endereco endereco = obj.getEndereco();
         endereco.setMunicipe(obj);
         obj.setEndereco(endereco);
+
         //Diz a permissão do municipe no código
+        obj.setRole(MUNICIPE);
 		return repository.save(obj);
 	}
     
@@ -57,7 +61,7 @@ public class MunicipeService {
 	}
 
     private void updateData(Municipe entity, Municipe obj) {
-        entity.setNome_municipe(obj.getNome_municipe());
+        entity.setNome(obj.getNome());
 		entity.setEmail(obj.getEmail());
         entity.setSenha(obj.getSenha());
         entity.setNum_CPF(obj.getNum_CPF());

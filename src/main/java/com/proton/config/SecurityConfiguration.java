@@ -35,15 +35,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
+        //Lista que permite rotas que todos tem acesso...
     private static final String[] WHITE_LIST_URL = {"/protoon/auth/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
-            "/v3/api-docs/**",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui/**",
+    "/protoon/municipe/municipes",
+    "/protoon/municipe/endereco",
+  
+          
             "/webjars/**",
             "/swagger-ui.html"};
     private final JwtAuthenticationFilter jwtAuthFilter;
