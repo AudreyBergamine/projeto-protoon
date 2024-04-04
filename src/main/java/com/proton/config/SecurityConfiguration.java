@@ -54,8 +54,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(), MUNICIPE.name())
-                                .requestMatchers(GET, "/protoon/municipe/**").hasAnyAuthority(ADMIN_READ.name(), MUNICIPE_READ.name())
+                                .requestMatchers("/h2-console/**")
+                                .permitAll()
+                              //  .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(), MUNICIPE.name())
+                              //  .requestMatchers(GET, "/protoon/municipe/**").hasAnyAuthority(ADMIN_READ.name(), MUNICIPE_READ.name())
                                // .requestMatchers(POST, "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_CREATE.name(), MUNICIPE_CREATE.name())
                                 //.requestMatchers(PUT, "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_UPDATE.name(), MUNICIPE_UPDATE.name())
                                // .requestMatchers(DELETE, "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_DELETE.name(), MUNICIPE_DELETE.name())
@@ -70,8 +72,9 @@ public class SecurityConfiguration {
                                 .addLogoutHandler(logoutHandler)
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 )
-        ;
-
+                .headers().frameOptions().disable(); // Desabilitar proteção de frame
+        
+                
         return http.build();
     }
 }

@@ -1,5 +1,6 @@
 package com.proton.models.entities.token;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.proton.models.entities.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +37,10 @@ public class Token {
 
   public boolean expired;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   public User user;
+
+  
 }

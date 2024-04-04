@@ -60,7 +60,7 @@ public class AuthenticationService {
     var user = Municipe.builder()
     .nome(request.getNome())
     .email(request.getEmail())
-    .senha(request.getSenha())
+    .senha(passwordEncoder.encode(request.getSenha()))
     .role(MUNICIPE)
     .num_CPF(request.getNum_CPF())
     .data_nascimento(request.getData_nascimento())
