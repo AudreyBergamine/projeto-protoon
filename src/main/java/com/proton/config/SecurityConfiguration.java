@@ -37,8 +37,8 @@ public class SecurityConfiguration {
 
         //Lista que permite rotas que todos tem acesso...
     private static final String[] WHITE_LIST_URL = {"/protoon/auth/**",
-    "/protoon/municipe/municipes",
-    "/protoon/municipe/endereco",
+   // "/protoon/municipe/municipes",
+   // "/protoon/municipe/endereco",
   
           
             "/webjars/**",
@@ -54,8 +54,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/h2-console/**")
-                                .permitAll()
+                               // .requestMatchers("/h2-console/**")
+                              //  .permitAll()
                               //  .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(), MUNICIPE.name())
                               //  .requestMatchers(GET, "/protoon/municipe/**").hasAnyAuthority(ADMIN_READ.name(), MUNICIPE_READ.name())
                                // .requestMatchers(POST, "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_CREATE.name(), MUNICIPE_CREATE.name())
@@ -71,8 +71,8 @@ public class SecurityConfiguration {
                         logout.logoutUrl("/api/v1/auth/logout")
                                 .addLogoutHandler(logoutHandler)
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-                )
-                .headers().frameOptions().disable(); // Desabilitar proteção de frame
+                );
+                //.headers().frameOptions().disable(); // Desabilitar proteção de frame
         
                 
         return http.build();
