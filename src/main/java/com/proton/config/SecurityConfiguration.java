@@ -35,46 +35,52 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-        //Lista que permite rotas que todos tem acesso...
-    private static final String[] WHITE_LIST_URL = {"/protoon/auth/**",
-   // "/protoon/municipe/municipes",
-   // "/protoon/municipe/endereco",
-  
-          
-            "/webjars/**",
-            "/swagger-ui.html"};
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler;
+        // Lista que permite rotas que todos tem acesso...
+        private static final String[] WHITE_LIST_URL = { "/protoon/auth/**",
+                        // "/protoon/municipe/municipes",
+                        // "/protoon/municipe/endereco",
+                        "/**",
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
-                                .permitAll()
-                               // .requestMatchers("/h2-console/**")
-                              //  .permitAll()
-                              //  .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(), MUNICIPE.name())
-                              //  .requestMatchers(GET, "/protoon/municipe/**").hasAnyAuthority(ADMIN_READ.name(), MUNICIPE_READ.name())
-                               // .requestMatchers(POST, "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_CREATE.name(), MUNICIPE_CREATE.name())
-                                //.requestMatchers(PUT, "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_UPDATE.name(), MUNICIPE_UPDATE.name())
-                               // .requestMatchers(DELETE, "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_DELETE.name(), MUNICIPE_DELETE.name())
-                                .anyRequest()
-                                .authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout ->
-                        logout.logoutUrl("/api/v1/auth/logout")
-                                .addLogoutHandler(logoutHandler)
-                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-                );
-                //.headers().frameOptions().disable(); // Desabilitar proteção de frame
-        
-                
-        return http.build();
-    }
+                        "/webjars/**",
+                        "/swagger-ui.html" };
+        private final JwtAuthenticationFilter jwtAuthFilter;
+        private final AuthenticationProvider authenticationProvider;
+        private final LogoutHandler logoutHandler;
+
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .csrf(AbstractHttpConfigurer::disable)
+                                .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
+                                                .permitAll()
+                                                // .requestMatchers("/h2-console/**")
+                                                // .permitAll()
+                                                // .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(),
+                                                // MUNICIPE.name())
+                                                // .requestMatchers(GET,
+                                                // "/protoon/municipe/**").hasAnyAuthority(ADMIN_READ.name(),
+                                                // MUNICIPE_READ.name())
+                                                // .requestMatchers(POST,
+                                                // "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_CREATE.name(),
+                                                // MUNICIPE_CREATE.name())
+                                                // .requestMatchers(PUT,
+                                                // "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_UPDATE.name(),
+                                                // MUNICIPE_UPDATE.name())
+                                                // .requestMatchers(DELETE,
+                                                // "/api/v1/municipe_auth/**").hasAnyAuthority(ADMIN_DELETE.name(),
+                                                // MUNICIPE_DELETE.name())
+                                                .anyRequest()
+                                                .authenticated())
+                                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                                .authenticationProvider(authenticationProvider)
+                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                                .logout(logout -> logout.logoutUrl("/api/v1/auth/logout")
+                                                .addLogoutHandler(logoutHandler)
+                                                .logoutSuccessHandler((request, response,
+                                                                authentication) -> SecurityContextHolder
+                                                                                .clearContext()));
+                // .headers().frameOptions().disable(); // Desabilitar proteção de frame
+
+                return http.build();
+        }
 }
