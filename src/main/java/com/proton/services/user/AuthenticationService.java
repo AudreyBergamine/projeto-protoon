@@ -14,6 +14,8 @@ import com.proton.models.entities.roles.Role;
 import com.proton.models.entities.user.User;
 import com.proton.models.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -151,4 +153,21 @@ public class AuthenticationService {
 
     
   }
+
+  public boolean isTokenValid(HttpServletRequest request) {
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("token")) {
+                String token = cookie.getValue();
+                boolean isTokenValid = tokenRepository.findByToken(token)
+                    .map(t -> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+                return isTokenValid;
+                
+            }
+        }
+    }
+    return false;
+}
 }
