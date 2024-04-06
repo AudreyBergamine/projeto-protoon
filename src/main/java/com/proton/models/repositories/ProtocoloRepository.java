@@ -3,10 +3,14 @@
 
 package com.proton.models.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.proton.models.entities.Protocolo;
+import com.proton.models.entities.municipe.Municipe;
 
-public interface ProtocoloRepository extends JpaRepository<Protocolo, Long> {
+public interface ProtocoloRepository extends JpaRepository<Protocolo, Integer> {
+    List<Protocolo> findAllByMunicipe(Municipe municipe);
     
 }

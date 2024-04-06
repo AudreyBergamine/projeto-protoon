@@ -8,24 +8,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.Protocolo;
+import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 
-
-
-// Esta classe representa um serviço responsável por operações relacionadas a secretaria
 @Service
 public class ProtocoloService {
-	
+
 	@Autowired
-	private ProtocoloRepository repository; // Repositório de dados para acesso a secretaria
-	
-	// Método para encontrar todos as secretarias
-	public List<Protocolo> findAll(){
-		return repository.findAll(); // Retorna todos as secretarias armazenadas no banco de dados
+	private ProtocoloRepository protocoloRepository;
+	private MunicipeRepository municipeRepository;
+
+	// Método para encontrar TODOS os protocolos
+	public List<Protocolo> findAll() {
+		return protocoloRepository.findAll();
 	}
-	
-	public Protocolo findById(Long id) {
-		Optional <Protocolo> obj = repository.findById(id);
+
+	// Método para encontrar protocolo pelo id
+	public Protocolo findById(Integer id) {
+		Optional<Protocolo> obj = protocoloRepository.findById(id);
 		return obj.get();
+	}
+
+	// Método para encontrar TODOS protocolos do MUNICIPE
+	public List<Protocolo> findByMunicipe(Municipe municipe) {
+		return protocoloRepository.findAllByMunicipe(municipe);
+	}
+
+	public void updateData(Protocolo entity, Protocolo obj) {
+		entity.setSecretaria(obj.getSecretaria());
+		entity.setMunicipe(obj.getMunicipe());
+		entity.setEndereco(obj.getEndereco());
+		entity.setAssunto(obj.getAssunto());
+		entity.setDescricao(obj.getDescricao());
+		entity.setValor(obj.getValor());
+	}
+
+	public Protocolo update(Integer id, Protocolo obj) {
+		Protocolo entity = protocoloRepository.getReferenceById(id);
+		updateData(entity, obj);
+		return protocoloRepository.save(entity);
 	}
 }

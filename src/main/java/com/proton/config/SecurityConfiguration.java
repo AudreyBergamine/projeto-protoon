@@ -39,7 +39,7 @@ public class SecurityConfiguration {
         private static final String[] WHITE_LIST_URL = { "/protoon/auth/**",
                         // "/protoon/municipe/municipes",
                         // "/protoon/municipe/endereco",
-                       // "/**",
+                        // "/**",
 
                         "/webjars/**",
                         "/swagger-ui.html" };
@@ -53,8 +53,8 @@ public class SecurityConfiguration {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
                                                 .permitAll()
-                                                 .requestMatchers("/h2-console/**")
-                                                 .permitAll()
+                                                .requestMatchers("/h2-console/**")
+                                                .permitAll()
                                                 // .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(),
                                                 // MUNICIPE.name())
                                                 // .requestMatchers(GET,
@@ -79,7 +79,7 @@ public class SecurityConfiguration {
                                                 .logoutSuccessHandler((request, response,
                                                                 authentication) -> SecurityContextHolder
                                                                                 .clearContext()))
-                 .headers().frameOptions().disable(); // Desabilitar proteção de frame
+                                .headers().frameOptions().disable(); // Desabilitar proteção de frame
 
                 return http.build();
         }

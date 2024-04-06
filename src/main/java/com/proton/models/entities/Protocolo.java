@@ -24,7 +24,7 @@ public class Protocolo implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_protocolo;
+	private Integer id_protocolo;
 	
 	@ManyToOne //Associação Muitos para um
 	@JoinColumn(name = "secretaria") //nome da chave estrangeira
@@ -35,9 +35,9 @@ public class Protocolo implements Serializable {
 	
 	@ManyToOne //Associação Muitos para um
 	@JoinColumn(name = "municipe") //nome da chave estrangeira
-	private Municipe requerente; // Municipe ou empresa, por enquanto somente municipe
+	private Municipe municipe; // Municipe ou empresa, por enquanto somente municipe
 	
-	@OneToOne // REVER ISSO
+	@ManyToOne
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 	
@@ -46,7 +46,7 @@ public class Protocolo implements Serializable {
 	
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")//Formatação da data e hora
-	private Instant data_protocolo; //Pega o momento da compra, substitui o tipo Date
+	private Instant data_protocolo; //Pega o momento da abertura do protocolo, substitui o tipo Date
 	
 	private String descricao;
 	private Integer status;
@@ -56,12 +56,12 @@ public class Protocolo implements Serializable {
 		
 	}
 
-	public Protocolo(Long id_protocolo, Secretaria secretaria, Municipe requerente, Endereco endereco, String assunto,
+	public Protocolo(Integer id_protocolo, Secretaria secretaria, Municipe municipe, Endereco endereco, String assunto,
 			Instant data_protocolo, String descricao, Integer status, Double valor) {
 		super();
 		this.id_protocolo = id_protocolo;
 		this.secretaria = secretaria;
-		this.requerente = requerente;
+		this.municipe = municipe;
 		this.endereco = endereco;
 		this.assunto = assunto;
 		this.data_protocolo = data_protocolo;
@@ -70,11 +70,11 @@ public class Protocolo implements Serializable {
 		this.valor = valor;
 	}
 
-	public Long getId_protocolo() {
+	public Integer getId_protocolo() {
 		return id_protocolo;
 	}
 
-	public void setId_protocolo(Long id_protocolo) {
+	public void setId_protocolo(Integer id_protocolo) {
 		this.id_protocolo = id_protocolo;
 	}
 
@@ -86,12 +86,12 @@ public class Protocolo implements Serializable {
 		this.secretaria = secretaria;
 	}
 
-	public Municipe getRequerente() {
-		return requerente;
+	public Municipe getMunicipe() {
+		return municipe;
 	}
 
-	public void setRequerente(Municipe requerente) {
-		this.requerente = requerente;
+	public void setMunicipe(Municipe municipe) {
+		this.municipe = municipe;
 	}
 
 	public Endereco getEndereco() {
