@@ -17,6 +17,39 @@ public class LogoutService implements LogoutHandler {
 
   @Override
   public void logout(
+    HttpServletRequest request,
+    HttpServletResponse response,
+    org.springframework.security.core.Authentication authentication
+) {
+// Extrair o valor do cookie "token"
+Cookie[] cookies = request.getCookies();
+String tokenCookieValue = null;
+if (cookies != null) {
+    for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("token")) {
+            tokenCookieValue = cookie.getValue();
+            break;
+        }
+    }
+}
+
+// Verificar se o valor do cookie é válido
+if (tokenCookieValue != null) {
+    var storedToken = tokenRepository.findByToken(tokenCookieValue)
+            .orElse(null);
+    if (storedToken != null) {
+        storedToken.setExpired(true);
+        storedToken.setRevoked(true);
+        tokenRepository.save(storedToken);
+        SecurityContextHolder.clearContext();
+    }
+}
+}
+}
+
+  /* 
+  Método antigo de logout, que se baseava no auth bearer token. O de cima se baseia em cookies!
+  public void logout(
       HttpServletRequest request,
       HttpServletResponse response,
       Authentication authentication
@@ -37,3 +70,4 @@ public class LogoutService implements LogoutHandler {
     }
   }
 }
+*/
