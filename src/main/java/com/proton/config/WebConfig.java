@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000", "https://proto-on.vercel.app/") // Permitir solicitações apenas de http://localhost:3000
                 .allowedOrigins("http://localhost:3000", "https://thankful-coast-0bf9e7a0f.5.azurestaticapps.net") // Permitir solicitações apenas de http://localhost:3000
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Permitir métodos específicos
-                .allowedHeaders("*"); // Permitir todos os headers
+                .allowedHeaders("*") // Permitir todos os headers
+                .allowCredentials(true); // Permitir credenciais
     }
 }
