@@ -1,6 +1,8 @@
 package com.proton.controller.resources.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.proton.models.entities.roles.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,8 @@ public class AuthenticationResponse {
 
   @JsonProperty("id") // Add annotation for the ID field
   private Integer id;
+  @JsonProperty("role")
+  private Role role;
   @JsonProperty("access_token")
   private String accessToken;
   @JsonProperty("refresh_token")

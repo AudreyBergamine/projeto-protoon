@@ -56,10 +56,10 @@ public class AuthenticationController {
       AuthenticationResponse authenticationResponse = service.authenticate(request);
   
       // Set the access token as an HttpOnly cookie in the response
-      Cookie tokenCookie = new Cookie("token", authenticationResponse.getAccessToken());
-      tokenCookie.setHttpOnly(true); // Set HttpOnly flag
-      tokenCookie.setPath("/"); // Set cookie path as needed
-      httpResponse.addCookie(tokenCookie);
+    //  Cookie tokenCookie = new Cookie("token", authenticationResponse.getAccessToken());
+    //  tokenCookie.setHttpOnly(true); // Set HttpOnly flag
+    //  tokenCookie.setPath("/"); // Set cookie path as needed
+    //  httpResponse.addCookie(tokenCookie);
   
       // Optionally, you can also set the refresh token as a separate HttpOnly cookie if needed
   

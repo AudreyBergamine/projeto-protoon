@@ -74,7 +74,8 @@ public class AuthenticationService {
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
-    .id(savedUser.getId()) 
+    .id(savedUser.getId()) //Retorna o id
+    .role(savedUser.getRole()) //Retorna a role
     .accessToken(jwtToken)
         .refreshToken(refreshToken)
     .build();
@@ -95,6 +96,7 @@ public class AuthenticationService {
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .id(user.getId())
+        .role(user.getRole())
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
         .build();
