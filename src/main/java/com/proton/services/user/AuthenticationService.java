@@ -49,8 +49,8 @@ public class AuthenticationService {
         .role(request.getRole())
         .build();
     var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    var jwtToken = jwtService.generateToken(savedUser.getId(), user);
+    var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
@@ -70,11 +70,12 @@ public class AuthenticationService {
     .build();
     
     var savedUser = municipeRepository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    var jwtToken = jwtService.generateToken(savedUser.getId(), user);
+    var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
-    .id(savedUser.getId()) 
+    .id(savedUser.getId()) //Retorna o id
+    .role(savedUser.getRole()) //Retorna a role
     .accessToken(jwtToken)
         .refreshToken(refreshToken)
     .build();
@@ -89,12 +90,13 @@ public class AuthenticationService {
     );
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    var jwtToken = jwtService.generateToken(user.getId(), user);
+    var refreshToken = jwtService.generateRefreshToken(user.getId(), user);
     revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .id(user.getId())
+        .role(user.getRole())
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
         .build();
@@ -140,7 +142,7 @@ public class AuthenticationService {
       var user = this.repository.findByEmail(userEmail)
               .orElseThrow();
       if (jwtService.isTokenValid(refreshToken, user)) {
-        var accessToken = jwtService.generateToken(user);
+        var accessToken = jwtService.generateToken(user.getId(), user);
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
         var authResponse = AuthenticationResponse.builder()
