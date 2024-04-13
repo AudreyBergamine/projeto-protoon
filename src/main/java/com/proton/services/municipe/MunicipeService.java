@@ -65,6 +65,7 @@ public class MunicipeService {
 		entity.setEmail(obj.getEmail());
         entity.setSenha(obj.getSenha());
         entity.setNum_CPF(obj.getNum_CPF());
+        entity.setCelular(obj.getCelular());
         entity.setData_nascimento(obj.getData_nascimento());
         entity.setEndereco(obj.getEndereco());
 	}
