@@ -27,14 +27,14 @@ public class Protocolo implements Serializable {
 	private Integer id_protocolo;
 	
 	@ManyToOne //Associação Muitos para um
-	@JoinColumn(name = "secretaria") //nome da chave estrangeira
+	@JoinColumn(name = "id_secretaria") //nome da chave estrangeira
 	private Secretaria secretaria;
 	
 	
 	//private String departamento Criar classe ou um enum??
 	
 	@ManyToOne //Associação Muitos para um
-	@JoinColumn(name = "municipe") //nome da chave estrangeira
+	@JoinColumn(name = "id") //nome da chave estrangeira
 	private Municipe municipe; // Municipe ou empresa, por enquanto somente municipe
 	
 	@ManyToOne

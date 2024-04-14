@@ -32,7 +32,7 @@ public class Secretaria implements Serializable {
 	@JoinColumn(name = "id_enderecoFK")
 	private Endereco endereco;
     
-	private Secretaria(){
+	public Secretaria(){
 		
 	}
 
