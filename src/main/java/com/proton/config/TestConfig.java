@@ -60,12 +60,12 @@ public class TestConfig implements CommandLineRunner {
         Secretaria sec3 = new Secretaria(null, "Secretaria de Meio Ambiente", "Mariana Oliveira", "mariana@example.com",
                 "senha789", end1);
 
-        Municipe mun1 = new Municipe("Fulano", "fulano@example.com", "senha123", "123.456.789-10",
+        Municipe mun1 = new Municipe("Fulano", "fulano@example.com", "senha123", "123.456.789-10", "(11)96256-8965",
                 LocalDate.of(1990, 5, 15), end3);
                 mun1.setRole(Role.MUNICIPE);
 
 
-        Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", "senha456", "987.654.321-00",
+        Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", "senha456", "987.654.321-00", "(11)96256-8965",
                 LocalDate.of(1985, 10, 25), end2);
                 mun2.setRole(Role.MUNICIPE);
 
