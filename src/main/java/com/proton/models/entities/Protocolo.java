@@ -2,7 +2,6 @@ package com.proton.models.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,8 +28,9 @@ public class Protocolo implements Serializable {
 	@JoinColumn(name = "id_secretaria") //nome da chave estrangeira
 	private Secretaria secretaria;
 	
-	
-	//private String departamento Criar classe ou um enum??
+	@ManyToOne //Associação Muitos para um
+	@JoinColumn(name = "departamento") //nome da chave estrangeira
+	private Departamento departamento;
 	
 	@ManyToOne //Associação Muitos para um
 	@JoinColumn(name = "id") //nome da chave estrangeira

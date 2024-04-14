@@ -5,6 +5,7 @@ USE PROTOON;
 CREATE TABLE endereco (
     id_endereco INT PRIMARY KEY AUTO_INCREMENT,
     num_cep VARCHAR(10) NOT NULL,
+    celular VARCHAR(16) NOT NULL,
     tipo_endereco VARCHAR(20),
     logradouro VARCHAR(50) NOT NULL,
     nome_endereco VARCHAR(10) NOT NULL,

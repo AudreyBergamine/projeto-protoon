@@ -34,24 +34,26 @@ public class JwtService {
     return claimsResolver.apply(claims);
   }
 
-  public String generateToken(UserDetails userDetails) {
-    return generateToken(new HashMap<>(), userDetails);
+  public String generateToken(Integer id, UserDetails userDetails) {
+    return generateToken(id, new HashMap<>(), userDetails);
   }
 
   public String generateToken(
+    Integer id,
       Map<String, Object> extraClaims,
       UserDetails userDetails
   ) {
-    return buildToken(extraClaims, userDetails, jwtExpiration);
+    return buildToken(id, extraClaims, userDetails, jwtExpiration);
   }
 
-  public String generateRefreshToken(
+  public String generateRefreshToken(Integer id,
       UserDetails userDetails
   ) {
-    return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+    return buildToken(id, new HashMap<>(), userDetails, refreshExpiration);
   }
 
   private String buildToken(
+          Integer id,
           Map<String, Object> extraClaims,
           UserDetails userDetails,
           long expiration
@@ -59,6 +61,7 @@ public class JwtService {
     return Jwts
             .builder()
             .setClaims(extraClaims)
+            .claim("id", id) // Adiciona o ID do usuário como uma reivindicação personalizada
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + expiration))

@@ -53,8 +53,9 @@ public class SecurityConfiguration {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
                                                 .permitAll()
-                                                .requestMatchers("/h2-console/**")
-                                                .permitAll()
+                                                .requestMatchers("/h2-console/**").permitAll()
+                                                .requestMatchers("/protoon/municipe/municipes").permitAll()
+                                                .requestMatchers("/protoon/auth/register/municipe").permitAll()
                                                 // .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(),
                                                 // MUNICIPE.name())
                                                 // .requestMatchers(GET,

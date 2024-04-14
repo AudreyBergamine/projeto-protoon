@@ -37,30 +37,29 @@ public class Municipe extends User {
 
     //O atributo id_municipe, precisa ter as anotações abaixo para dizer que é um id, autoincrement e o seu nome
 
-
     @Column(name = "num_CPF", nullable = false, unique = true)
     private String num_CPF;
+    
+    @Column(name = "celular", nullable = false)
+    private String celular;
 
     @JsonFormat(pattern="dd-MM-yyyy")
     @Column(name = "data_nascimento", nullable = true)
     private LocalDate data_nascimento;
-
     
     //A anotação @OneToOne é para dizer que é uma relação 1 para 1 e o @JoinColumn diz que é uma chave estrangeira
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
     private Endereco endereco;
-
  
     //É necessário ter dois construtores, um padrão e um com todos os atributos do municipe
-    public Municipe(String nome_municipe, String email, String senha, String num_CPF, LocalDate data_nascimento,
+    public Municipe(String nome_municipe, String email, String senha, String num_CPF, String celular, LocalDate data_nascimento,
             Endereco id_enderecoFK) {
         this.num_CPF = num_CPF;
+        this.celular = celular;
         this.data_nascimento = data_nascimento;
         this.endereco = id_enderecoFK;
     }
-
-
 
     public Endereco getEndereco() {
         return endereco;
@@ -72,10 +71,7 @@ public class Municipe extends User {
 
     public Integer getId_municipe() {
         return getId();
-    }
-
-
-   
+    }   
 
     public String getNum_CPF() {
         return num_CPF;
@@ -84,9 +80,14 @@ public class Municipe extends User {
     public void setNum_CPF(String num_CPF) {
         this.num_CPF = num_CPF;
     }
+    
+    public String getCelular() {
+        return celular;
+    }
 
-   
-
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
 
     public LocalDate getData_nascimento() {
         return data_nascimento;
@@ -95,7 +96,6 @@ public class Municipe extends User {
     public void setData_nascimento(LocalDate data_nascimento) {
         this.data_nascimento = data_nascimento;
     }
-
 
     //O Hashcode e Equals serve para poder se comparar 2 ids diferentes
     @Override
@@ -121,9 +121,7 @@ public class Municipe extends User {
         } else if (!getId_municipe().equals(other.getId_municipe()))
             return false;
         return true;
-    }
-
-    
+    }    
 }
 
 
