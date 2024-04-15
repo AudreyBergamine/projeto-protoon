@@ -65,6 +65,7 @@ public class AuthenticationService {
     .senha(passwordEncoder.encode(request.getSenha()))
     .role(MUNICIPE)
     .num_CPF(request.getNum_CPF())
+    .celular(request.getCelular())
     .data_nascimento(request.getData_nascimento())
     .endereco(request.getEndereco())
     .build();

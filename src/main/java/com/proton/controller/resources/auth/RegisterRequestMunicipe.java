@@ -19,6 +19,7 @@ public class RegisterRequestMunicipe {
   private String email;
   private String senha;
   private String num_CPF;
+  private String celular;
   private LocalDate data_nascimento;
   private Endereco endereco;
   
