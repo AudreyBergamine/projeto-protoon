@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.municipe.Municipe;
-import com.proton.models.repositories.MunicipeRepository;
+//import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 
 @Service
@@ -17,7 +17,6 @@ public class ProtocoloService {
 
 	@Autowired
 	private ProtocoloRepository protocoloRepository;
-	private MunicipeRepository municipeRepository;
 
 	// Método para encontrar TODOS os protocolos
 	public List<Protocolo> findAll() {

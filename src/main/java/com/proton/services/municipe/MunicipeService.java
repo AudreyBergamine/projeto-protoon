@@ -3,18 +3,15 @@ package com.proton.services.municipe;
 import java.util.List;
 import java.util.Optional;
 
-import javax.management.relation.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.repositories.MunicipeRepository;
+import com.proton.services.exceptions.ResourceNotFoundException;
+
 import static com.proton.models.entities.roles.Role.MUNICIPE;
 
 
@@ -33,7 +30,7 @@ public class MunicipeService {
     //Método que retorna um objeto Json muncipe com base no id inserido
     public Municipe findById(Integer id){
         Optional<Municipe> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id)); 
     }
 
     //Método que insere um municipe novo no banco de dados, junto com o endereço
