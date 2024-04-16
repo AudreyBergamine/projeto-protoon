@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.proton.models.entities.RecuperarSenha;
 
 public interface RecuperarSenhaRepository extends JpaRepository<RecuperarSenha, String> {
-  Optional<RecuperarSenha> findByUsername(String username);
+  Optional<RecuperarSenha> findByEmail(String email);
+
+  Optional<RecuperarSenha> findByEmailAndCodigo(String email, String codigo);
 }

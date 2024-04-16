@@ -6,8 +6,11 @@ package com.proton.models.repositories;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.proton.models.entities.municipe.Municipe;
+
+@Repository
 public interface MunicipeRepository extends JpaRepository<Municipe, Integer>  {
    Optional<Municipe> findByEmail(String email);
 }

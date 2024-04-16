@@ -1,68 +1,84 @@
 package com.proton.services.recuperarSenha;
 
-import java.util.List;
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.RecuperarSenha;
+import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.RecuperarSenhaRepository;
+import com.proton.services.email.EmailService;
 
-@Component
+@Service
 public class RecuperarSenhaService {
 
     @Autowired
     private RecuperarSenhaRepository recuperarSenhaRepository;
 
     @Autowired
-    private JavaMailSender emailSender;
+    private MunicipeRepository municipeRepository;
 
-    public void sendPasswordResetEmail(String email) {
-        // Implemente a lógica para gerar um token único
-        String token = UUID.randomUUID().toString();
+    @Autowired
+    private EmailService emailService;
 
-        // Implemente a lógica para salvar o token, o email do usuário e a data de expiração no banco de dados
+    public String enviarCodigoEmail(String email) {
+        Optional<Municipe> municipeBanco = municipeRepository.findByEmail(email);
+        if (municipeBanco.isPresent()) {
+            Optional<RecuperarSenha> recuperarSenha = recuperarSenhaRepository.findByEmail(email);
+            String codigo = UUID.randomUUID().toString();
+            if (recuperarSenha.isPresent()) {
+                RecuperarSenha rs = recuperarSenha.get();
+                rs.setCodigo(codigo);
+                rs.setDateSendCodigo(new Date());
+                recuperarSenhaRepository.save(rs);
+            } else {
+                RecuperarSenha novaRecuperarSenha = new RecuperarSenha();
+                novaRecuperarSenha.setEmail(email);
+                novaRecuperarSenha.setCodigo(codigo);
+                novaRecuperarSenha.setDateSendCodigo(new Date());
+                recuperarSenhaRepository.save(novaRecuperarSenha);
+            }
 
-        // Crie o corpo do email
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("Recuperação de senha");
-        message.setText("Para recuperar sua senha, clique no seguinte link: http://localhost:3000/reset-password?token=" + token);
+            String mensagem = "Para recuperar sua senha, use este código\n" + codigo;
 
-        // Envie o email
-        emailSender.send(message);
+            // Envie o email com o código de recuperação
+            String emailSuccess = emailService.enviarEmailTexto(email, "Recuperação de senha", mensagem);
+            if(emailSuccess == "Sucesso") {
+
+                return "Email enviado com Sucesso!";
+            }
+            return "Email não enviado!";
+
+        }
+        return "Email não encontrado!";
     }
 
-    public List<RecuperarSenha> findAll(){
-        return recuperarSenhaRepository.findAll();
+    public String alterarSenha(RecuperarSenha recuperarSenha) {
+        Optional<RecuperarSenha> recuperarSenhaBancoOpt = recuperarSenhaRepository
+                .findByEmailAndCodigo(recuperarSenha.getEmail(), recuperarSenha.getCodigo());
+        if (recuperarSenhaBancoOpt.isPresent()) {
+            RecuperarSenha recuperarSenhaBanco = recuperarSenhaBancoOpt.get();
+            Date expiration = new Date(new Date().getTime() - recuperarSenhaBanco.getDateSendCodigo().getTime());
+            if ((expiration.getTime() / 1000) < 300) {
+                Optional<Municipe> municipeOpt = municipeRepository.findByEmail(recuperarSenha.getEmail());
+                if (municipeOpt.isPresent()) {
+                    Municipe municipe = municipeOpt.get();
+                    municipe.setSenha(recuperarSenha.getSenha());
+                    municipeRepository.save(municipe);
+                    return "Senha alterada com sucesso!";
+                } else {
+                    return "Municipe não encontrado!";
+                }
+            } else {
+                return "Tempo expirado, solicite um novo código!";
+            }
+        } else {
+            return "Email ou código não encontrado!";
+        }
     }
 
-    public RecuperarSenha findById(String username){
-        Optional<RecuperarSenha> obj = recuperarSenhaRepository.findByUsername(username);
-        return obj.get();
-    }
-
-    public RecuperarSenha insert(RecuperarSenha obj) {
-        return recuperarSenhaRepository.save(obj);
-    }
-
-    public void delete(String username) {
-		recuperarSenhaRepository.deleteById(username);	
-	}    
-
-    public RecuperarSenha update(String username, RecuperarSenha obj) {
-		RecuperarSenha entity = recuperarSenhaRepository.getReferenceById(username);
-        entity.setToken(obj.getToken());
-		updateData(entity, obj);
-			return recuperarSenhaRepository.save(entity);
-	}
-
-    private void updateData(RecuperarSenha entity, RecuperarSenha obj) {
-        entity.setUsername(obj.getUsername());
-        entity.setToken(obj.getToken());
-	}
 }
