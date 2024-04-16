@@ -47,11 +47,15 @@ public class Municipe extends User {
     //É necessário ter dois construtores, um padrão e um com todos os atributos do municipe
     public Municipe(String nome_municipe, String email, String senha, String num_CPF, String celular, LocalDate data_nascimento,
             Endereco id_enderecoFK) {
+        this.setNome(nome_municipe);
+        this.setEmail(email);
+        this.setSenha(senha);
         this.num_CPF = num_CPF;
         this.celular = celular;
         this.data_nascimento = data_nascimento;
         this.endereco = id_enderecoFK;
     }
+
 
     public Endereco getEndereco() {
         return endereco;

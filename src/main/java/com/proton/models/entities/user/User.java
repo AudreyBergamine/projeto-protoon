@@ -3,6 +3,7 @@ package com.proton.models.entities.user;
 import com.proton.models.entities.roles.Role;
 import com.proton.models.entities.token.Token;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,8 +36,11 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.TABLE)
   private Integer id;
+  @Column(nullable = false)
   private String nome;
+  @Column(nullable = false, unique = true)
   private String email;
+  @Column(nullable = false)
   private String senha;
 
   @Enumerated(EnumType.STRING)

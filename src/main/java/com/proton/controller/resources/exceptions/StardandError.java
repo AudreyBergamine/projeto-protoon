@@ -1,9 +1,10 @@
-package com.proton.controller.exceptions;
+package com.proton.controller.resources.exceptions;
 import java.io.Serializable;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+//CLASSE CRIADA PARA PERSONALIZAR JSON DE ERRO IGUAL O PADRÃO DO JAVA
 public class StardandError implements Serializable {
     //Implements Serializable é uma interface que transforma os dados do objeto em dados bytes, para transmitir pela web.
     private static final long serialVersionUID = 1L;

@@ -1,5 +1,6 @@
 package com.proton.services.user;
 
+import com.proton.services.exceptions.ConstraintException;
 import com.proton.services.jwt.JwtService;
 import com.proton.models.entities.token.Token;
 import com.proton.models.repositories.MunicipeRepository;
@@ -18,6 +19,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +33,8 @@ import org.springframework.stereotype.Service;
 import static com.proton.models.entities.roles.Role.MUNICIPE;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +53,7 @@ public class AuthenticationService {
         .senha(passwordEncoder.encode(request.getSenha()))
         .role(request.getRole())
         .build();
+     
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(savedUser.getId(), user);
     var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
@@ -69,17 +76,34 @@ public class AuthenticationService {
     .endereco(request.getEndereco())
     .build();
     
-    var savedUser = municipeRepository.save(user);
-    var jwtToken = jwtService.generateToken(savedUser.getId(), user);
-    var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
-    saveUserToken(savedUser, jwtToken);
-    return AuthenticationResponse.builder()
-    .id(savedUser.getId()) //Retorna o id
-    .role(savedUser.getRole()) //Retorna a role
-    .accessToken(jwtToken)
-        .refreshToken(refreshToken)
-    .build();
+    try {
+      var savedUser = municipeRepository.save(user);
+      var jwtToken = jwtService.generateToken(savedUser.getId(), user);
+      var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
+      saveUserToken(savedUser, jwtToken);
+      return AuthenticationResponse.builder()
+      .id(savedUser.getId()) //Retorna o id
+      .role(savedUser.getRole()) //Retorna a role
+      .accessToken(jwtToken)
+          .refreshToken(refreshToken)
+      .build();
+    } catch (DataIntegrityViolationException e) {
+      String message = e.getMessage();
+      String fieldName = extractFieldName(message);
+      
+      if (fieldName != null) {
+          if (fieldName.contains("EMAIL")) {
+              throw new ConstraintException("O email já está em uso.");
+          } else if (fieldName.contains("NUM_CPF")) {
+              throw new ConstraintException("O CPF já está em uso.");
+          } else {
+              throw new ConstraintException("Erro de violação de constraint.");
+          }
+      } else {
+          throw new ConstraintException("Erro de violação de constraint.");
+      }
   }
+}
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
@@ -171,5 +195,16 @@ public class AuthenticationService {
         }
     }
     return false;
+}
+
+private String extractFieldName(String errorMessage) {
+  Pattern pattern = Pattern.compile("ON PUBLIC\\.MUNICIPE\\((.*?) ");
+  Matcher matcher = pattern.matcher(errorMessage);
+  
+  if (matcher.find()) {
+      return matcher.group(1);
+  } else {
+      return null;
+  }
 }
 }
