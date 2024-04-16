@@ -31,7 +31,7 @@ public class Departamento implements Serializable {
 	@JoinColumn(name = "id_enderecoFK")
 	private Endereco endereco;
     
-	private Departamento(){
+	public Departamento(){
 		
 	}
 

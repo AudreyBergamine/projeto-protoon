@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.proton.models.entities.Endereco;
-import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.repositories.EnderecoRepository;
-import com.proton.models.repositories.MunicipeRepository;
 
 @Component
 public class EnderecoService {
@@ -24,6 +22,7 @@ public class EnderecoService {
 
     //Método que retorna um objeto Json endereco com base no id inserido
     public Endereco findById(Integer id){
+      
         Optional<Endereco> obj = repository.findById(id);
         return obj.get();
     }

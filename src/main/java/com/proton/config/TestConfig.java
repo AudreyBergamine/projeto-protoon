@@ -64,7 +64,6 @@ public class TestConfig implements CommandLineRunner {
                 LocalDate.of(1990, 5, 15), end3);
                 mun1.setRole(Role.MUNICIPE);
 
-
         Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", "senha456", "987.654.321-00", "(11)96256-8965",
                 LocalDate.of(1985, 10, 25), end2);
                 mun2.setRole(Role.MUNICIPE);

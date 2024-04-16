@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.Departamento;
-import com.proton.models.entities.Secretaria;
 import com.proton.models.repositories.DepartamentoRepository;
-import com.proton.models.repositories.SecretariaRepository;
 
 
 

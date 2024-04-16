@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.Endereco;
-import com.proton.models.entities.municipe.Municipe;
 import com.proton.services.endereco.EnderecoService;
 
 @RestController

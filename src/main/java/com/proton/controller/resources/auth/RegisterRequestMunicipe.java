@@ -3,7 +3,6 @@ package com.proton.controller.resources.auth;
 import java.time.LocalDate;
 
 import com.proton.models.entities.Endereco;
-import com.proton.models.entities.roles.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
