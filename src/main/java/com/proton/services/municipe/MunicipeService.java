@@ -12,6 +12,8 @@ import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import static com.proton.models.entities.roles.Role.MUNICIPE;
 
 
@@ -52,15 +54,19 @@ public class MunicipeService {
 
     //Método que atualiza as informações do municipe
     public Municipe update(Integer id, Municipe obj) {
-		Municipe entity = repository.getReferenceById(id); //instancia o usuário sem mexer no banco de dados
-		updateData(entity, obj);
-			return repository.save(entity);
+        try {
+            Municipe entity = repository.getReferenceById(id); //instancia o usuário sem mexer no banco de dados
+		    updateData(entity, obj);
+		    return repository.save(entity);
+        } catch (EntityNotFoundException e) { //
+            throw new ResourceNotFoundException(id);
+        }
+		
 	}
 
     private void updateData(Municipe entity, Municipe obj) {
         entity.setNome(obj.getNome());
 		entity.setEmail(obj.getEmail());
-        entity.setSenha(obj.getSenha());
         entity.setNum_CPF(obj.getNum_CPF());
         entity.setCelular(obj.getCelular());
         entity.setData_nascimento(obj.getData_nascimento());

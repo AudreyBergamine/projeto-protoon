@@ -1,7 +1,9 @@
 package com.proton.services.user;
 
 import com.proton.services.exceptions.ConstraintException;
+import com.proton.services.exceptions.InvalidFieldsException;
 import com.proton.services.jwt.JwtService;
+import com.proton.services.validations.RegisterValidationService;
 import com.proton.models.entities.token.Token;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.TokenRepository;
@@ -45,6 +47,7 @@ public class AuthenticationService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+  private final RegisterValidationService registerValidationService;
 
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
@@ -65,32 +68,41 @@ public class AuthenticationService {
   }
 
   public AuthenticationResponse registerMunicipe(RegisterRequestMunicipe request){
-    var user = Municipe.builder()
-    .nome(request.getNome())
-    .email(request.getEmail())
-    .senha(passwordEncoder.encode(request.getSenha()))
-    .role(MUNICIPE)
-    .num_CPF(request.getNum_CPF())
-    .celular(request.getCelular())
-    .data_nascimento(request.getData_nascimento())
-    .endereco(request.getEndereco())
-    .build();
-    
     try {
+      //Método valida os campos da requisição, se tiver algum inválido, é lançaca uma InvalidFieldsException
+      registerValidationService.validateMunicipeFields(request);
+      registerValidationService.validateCPF(request.getNum_CPF());
+
+      //Caso os campos estejam validos, é construído um Municipe.
+      var user = Municipe.builder()
+      .nome(request.getNome())
+      .email(request.getEmail())
+      .senha(passwordEncoder.encode(request.getSenha()))
+      .role(MUNICIPE)
+      .num_CPF(request.getNum_CPF())
+      .celular(request.getCelular())
+      .data_nascimento(request.getData_nascimento())
+      .endereco(request.getEndereco())
+      .build();
+
+      //Logo após, o Municipe é salvo usando os métodos  de User (isso é possível por causa da herança)
       var savedUser = municipeRepository.save(user);
+      //Depois são gerados tokens e tanto o user quanto o token são salvos no banco de dados.
       var jwtToken = jwtService.generateToken(savedUser.getId(), user);
       var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
       saveUserToken(savedUser, jwtToken);
-      return AuthenticationResponse.builder()
+
+      return AuthenticationResponse.builder() //Retorna o token, o id e a role do municipe, como resposta json.
       .id(savedUser.getId()) //Retorna o id
       .role(savedUser.getRole()) //Retorna a role
       .accessToken(jwtToken)
           .refreshToken(refreshToken)
       .build();
+
+//Caso seja capturado o erro de IntegrityViolation (unique), do banco de dados, ele será enviado de forma personalizada
     } catch (DataIntegrityViolationException e) {
-      String message = e.getMessage();
-      String fieldName = extractFieldName(message);
-      
+      String message = e.getMessage(); //Pega a mensagem de erro
+      String fieldName = extractFieldName(message); //Pega a mensagem contendo a coluna que deu erro no banco de dados.
       if (fieldName != null) {
           if (fieldName.contains("EMAIL")) {
               throw new ConstraintException("O email já está em uso.");
@@ -197,10 +209,17 @@ public class AuthenticationService {
     return false;
 }
 
+
+//Função criada para extrair o nome da mensagem de erro. Como a mensagem é muito grande
+//Esse método ajuda a extrair uma parte determinada da mensagem, para o tratamento correto
 private String extractFieldName(String errorMessage) {
+
+  //Cria um padrão da mensagem de erro, para ser delimitado
   Pattern pattern = Pattern.compile("ON PUBLIC\\.MUNICIPE\\((.*?) ");
+  //Verifica se o padrão foi encontrado e deliita a mensagem (remove mensagens que não tem haver com o padrão acima)
   Matcher matcher = pattern.matcher(errorMessage);
   
+  //Se o padrão for encontrado e bater, retorna a String correpondente (no caso é email ou CPF)
   if (matcher.find()) {
       return matcher.group(1);
   } else {

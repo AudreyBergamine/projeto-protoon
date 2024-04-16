@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.proton.services.exceptions.ConstraintException;
+import com.proton.services.exceptions.InvalidFieldsException;
 import com.proton.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +38,19 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StardandError> constraint(ConstraintException e, HttpServletRequest request){
         //Erro genérico do problema
         String error = "Integrity Constraint Error";
+
+        //Código do erro encontrado BAD_REQUEST = 400
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        //Instancia uma mensagem de erro personalizada, com os parâmetros abaixo
+        StardandError err = new StardandError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(InvalidFieldsException.class)
+    public ResponseEntity<StardandError> constraint(InvalidFieldsException e, HttpServletRequest request){
+        //Erro genérico do problema
+        String error = "Invalid Fields Error";
 
         //Código do erro encontrado BAD_REQUEST = 400
         HttpStatus status = HttpStatus.BAD_REQUEST;

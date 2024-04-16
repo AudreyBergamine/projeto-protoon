@@ -35,8 +35,8 @@ public class AuthenticationController {
     @RequestBody RegisterRequestMunicipe request,
     HttpServletResponse httpResponse // Inject HttpServletResponse
 ) {
+  
     AuthenticationResponse authenticationResponse = service.registerMunicipe(request);
-
     // Set the access token as an HttpOnly cookie in the response
     Cookie tokenCookie = new Cookie("token", authenticationResponse.getAccessToken());
     tokenCookie.setHttpOnly(true); // Set HttpOnly flag
