@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.proton.models.entities.municipe.Municipe;
 
 @Repository
-public interface MunicipeRepository extends JpaRepository<Municipe, Integer>  {
+public interface MunicipeRepository extends JpaRepository<Municipe, Integer> {
    Optional<Municipe> findByEmail(String email);
 }
-    
-

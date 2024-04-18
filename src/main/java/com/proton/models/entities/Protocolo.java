@@ -1,7 +1,7 @@
 package com.proton.models.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "protocolo")
@@ -38,14 +40,13 @@ public class Protocolo implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_endereco")
-	private Endereco endereco;
+	private Endereco endereco;	
 	
+	private String assunto;	
 	
-	private String assunto;
-	
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")//Formatação da data e hora
-	private Instant data_protocolo; //Pega o momento da abertura do protocolo, substitui o tipo Date
+	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")//Formatação da data e hora
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date data_protocolo; //Pega o momento da abertura do protocolo, substitui o tipo Date
 	
 	private String descricao;
 	private Integer status;
@@ -56,7 +57,7 @@ public class Protocolo implements Serializable {
 	}
 
 	public Protocolo(Integer id_protocolo, Secretaria secretaria, Municipe municipe, Endereco endereco, String assunto,
-			Instant data_protocolo, String descricao, Integer status, Double valor) {
+			Date data_protocolo, String descricao, Integer status, Double valor) {
 		super();
 		this.id_protocolo = id_protocolo;
 		this.secretaria = secretaria;
@@ -109,12 +110,12 @@ public class Protocolo implements Serializable {
 		this.assunto = assunto;
 	}
 
-	public Instant getData_protocolo() {
+	public Date getData_protocolo() {
 		return data_protocolo;
 	}
 
-	public void setData_protocolo(Instant data_protocolo) {
-		this.data_protocolo = data_protocolo;
+	public void setData_protocolo(Date date) {
+		this.data_protocolo = date;
 	}
 
 	public String getDescricao() {

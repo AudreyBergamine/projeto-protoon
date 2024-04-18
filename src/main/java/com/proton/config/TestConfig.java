@@ -3,6 +3,7 @@ package com.proton.config;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -70,13 +71,13 @@ public class TestConfig implements CommandLineRunner {
 
         municipeRepository.saveAll(Arrays.asList(mun1, mun2));
 
-        Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", Instant.now(),
+        Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
                 "Descrição do protocolo", 1, 100.0);
 
-        Protocolo prot2 = new Protocolo(null, sec2, mun2, end3, "Outro assunto", Instant.now(), "Outra descrição", 2,
+        Protocolo prot2 = new Protocolo(null, sec2, mun2, end3, "Outro assunto", new Date(), "Outra descrição", 2,
                 150.0);
 
-        Protocolo prot3 = new Protocolo(null, sec2, mun2, end3, "Teste", Instant.now(), "teste", 2, 150.0);
+        Protocolo prot3 = new Protocolo(null, sec2, mun2, end3, "Teste", new Date(), "teste", 2, 150.0);
 
         // Manda para o banco de dados
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));

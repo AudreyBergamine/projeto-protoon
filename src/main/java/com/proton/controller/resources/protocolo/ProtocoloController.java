@@ -36,7 +36,7 @@ public class ProtocoloController {
     @Autowired
     private ProtocoloRepository protocoloRepository;
 
-    @Autowired 
+    @Autowired
     private MunicipeRepository municipeRepository;
 
     @Autowired
@@ -58,18 +58,28 @@ public class ProtocoloController {
     }
 
     @PostMapping(value = "/abrir-protocolos/{id_m}/{id_s}")
-    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Integer id_m, @PathVariable Long id_s) {
+    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Integer id_m,
+            @PathVariable Long id_s) {
         Municipe mun = municipeRepository.getReferenceById(id_m);
         Secretaria sec = secretariaRepository.getReferenceById(id_s);
-        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um repositório para Endereco
+        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um
+                                                                                                // repositório para
+                                                                                                // Endereco
         protocolo.setMunicipe(mun);
         protocolo.setEndereco(end);
         protocolo.setSecretaria(sec);
         protocoloRepository.save(protocolo);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(protocolo.getId_protocolo()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(protocolo.getId_protocolo()).toUri();
         return ResponseEntity.created(uri).body(protocolo);
     }
-    
+
+    @PostMapping(value = "/abrir-protocolos")
+    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo) {
+        protocoloService.newProtocolo(protocolo);        
+        return ResponseEntity.ok(protocolo);
+    }
+
     @PutMapping("/alterar-protocolos/{id}") // Adicione o ID do protocolo como parte da URL
     public ResponseEntity<Protocolo> update(@PathVariable Integer id, @RequestBody Protocolo protocolo) {
         Protocolo obj = protocoloService.update(id, protocolo);
@@ -79,7 +89,9 @@ public class ProtocoloController {
     @GetMapping(value = "/meus-protocolos/{municipeId}")
     public ResponseEntity<List<Protocolo>> findByMunicipe(@PathVariable Integer municipeId) {
         // Recupera o Municipe com base no ID
-        Optional<Municipe> municipeOptional = municipeRepository.findById(municipeId); //Optional pode voltar com o valor do municipe ou não, e evita o erro de estar null
+        Optional<Municipe> municipeOptional = municipeRepository.findById(municipeId); // Optional pode voltar com o
+                                                                                       // valor do municipe ou não, e
+                                                                                       // evita o erro de estar null
         if (municipeOptional.isPresent()) {
             Municipe municipe = municipeOptional.get();
             // Usa o municipe recuperado para buscar os protocolos
