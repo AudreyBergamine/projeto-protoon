@@ -2,7 +2,7 @@ package com.proton.services.exceptions;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Object;
 
-//Classe de exceção personalizada, para personalizar erros do tipo de recursos não encontrados
+//Classe de exceção personalizada, para personalizar erros do tipo EntityNotFoundException (exceção ocorre quando não acha um valor)
 public class ResourceNotFoundException extends RuntimeException {
 
 	/**
