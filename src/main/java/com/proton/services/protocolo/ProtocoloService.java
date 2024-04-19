@@ -64,8 +64,6 @@ public class ProtocoloService {
 	public void newProtocolo(Protocolo protocolo) {
 		Municipe mun = municipeRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
 		Secretaria secretaria = secretariaRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
-		protocolo.setAssunto(protocolo.getAssunto());
-		protocolo.setDescricao(protocolo.getDescricao());
 		protocolo.setData_protocolo(new Date());
 		protocolo.setMunicipe(mun);
 		protocolo.setEndereco(mun.getEndereco());
