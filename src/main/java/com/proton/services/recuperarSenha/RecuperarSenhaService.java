@@ -69,6 +69,9 @@ public class RecuperarSenhaService {
                     Municipe municipe = municipeOpt.get();
                     municipe.setSenha(recuperarSenha.getSenha());
                     municipeRepository.save(municipe);
+                    recuperarSenhaBanco.setCodigo(null);
+                    recuperarSenhaBanco.setSenha(recuperarSenha.getSenha());
+                    recuperarSenhaRepository.save(recuperarSenhaBanco);
                     return "Senha alterada com sucesso!";
                 } else {
                     return "Municipe não encontrado!";

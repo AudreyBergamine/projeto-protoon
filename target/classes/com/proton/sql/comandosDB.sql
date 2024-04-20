@@ -2,6 +2,11 @@ CREATE DATABASE IF NOT EXISTS PROTOON;
 
 USE PROTOON;
 
+CREATE TABLE hibernate_sequence (
+    sequence_name VARCHAR(10) PRIMARY KEY,
+    next_val INT
+);
+
 CREATE TABLE endereco (
     id_endereco INT PRIMARY KEY AUTO_INCREMENT,
     num_cep VARCHAR(10) NOT NULL,
