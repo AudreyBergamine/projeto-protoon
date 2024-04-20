@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.RecuperarSenha;
@@ -24,6 +27,9 @@ public class RecuperarSenhaService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public String enviarCodigoEmail(String email) {
         Optional<Municipe> municipeBanco = municipeRepository.findByEmail(email);
@@ -47,7 +53,7 @@ public class RecuperarSenhaService {
 
             // Envie o email com o código de recuperação
             String emailSuccess = emailService.enviarEmailTexto(email, "Recuperação de senha", mensagem);
-            if(emailSuccess == "Sucesso") {
+            if (emailSuccess == "Sucesso") {
 
                 return "Email enviado com Sucesso!";
             }
@@ -67,7 +73,7 @@ public class RecuperarSenhaService {
                 Optional<Municipe> municipeOpt = municipeRepository.findByEmail(recuperarSenha.getEmail());
                 if (municipeOpt.isPresent()) {
                     Municipe municipe = municipeOpt.get();
-                    municipe.setSenha(recuperarSenha.getSenha());
+                    municipe.setSenha(passwordEncoder.encode(recuperarSenha.getSenha()));
                     municipeRepository.save(municipe);
                     recuperarSenhaBanco.setCodigo(null);
                     recuperarSenhaBanco.setSenha(recuperarSenha.getSenha());
