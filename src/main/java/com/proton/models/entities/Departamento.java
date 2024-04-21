@@ -1,6 +1,7 @@
 package com.proton.models.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -11,9 +12,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import java.util.ArrayList;
+
 
 @Entity
 @Table(name = "departamento")
@@ -40,21 +44,24 @@ public class Departamento implements Serializable {
 	private Secretaria secretaria;
 
 	@JsonIgnore
-    @OneToOne(mappedBy = "departamento")
-    private Funcionario funcionario;
+    @OneToMany(mappedBy = "departamento")
+    private List<Funcionario> funcionarios = new ArrayList<>(); //Quando se
     
 	public Departamento(){
 		
 	}
 
-	public Departamento(Long id_departamento, String nome_departamento, String nome_responsavel, String email, String senha, 
-			Endereco id_enderecoFK ) {
-		super();
+	public Departamento(Long id_departamento, String nome_departamento, String nome_responsavel, String email,
+			String senha, Endereco endereco, Secretaria secretaria) {
 		this.id_departamento = id_departamento;
 		this.nome_departamento = nome_departamento;
 		this.nome_responsavel = nome_responsavel;
 		this.email = email;
-		this.senha = senha;	
-		this.endereco = id_enderecoFK;
+		this.senha = senha;
+		this.endereco = endereco;
+		this.secretaria = secretaria;
+		//this.funcionario = funcionario;
 	}
+
+	
 }

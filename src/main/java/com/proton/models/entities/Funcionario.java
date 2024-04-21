@@ -9,6 +9,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +29,7 @@ public class Funcionario extends User  {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
+    private LocalDate data_nascimento;
 
 
    
@@ -42,11 +44,11 @@ public class Funcionario extends User  {
     @JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
     private Endereco endereco;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
     private Secretaria secretaria;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_departamentoFK", referencedColumnName = "id_departamento")
     private Departamento departamento;
     
@@ -60,7 +62,7 @@ public class Funcionario extends User  {
     }
 
     public LocalDate getDataNascimento() {
-        return dataNascimento;
+        return data_nascimento;
     }
 
     public String getSenha() {
@@ -89,7 +91,7 @@ public class Funcionario extends User  {
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+        this.data_nascimento = dataNascimento;
     }
 
 
