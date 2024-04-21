@@ -1,7 +1,6 @@
 //SERVICE LAYER (RESOURCER -->SERVICE LAYER(AQUI) --> REPOSITORY
 package com.proton.services.protocolo;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +60,7 @@ public class ProtocoloService {
 		return protocoloRepository.save(entity);
 	}
 
-	public void newProtocolo(Protocolo protocolo) {
+	public void novoProtocolo(Protocolo protocolo) {
 		Municipe mun = municipeRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
 		Secretaria secretaria = secretariaRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
 		protocolo.setData_protocolo(new Date());

@@ -1,7 +1,6 @@
 package com.proton.controller.resources.protocolo;
 
 import java.net.URI;
-//import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,11 +73,11 @@ public class ProtocoloController {
         return ResponseEntity.created(uri).body(protocolo);
     }
 
-    @PostMapping(value = "/abrir-protocolos")
-    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo) {
-        protocoloService.newProtocolo(protocolo);        
-        return ResponseEntity.ok(protocolo);
-    }
+    // @PostMapping(value = "/abrir-protocolos")
+    // public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo) {
+    //     protocoloService.novoProtocolo(protocolo);        
+    //     return ResponseEntity.ok(protocolo);
+    // } DIFICIL CRIAR O JSON
 
     @PutMapping("/alterar-protocolos/{id}") // Adicione o ID do protocolo como parte da URL
     public ResponseEntity<Protocolo> update(@PathVariable Integer id, @RequestBody Protocolo protocolo) {

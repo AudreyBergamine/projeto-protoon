@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.proton.models.entities.municipe.Municipe;
 
 import jakarta.persistence.Entity;

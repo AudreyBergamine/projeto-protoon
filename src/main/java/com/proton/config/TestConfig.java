@@ -1,6 +1,5 @@
 package com.proton.config;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.proton.models.entities.Assunto;
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
@@ -19,6 +19,8 @@ import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
+import com.proton.models.repositories.AssuntoRepository;
+
 
 //Por enquanto, isso vai servir de data base seeding
 @Configuration
@@ -37,6 +39,10 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProtocoloRepository protocoloRepository;
+
+    @Autowired
+    private AssuntoRepository assuntoRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -69,7 +75,6 @@ public class TestConfig implements CommandLineRunner {
                 LocalDate.of(1985, 10, 25), end2);
                 mun2.setRole(Role.MUNICIPE);
 
-        municipeRepository.saveAll(Arrays.asList(mun1, mun2));
 
         Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
                 "Descrição do protocolo", 1, 100.0);
@@ -79,10 +84,19 @@ public class TestConfig implements CommandLineRunner {
 
         Protocolo prot3 = new Protocolo(null, sec2, mun2, end3, "Teste", new Date(), "teste", 2, 150.0);
 
-        // Manda para o banco de dados
+
+        Assunto assunto1 = new Assunto(1, "Problema de iluminação pública", sec1);
+
+        Assunto assunto2 = new Assunto(2, "Problema de coleta de lixo", sec2);
+        
+        Assunto assunto3 = new Assunto(3, "Problema de trânsito", sec3);
+
+        // Manda para o banco de dados  
+        municipeRepository.saveAll(Arrays.asList(mun1, mun2));
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
         secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
         protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
+        assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3))); 
 
     }
 
