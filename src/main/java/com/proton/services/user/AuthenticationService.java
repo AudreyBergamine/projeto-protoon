@@ -10,8 +10,8 @@ import com.proton.models.repositories.TokenRepository;
 import com.proton.models.entities.token.TokenType;
 import com.proton.controller.resources.auth.AuthenticationRequest;
 import com.proton.controller.resources.auth.AuthenticationResponse;
-import com.proton.controller.resources.auth.RegisterRequest;
-import com.proton.controller.resources.auth.RegisterRequestMunicipe;
+import com.proton.controller.resources.auth.requests.RegisterRequest;
+import com.proton.controller.resources.auth.requests.RegisterRequestMunicipe;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.user.User;
 import com.proton.models.repositories.UserRepository;
@@ -67,6 +67,7 @@ public class AuthenticationService {
         .build();
   }
 
+  //MÉTODO CADASTRAR MUNICIPE
   public AuthenticationResponse registerMunicipe(RegisterRequestMunicipe request){
     try {
       //Método valida os campos da requisição, se tiver algum inválido, é lançaca uma InvalidFieldsException
@@ -117,6 +118,7 @@ public class AuthenticationService {
   }
 }
 
+//MÉTODO DE LOGIN
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(

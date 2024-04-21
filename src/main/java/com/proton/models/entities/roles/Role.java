@@ -13,10 +13,24 @@ import static com.proton.models.entities.roles.Permission.ADMIN_CREATE;
 import static com.proton.models.entities.roles.Permission.ADMIN_DELETE;
 import static com.proton.models.entities.roles.Permission.ADMIN_READ;
 import static com.proton.models.entities.roles.Permission.ADMIN_UPDATE;
+import static com.proton.models.entities.roles.Permission.COORDENADOR_CREATE;
+import static com.proton.models.entities.roles.Permission.COORDENADOR_DELETE;
+import static com.proton.models.entities.roles.Permission.COORDENADOR_READ;
+import static com.proton.models.entities.roles.Permission.COORDENADOR_UPDATE;
 import static com.proton.models.entities.roles.Permission.MUNICIPE_CREATE;
 import static com.proton.models.entities.roles.Permission.MUNICIPE_DELETE;
 import static com.proton.models.entities.roles.Permission.MUNICIPE_READ;
 import static com.proton.models.entities.roles.Permission.MUNICIPE_UPDATE;
+import static com.proton.models.entities.roles.Permission.SECRETARIO_CREATE;
+import static com.proton.models.entities.roles.Permission.SECRETARIO_DELETE;
+import static com.proton.models.entities.roles.Permission.SECRETARIO_READ;
+import static com.proton.models.entities.roles.Permission.SECRETARIO_UPDATE;
+import static com.proton.models.entities.roles.Permission.FUNCIONARIO_UPDATE;
+import static com.proton.models.entities.roles.Permission.FUNCIONARIO_READ;
+import static com.proton.models.entities.roles.Permission.FUNCIONARIO_CREATE;
+import static com.proton.models.entities.roles.Permission.FUNCIONARIO_DELETE;
+
+
 
 @RequiredArgsConstructor
 public enum Role {
@@ -41,7 +55,37 @@ public enum Role {
                   MUNICIPE_DELETE,
                   MUNICIPE_CREATE
           )
-  )
+  ),
+
+  FUNCIONARIO(
+        Set.of(
+                FUNCIONARIO_READ,
+                FUNCIONARIO_UPDATE,
+                FUNCIONARIO_DELETE,
+                FUNCIONARIO_CREATE
+        )
+        ),
+
+        COORDENADOR(
+                Set.of(
+                        COORDENADOR_READ,
+                        COORDENADOR_UPDATE,
+                        COORDENADOR_DELETE,
+                        COORDENADOR_CREATE
+                )
+        ),
+
+        
+        SECRETARIO(
+                Set.of(
+                        SECRETARIO_READ,
+                        SECRETARIO_UPDATE,
+                        SECRETARIO_DELETE,
+                        SECRETARIO_CREATE
+                )
+        ),
+
+
 
   ;
 

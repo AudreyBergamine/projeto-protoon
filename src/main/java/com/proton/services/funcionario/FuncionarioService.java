@@ -41,13 +41,13 @@ public class FuncionarioService {
     }
 
     private void updateData(Funcionario entity, Funcionario funcionario) {
-        entity.setNomeFuncionario(funcionario.getNomeFuncionario());
+        entity.setNome(funcionario.getNome());
         entity.setNumCPF(funcionario.getNumCPF());
         entity.setDataNascimento(funcionario.getDataNascimento());
-        entity.setCargoFuncionario(funcionario.getCargoFuncionario());
-        entity.setEmailDepartamento(funcionario.getEmailDepartamento());
+        entity.setDepartamento(funcionario.getDepartamento());
+        entity.setSecretaria(entity.getSecretaria());
         entity.setSenha(funcionario.getSenha());
-        entity.setNumTelefoneMovel(funcionario.getNumTelefoneMovel());
+        entity.setCelular(funcionario.getCelular());
         entity.setNumTelefoneFixo(funcionario.getNumTelefoneFixo());
         
     }

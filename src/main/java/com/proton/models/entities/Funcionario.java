@@ -1,107 +1,60 @@
 package com.proton.models.entities;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.proton.models.entities.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 //TODO: Precisamos adicionar o atributo Reclamação, o Funcionário terá uma lista de reclamações para visualizar
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "funcionario")
-public class Funcionario implements Serializable  {
-    
-    private static final long serialVersionUID = 1L;
+public class Funcionario extends User  { 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_funcionario")
-    private Integer idFuncionario;
-
-    //TODO: Precisa-se relacionar a entidade Funcionário com Departamento 
-    @Column(name = "id_departamentoFK")
-    private Integer idDepartamentoFK;
-
-    //TODO: Precisa-se relacionar a entidade Funcionário com Secretaria 
-    @Column(name = "id_secretariaFK")
-    private Integer idSecretariaFK;
-
-    //TODO: Precisa-se relacionar a entidade Funcionário com Endereco 1x1 
-    @Column(name = "id_enderecoFK")
-    private Integer idEnderecoFK;
-
-    @Column(name = "nome_funcionario", nullable = false)
-    private String nomeFuncionario;
-
-    @Column(name = "num_CPF")
+    @Column(name = "num_CPF", nullable = false, unique = true)
     private String numCPF;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "data_nascimento")
+    @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(name = "cargo_funcionario")
-    private String cargoFuncionario;
 
-    //TODO: Não temos a entidade departamento, teriamos que fazê-la ou remover esse atributo caso formos fazê-la
-    @Column(name = "email_departamento")
-    private String emailDepartamento;
+   
 
-    @Column(name = "senha")
-    private String senha;
-
-    @Column(name = "num_telefone_movel", nullable = false)
-    private String numTelefoneMovel;
+    @Column(name = "celular", nullable = false)
+    private String celular;
 
     @Column(name = "num_telefone_fixo")
     private String numTelefoneFixo;
 
-    public Funcionario() {
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
+    private Endereco endereco;
 
-    public Funcionario(Integer idFuncionario, Integer idDepartamentoFK, Integer idSecretariaFK, Integer idEnderecoFK,
-            String nomeFuncionario, String numCPF, LocalDate dataNascimento, String cargoFuncionario,
-            String emailDepartamento, String senha, String numTelefoneMovel, String numTelefoneFixo) {
-        this.idFuncionario = idFuncionario;
-        this.idDepartamentoFK = idDepartamentoFK;
-        this.idSecretariaFK = idSecretariaFK;
-        this.idEnderecoFK = idEnderecoFK;
-        this.nomeFuncionario = nomeFuncionario;
-        this.numCPF = numCPF;
-        this.dataNascimento = dataNascimento;
-        this.cargoFuncionario = cargoFuncionario;
-        this.emailDepartamento = emailDepartamento;
-        this.senha = senha;
-        this.numTelefoneMovel = numTelefoneMovel;
-        this.numTelefoneFixo = numTelefoneFixo;
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
+    private Secretaria secretaria;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_departamentoFK", referencedColumnName = "id_departamento")
+    private Departamento departamento;
+    
     // Getters
     public Integer getIdFuncionario() {
-        return idFuncionario;
+        return getId();
     }
-
-    public Integer getIdDepartamentoFK() {
-        return idDepartamentoFK;
-    }
-
-    public Integer getIdSecretariaFK() {
-        return idSecretariaFK;
-    }
-
-    public Integer getIdEnderecoFK() {
-        return idEnderecoFK;
-    }
-
-    public String getNomeFuncionario() {
-        return nomeFuncionario;
-    }
-
+   
     public String getNumCPF() {
         return numCPF;
     }
@@ -110,46 +63,26 @@ public class Funcionario implements Serializable  {
         return dataNascimento;
     }
 
-    public String getCargoFuncionario() {
-        return cargoFuncionario;
-    }
-
-    public String getEmailDepartamento() {
-        return emailDepartamento;
-    }
-
     public String getSenha() {
-        return senha;
+        return getSenha();
     }
 
-    public String getNumTelefoneMovel() {
-        return numTelefoneMovel;
+    public String celular() {
+        return celular;
     }
 
     public String getNumTelefoneFixo() {
         return numTelefoneFixo;
     }
 
+
+
     // SETTERS
     public void setIdFuncionario(Integer idFuncionario) {
-        this.idFuncionario = idFuncionario;
+        this.setId(idFuncionario); ;
     }
 
-    public void setIdDepartamentoFK(Integer idDepartamentoFK) {
-        this.idDepartamentoFK = idDepartamentoFK;
-    }
-
-    public void setIdSecretariaFK(Integer idSecretariaFK) {
-        this.idSecretariaFK = idSecretariaFK;
-    }
-
-    public void setIdEnderecoFK(Integer idEnderecoFK) {
-        this.idEnderecoFK = idEnderecoFK;
-    }
-
-    public void setNomeFuncionario(String nomeFuncionario) {
-        this.nomeFuncionario = nomeFuncionario;
-    }
+   
 
     public void setNumCPF(String numCPF) {
         this.numCPF = numCPF;
@@ -159,31 +92,28 @@ public class Funcionario implements Serializable  {
         this.dataNascimento = dataNascimento;
     }
 
-    public void setCargoFuncionario(String cargoFuncionario) {
-        this.cargoFuncionario = cargoFuncionario;
-    }
 
-    public void setEmailDepartamento(String emailDepartamento) {
-        this.emailDepartamento = emailDepartamento;
-    }
+
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        setSenha(senha);
     }
 
-    public void setNumTelefoneMovel(String numTelefoneMovel) {
-        this.numTelefoneMovel = numTelefoneMovel;
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
     public void setNumTelefoneFixo(String numTelefoneFixo) {
         this.numTelefoneFixo = numTelefoneFixo;
     }
 
+
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((idFuncionario == null) ? 0 : idFuncionario.hashCode());
+        result = prime * result + ((getIdFuncionario() == null) ? 0 : getIdFuncionario().hashCode());
         return result;
     }
 
@@ -196,10 +126,10 @@ public class Funcionario implements Serializable  {
         if (getClass() != obj.getClass())
             return false;
         Funcionario other = (Funcionario) obj;
-        if (idFuncionario == null) {
-            if (other.idFuncionario != null)
+        if (getIdFuncionario() == null) {
+            if (other.getIdFuncionario() != null)
                 return false;
-        } else if (!idFuncionario.equals(other.idFuncionario))
+        } else if (!getIdFuncionario().equals(other.getIdFuncionario()))
             return false;
         return true;
     }

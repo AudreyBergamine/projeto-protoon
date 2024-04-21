@@ -1,4 +1,4 @@
-package com.proton.controller.resources.auth;
+package com.proton.controller.resources.auth.requests;
 
 import java.time.LocalDate;
 

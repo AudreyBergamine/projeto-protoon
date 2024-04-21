@@ -1,4 +1,4 @@
-package com.proton.controller.resources.auth;
+package com.proton.controller.resources.auth.requests;
 
 import com.proton.models.entities.roles.Role;
 import lombok.AllArgsConstructor;

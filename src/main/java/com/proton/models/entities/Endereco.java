@@ -30,13 +30,6 @@ public class Endereco implements Serializable{
     
     
 
-    public Municipe getMunicipe() {
-        return municipe;
-    }
-
-    public void setMunicipe(Municipe municipe) {
-        this.municipe = municipe;
-    }
 
     @Column(name = "tipo_endereco", nullable = false)
     private String tipo_endereco; 
@@ -74,6 +67,17 @@ public class Endereco implements Serializable{
     @OneToOne(mappedBy = "endereco")
     private Municipe municipe;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "endereco")
+    private Funcionario funcionario;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "endereco")
+    private Departamento departamento;
+
+    // @JsonIgnore
+    // @OneToOne(mappedBy = "endereco")
+    // private Secretaria secretaria;
 
     public Endereco(){
 
@@ -118,6 +122,40 @@ public class Endereco implements Serializable{
     public void setNum_cep(String num_cep) {
         this.num_cep = num_cep;
     }
+    
+    public Municipe getMunicipe() {
+        return municipe;
+    }
+
+    public void setMunicipe(Municipe municipe) {
+        this.municipe = municipe;
+    }
+
+    
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+
+    // public Secretaria getSecretaria() {
+    //     return secretaria;
+    // }
+
+    // public void setSecretaria(Secretaria secretaria) {
+    //     this.secretaria = secretaria;
+    // }
 
     public String getLogradouro() {
         return logradouro;

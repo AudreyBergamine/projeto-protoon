@@ -2,11 +2,15 @@ package com.proton.models.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -27,9 +31,17 @@ public class Departamento implements Serializable {
 	private String senha;
 	
 
-	@OneToOne
-	@JoinColumn(name = "id_enderecoFK")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
 	private Endereco endereco;
+
+	@ManyToOne //Associação Muitos para um
+	@JoinColumn(name = "id_secretariaFK") //nome da chave estrangeira
+	private Secretaria secretaria;
+
+	@JsonIgnore
+    @OneToOne(mappedBy = "departamento")
+    private Funcionario funcionario;
     
 	public Departamento(){
 		

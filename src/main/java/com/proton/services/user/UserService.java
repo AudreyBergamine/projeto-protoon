@@ -1,6 +1,8 @@
 package com.proton.services.user;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.security.Principal;
 public class UserService {
 
     private final PasswordEncoder passwordEncoder;
+    @Autowired // Para que o Spring faça essa injeção de Dependência do Repository
     private final UserRepository repository;
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 

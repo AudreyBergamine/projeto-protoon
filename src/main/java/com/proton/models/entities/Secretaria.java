@@ -1,16 +1,22 @@
 package com.proton.models.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+
 
 @Entity
 @Table(name = "secretaria")
@@ -27,10 +33,18 @@ public class Secretaria implements Serializable {
 	private String senha;
 	
 
+	// @OneToOne(cascade = CascadeType.ALL)
+	// @JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
+	// private Endereco endereco;
+
 	@OneToOne
 	@JoinColumn(name = "id_enderecoFK")
 	private Endereco endereco;
     
+	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
+	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
+	private List<Departamento> departamentos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+
 	public Secretaria(){
 		
 	}
@@ -48,6 +62,20 @@ public class Secretaria implements Serializable {
 
 	public Long getId_secretaria() {
 		return id_secretaria;
+	}
+
+	
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public List<Departamento> getDepartamentos() {
+		return departamentos;
 	}
 
 	public void setId_secretaria(Long id_secretaria) {
