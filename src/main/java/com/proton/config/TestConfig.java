@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.proton.models.entities.Assunto;
+import com.proton.models.entities.Departamento;
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
@@ -20,6 +21,7 @@ import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.AssuntoRepository;
+import com.proton.models.repositories.DepartamentoRepository;
 
 
 //Por enquanto, isso vai servir de data base seeding
@@ -43,6 +45,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private AssuntoRepository assuntoRepository;
 
+    @Autowired
+    private DepartamentoRepository departamentoRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -57,6 +62,10 @@ public class TestConfig implements CommandLineRunner {
 
         Endereco end3 = new Endereco(null, "casa", "11111-222", "Rua dos Fundos", "Casa 303",
                 "101", "Bloco C", "Periferia", "Belo Horizonte", "MG", "Brasil");
+        Endereco end4 = new Endereco(null, "casa", "11111-222", "Rua dos Fundos", "Casa 303",
+                "101", "Bloco C", "Periferia", "Belo Horizonte", "MG", "Brasil");
+        Endereco end5 = new Endereco(null, "casa", "11111-222", "Rua dos Fundos", "Casa 303",
+                "101", "Bloco C", "Periferia", "Belo Horizonte", "MG", "Brasil");
 
         Secretaria sec1 = new Secretaria(null, "Secretaria de Educação", "Ana Silva", "ana@example.com", "senha123",
                 end2);
@@ -66,6 +75,10 @@ public class TestConfig implements CommandLineRunner {
 
         Secretaria sec3 = new Secretaria(null, "Secretaria de Meio Ambiente", "Mariana Oliveira", "mariana@example.com",
                 "senha789", end1);
+        
+        Departamento dep1 = new Departamento(null, "TI", "José", "jose@gmail.com", "123456", end4, sec3);
+        Departamento dep2 = new Departamento(null, "Segurança", "Livia", "livia@gmail.com", "123456", end5, sec3);
+      //  Departamento dep3 = new Departamento(null, "Finanças", "Aldo", "aldo@gmail.com", "1234", end3);
 
         Municipe mun1 = new Municipe("Fulano", "fulano@example.com", "senha123", "123.456.789-10", "(11)96256-8965",
                 LocalDate.of(1990, 5, 15), end3);
@@ -97,6 +110,7 @@ public class TestConfig implements CommandLineRunner {
         secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
         protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
         assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3))); 
+        departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
 
     }
 

@@ -6,12 +6,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proton.controller.resources.auth.requests.RegisterRequest;
+import com.proton.controller.resources.auth.requests.RegisterRequestFuncionario;
 import com.proton.controller.resources.auth.requests.RegisterRequestMunicipe;
 import com.proton.services.user.AuthenticationService;
 
@@ -38,6 +40,26 @@ public class AuthenticationController {
 ) {
   
     AuthenticationResponse authenticationResponse = service.registerMunicipe(request);
+    // Set the access token as an HttpOnly cookie in the response
+    Cookie tokenCookie = new Cookie("token", authenticationResponse.getAccessToken());
+    tokenCookie.setHttpOnly(true); // Set HttpOnly flag
+    tokenCookie.setPath("/"); // Set cookie path as needed
+    httpResponse.addCookie(tokenCookie);
+
+    // Optionally, you can also set the refresh token as a separate HttpOnly cookie if needed
+
+    return ResponseEntity.ok(authenticationResponse);
+}
+
+@PostMapping("/register/funcionario/{id_d}/{id_s}")
+  public ResponseEntity<AuthenticationResponse> registerFuncionario(
+    @RequestBody RegisterRequestFuncionario request,
+    @PathVariable Long id_d,
+    @PathVariable Long id_s,
+    HttpServletResponse httpResponse // Inject HttpServletResponse
+) {
+  
+    AuthenticationResponse authenticationResponse = service.registerFuncionario(request,id_d, id_s);
     // Set the access token as an HttpOnly cookie in the response
     Cookie tokenCookie = new Cookie("token", authenticationResponse.getAccessToken());
     tokenCookie.setHttpOnly(true); // Set HttpOnly flag

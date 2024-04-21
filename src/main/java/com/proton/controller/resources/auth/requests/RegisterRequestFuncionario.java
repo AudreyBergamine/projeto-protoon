@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.proton.models.entities.Departamento;
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.roles.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class RegisterRequestFuncionario {
   private String senha;
   private String num_CPF;
   private String celular;
+  private Role role;
   private String numTelefoneFixo;
   private LocalDate data_nascimento;
   private Endereco endereco;
