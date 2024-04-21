@@ -83,7 +83,7 @@ public class RecuperarSenhaService {
                     municipe.setSenha(passwordEncoder.encode(recuperarSenha.getSenha()));
                     municipeRepository.save(municipe);
                     recuperarSenhaBanco.setCodigo(null);
-                    recuperarSenhaBanco.setSenha(recuperarSenha.getSenha());
+                    recuperarSenhaBanco.setSenha(passwordEncoder.encode(recuperarSenha.getSenha()));
                     recuperarSenhaRepository.save(recuperarSenhaBanco);
                     return "Senha alterada com sucesso!";
                 } else {
