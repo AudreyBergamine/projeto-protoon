@@ -76,14 +76,14 @@ public class RecuperarSenhaService {
         if (recuperarSenhaBancoOpt.isPresent()) {
             RecuperarSenha recuperarSenhaBanco = recuperarSenhaBancoOpt.get();
             Date expiration = new Date(new Date().getTime() - recuperarSenhaBanco.getDateSendCodigo().getTime());
-            if ((expiration.getTime() / 1000) < 300) {
+            if ((expiration.getTime() / 1000) < 300) { // 5 minutos para usar o código
                 Optional<Municipe> municipeOpt = municipeRepository.findByEmail(recuperarSenha.getEmail());
                 if (municipeOpt.isPresent()) {
                     Municipe municipe = municipeOpt.get();
                     municipe.setSenha(passwordEncoder.encode(recuperarSenha.getSenha()));
                     municipeRepository.save(municipe);
                     recuperarSenhaBanco.setCodigo(null);
-                    recuperarSenhaBanco.setSenha(passwordEncoder.encode(recuperarSenha.getSenha()));
+                    recuperarSenhaBanco.setSenha(recuperarSenha.getSenha());
                     recuperarSenhaRepository.save(recuperarSenhaBanco);
                     return "Senha alterada com sucesso!";
                 } else {
