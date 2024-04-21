@@ -4,8 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.Future;
 
+
+@SuppressWarnings("deprecation")
 @Service
 public class EmailService {
 
@@ -15,7 +20,28 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String remetente;
 
-    public String enviarEmailTexto(String destinatario, String titulo, String mensagem) {
+    public String sendEmail(String toEmail,
+    String subject, String body){
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("vagnerimperador16@gmail.com");
+            message.setTo(toEmail);
+            message.setText(body);
+            message.setSubject(subject);
+    
+            emailSender.send(message);
+            System.out.println("Sucesso");
+            return "Sucesso";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Fracasso";
+        }
+      
+
+    }
+    @Async
+    public Future<String> enviarEmailTexto(String destinatario, String titulo, String mensagem) {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -27,9 +53,11 @@ public class EmailService {
             // Envie o email
             emailSender.send(message);
 
-            return "Sucesso";
+            return new AsyncResult<>("Sucesso");
         } catch (Exception e) {
-            return "Falha";
+            e.printStackTrace();
+            return new AsyncResult<>("Falha");
         }
     }
 }
+

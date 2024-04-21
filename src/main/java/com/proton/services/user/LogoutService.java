@@ -43,6 +43,12 @@ public class LogoutService implements LogoutHandler {
         storedToken.setRevoked(true);
         tokenRepository.save(storedToken);
         SecurityContextHolder.clearContext();
+
+        
+        Cookie cookieToDelete = new Cookie("token", null);
+        cookieToDelete.setMaxAge(0);
+        cookieToDelete.setPath("/"); // Certifique-se de definir o mesmo caminho usado para criar o cookie
+        response.addCookie(cookieToDelete);
       }
     }
   }

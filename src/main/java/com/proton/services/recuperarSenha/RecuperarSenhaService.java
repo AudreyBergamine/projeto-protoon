@@ -3,6 +3,8 @@ package com.proton.services.recuperarSenha;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -52,13 +54,18 @@ public class RecuperarSenhaService {
             String mensagem = "Para recuperar sua senha, use este código\n" + codigo;
 
             // Envie o email com o código de recuperação
-            String emailSuccess = emailService.enviarEmailTexto(email, "Recuperação de senha", mensagem);
-            if (emailSuccess == "Sucesso") {
-
-                return "Email enviado com Sucesso!";
+            Future<String> emailSuccess = emailService.enviarEmailTexto(email, "Recuperação de senha", mensagem);
+            try {
+                String resultadoEnvio = emailSuccess.get(); // Aguarda a conclusão do envio de email e obtém o resultado
+                if (resultadoEnvio.equals("Sucesso")) {
+                    return "Email enviado com sucesso!";
+                } else {
+                    return "Falha ao enviar o email!";
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                return "Falha ao enviar o email!";
             }
-            return "Email não enviado!";
-
         }
         return "Email não encontrado!";
     }
