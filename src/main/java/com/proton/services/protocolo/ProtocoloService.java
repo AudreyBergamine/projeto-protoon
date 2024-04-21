@@ -60,15 +60,15 @@ public class ProtocoloService {
 		return protocoloRepository.save(entity);
 	}
 
-	public void novoProtocolo(Protocolo protocolo) {
-		Municipe mun = municipeRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
-		Secretaria secretaria = secretariaRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
-		protocolo.setData_protocolo(new Date());
-		protocolo.setMunicipe(mun);
-		protocolo.setEndereco(mun.getEndereco());
-		protocolo.setSecretaria(secretaria);
-		protocolo.setStatus(1);
-		protocolo.setValor(50.0);
-		protocoloRepository.save(protocolo);
-	}
+	// public void novoProtocolo(Protocolo protocolo) {
+	// 	Municipe mun = municipeRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
+	// 	Secretaria secretaria = secretariaRepository.findAll(PageRequest.of(0, 1)).getContent().get(0);
+	// 	protocolo.setData_protocolo(new Date());
+	// 	protocolo.setMunicipe(mun);
+	// 	protocolo.setEndereco(mun.getEndereco());
+	// 	protocolo.setSecretaria(secretaria);
+	// 	protocolo.setStatus(1);
+	// 	protocolo.setValor(50.0);
+	// 	protocoloRepository.save(protocolo);
+	//}
 }

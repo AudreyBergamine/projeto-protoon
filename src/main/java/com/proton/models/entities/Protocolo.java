@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+
+
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.enums.Status;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,19 +29,19 @@ public class Protocolo implements Serializable {
 	private Integer id_protocolo;
 	
 	@ManyToOne //Associação Muitos para um
-	@JoinColumn(name = "id_secretariaFK") //nome da chave estrangeira
+	@JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
 	private Secretaria secretaria;
 	
 	@ManyToOne //Associação Muitos para um
-	@JoinColumn(name = "id_departamentoFK") //nome da chave estrangeira
+	@JoinColumn(name = "id_departamentoFK",referencedColumnName = "id_departamento") //nome da chave estrangeira
 	private Departamento departamento;
 	
 	@ManyToOne //Associação Muitos para um
-	@JoinColumn(name = "id_municipeFK") //nome da chave estrangeira
+	@JoinColumn(name = "id_municipeFK", referencedColumnName = "id") 
 	private Municipe municipe; // Municipe ou empresa, por enquanto somente municipe
 	
 	@ManyToOne
-	@JoinColumn(name = "id_endereco")
+	@JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
 	private Endereco endereco;	
 	
 	private String assunto;	
@@ -48,7 +51,7 @@ public class Protocolo implements Serializable {
 	private Date data_protocolo; //Pega o momento da abertura do protocolo, substitui o tipo Date
 	
 	private String descricao;
-	private Integer status;
+	private Status status;
 	private Double valor;
 	
 	public Protocolo(){
@@ -56,7 +59,7 @@ public class Protocolo implements Serializable {
 	}
 
 	public Protocolo(Integer id_protocolo, Secretaria secretaria, Municipe municipe, Endereco endereco, String assunto,
-			Date data_protocolo, String descricao, Integer status, Double valor) {
+			Date data_protocolo, String descricao, Status status, Double valor) {
 		super();
 		this.id_protocolo = id_protocolo;
 		this.secretaria = secretaria;
@@ -125,11 +128,11 @@ public class Protocolo implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Integer getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

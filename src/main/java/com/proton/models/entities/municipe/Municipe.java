@@ -3,6 +3,7 @@ package com.proton.models.entities.municipe;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.user.User;
 
@@ -22,6 +23,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) //Para funcionar o protocolo precisa dessa notação, verificar se ela não tem impacto em outra entidade (-- TODO -- ZEZINHO)
 public class Municipe extends User {
 
     //Implements Serializable é uma interface que transforma os dados do objeto em dados bytes, para transmitir pela web.

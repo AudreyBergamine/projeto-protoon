@@ -19,6 +19,8 @@ public class Assunto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_assunto;
     private String assunto;
+    private Double valor_protocolo;
+
 
     @ManyToOne
 	@JoinColumn(name = "id_secretaria")
@@ -27,10 +29,11 @@ public class Assunto implements Serializable {
     public Assunto(){
     }
 
-    public Assunto(Integer id_assunto, String assunto, com.proton.models.entities.Secretaria secretaria) {
+    public Assunto(Integer id_assunto, String assunto, Secretaria secretaria,Double valor_protocolo ) {
         this.id_assunto = id_assunto;
         this.assunto = assunto;
         Secretaria = secretaria;
+        this.valor_protocolo = valor_protocolo;
     }
     public Integer getId_assunto() {
         return id_assunto;
@@ -50,6 +53,15 @@ public class Assunto implements Serializable {
     public void setSecretaria(Secretaria secretaria) {
         Secretaria = secretaria;
     }
+
+    public Double getValor_protocolo() {
+        return valor_protocolo;
+    }
+
+    public void setValor_protocolo(Double valor_protocolo) {
+        this.valor_protocolo = valor_protocolo;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
