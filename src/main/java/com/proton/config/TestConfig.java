@@ -22,11 +22,8 @@ import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
-<<<<<<< HEAD
-=======
 import com.proton.models.repositories.AssuntoRepository;
 import com.proton.models.repositories.DepartamentoRepository;
->>>>>>> 48803333fbe172542ae9f9edc76d31cb2377faa1
 
 @Configuration
 @Profile("test")
@@ -47,13 +44,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private AssuntoRepository assuntoRepository;
 
-<<<<<<< HEAD
-=======
     @Autowired
     private DepartamentoRepository departamentoRepository;
 
-
->>>>>>> 48803333fbe172542ae9f9edc76d31cb2377faa1
     @Override
     public void run(String... args) throws Exception {
         Endereco end1 = new Endereco(null, "apartamento", "54321-876", "Avenida Secundária", "Casa 202",
@@ -110,12 +103,8 @@ public class TestConfig implements CommandLineRunner {
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
         secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
         protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
-<<<<<<< HEAD
-        assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
-=======
         assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3))); 
         departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
 
->>>>>>> 48803333fbe172542ae9f9edc76d31cb2377faa1
     }
 }
