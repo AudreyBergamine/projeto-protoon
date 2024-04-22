@@ -99,12 +99,12 @@ public class TestConfig implements CommandLineRunner {
         Assunto assunto3 = new Assunto(3, "Problema de trânsito", sec3, 30.00);
 
         // Manda para o banco de dados
-        municipeRepository.saveAll(Arrays.asList(mun1, mun2));
-        enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
-        secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
-        protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
-        assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3))); 
-        departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
+        // municipeRepository.saveAll(Arrays.asList(mun1, mun2));
+        // enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
+        // secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
+        // protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
+        // assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3))); 
+        // departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
 
     }
 }
