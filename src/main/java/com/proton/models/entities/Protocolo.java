@@ -45,7 +45,9 @@ public class Protocolo implements Serializable {
 	private Endereco endereco;	
 	
 	private String assunto;	
+	private String numero_protocolo;
 	
+
 	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")//Formatação da data e hora
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data_protocolo; //Pega o momento da abertura do protocolo, substitui o tipo Date
@@ -59,7 +61,7 @@ public class Protocolo implements Serializable {
 	}
 
 	public Protocolo(Integer id_protocolo, Secretaria secretaria, Municipe municipe, Endereco endereco, String assunto,
-			Date data_protocolo, String descricao, Status status, Double valor) {
+			Date data_protocolo, String descricao, Status status, Double valor, String numero_protocolo) {
 		super();
 		this.id_protocolo = id_protocolo;
 		this.secretaria = secretaria;
@@ -70,6 +72,7 @@ public class Protocolo implements Serializable {
 		this.descricao = descricao;
 		this.status = status;
 		this.valor = valor;
+		this.numero_protocolo = numero_protocolo;
 	}
 
 	public Integer getId_protocolo() {
@@ -143,6 +146,15 @@ public class Protocolo implements Serializable {
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
+
+	public String getNumero_protocolo() {
+		return numero_protocolo;
+	}
+
+	public void setNumero_protocolo(String numero_protocolo) {
+		this.numero_protocolo = numero_protocolo;
+	}
+
 
 	@Override
 	public int hashCode() {

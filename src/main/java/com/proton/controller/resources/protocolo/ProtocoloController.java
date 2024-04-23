@@ -61,9 +61,10 @@ public class ProtocoloController {
             @PathVariable Long id_s) {
         Municipe mun = municipeRepository.getReferenceById(id_m);
         Secretaria sec = secretariaRepository.getReferenceById(id_s);
-        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um
-                                                                                                // repositório para
-                                                                                                // Endereco
+        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um repositório para Endereco
+        
+        String numeroProtocolo = protocoloService.gerarNumeroProtocolo();
+        protocolo.setNumero_protocolo(numeroProtocolo);
         protocolo.setMunicipe(mun);
         protocolo.setEndereco(end);
         protocolo.setSecretaria(sec);
@@ -72,6 +73,7 @@ public class ProtocoloController {
                 .buildAndExpand(protocolo.getId_protocolo()).toUri();
         return ResponseEntity.created(uri).body(protocolo);
     }
+    
 
     // @PostMapping(value = "/abrir-protocolos")
     // public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo) {
