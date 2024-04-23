@@ -19,7 +19,7 @@ import com.proton.models.entities.Funcionario;
 import com.proton.services.funcionario.FuncionarioService;
 
 @RestController
-@RequestMapping(value = "/funcionarios")
+@RequestMapping(value = "protoon/funcionarios")
 @CrossOrigin(origins = "http://localhost:3000")
 public class FuncionarioController { // Definição dos endpoints RESTful
 

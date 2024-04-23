@@ -50,6 +50,11 @@ public class Secretaria implements Serializable {
 	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
 	private List<Funcionario> funcionarios = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
 
+	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
+	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
+	private List<Protocolo> protocolos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+
+
 	public Secretaria(){
 		
 	}
@@ -73,6 +78,13 @@ public class Secretaria implements Serializable {
 
 	public List<Funcionario> getFuncionarios() {
 		return funcionarios;
+	}
+	public List<Protocolo> getProtocolos(){
+		return protocolos;
+	}
+
+	public void setProtocolos(List<Protocolo> protocolos){
+		this.protocolos = protocolos;
 	}
 
 	public Endereco getEndereco() {

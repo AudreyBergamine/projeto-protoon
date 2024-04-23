@@ -66,7 +66,7 @@ public class Funcionario extends User  {
     }
 
     public String getSenha() {
-        return getSenha();
+        return super.getSenha();
     }
 
     public String celular() {

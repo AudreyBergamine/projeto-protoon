@@ -28,6 +28,7 @@ public class Protocolo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_protocolo;
 	
+	
 	@ManyToOne //Associação Muitos para um
 	@JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
 	private Secretaria secretaria;
