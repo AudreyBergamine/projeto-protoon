@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.proton.models.entities.Assunto;
-import com.proton.models.entities.Departamento;
+//import com.proton.models.entities.Departamento;
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
@@ -23,7 +23,7 @@ import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.AssuntoRepository;
-import com.proton.models.repositories.DepartamentoRepository;
+// import com.proton.models.repositories.DepartamentoRepository;
 
 @Configuration
 @Profile("test")
@@ -44,8 +44,8 @@ public class TestConfig implements CommandLineRunner {
         @Autowired
         private AssuntoRepository assuntoRepository;
 
-        @Autowired
-        private DepartamentoRepository departamentoRepository;
+        // @Autowired
+        // private DepartamentoRepository departamentoRepository;
 
         @Override
         public void run(String... args) throws Exception {
@@ -74,9 +74,9 @@ public class TestConfig implements CommandLineRunner {
                                 "mariana@example.com",
                                 "senha789", end1);
 
-                Departamento dep1 = new Departamento(null, "TI", "José", "jose@gmail.com", "123456", end4, sec3);
-                Departamento dep2 = new Departamento(null, "Segurança", "Livia", "livia@gmail.com", "123456", end5,
-                                sec3);
+                // Departamento dep1 = new Departamento(null, "TI", "José", "jose@gmail.com", "123456", end4, sec3);
+                // Departamento dep2 = new Departamento(null, "Segurança", "Livia", "livia@gmail.com", "123456", end5,
+                //                 sec3);
                 // Departamento dep3 = new Departamento(null, "Finanças", "Aldo",
                 // "aldo@gmail.com", "1234", end3);
 
@@ -107,12 +107,12 @@ public class TestConfig implements CommandLineRunner {
                 Assunto assunto3 = new Assunto(3, "Problema de trânsito", sec3, 30.00);
 
                 // Manda para o banco de dados
-                // municipeRepository.saveAll(Arrays.asList(mun1, mun2));
-                // enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
-                // secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
-                // protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
-                // assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
-                // departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
+                 municipeRepository.saveAll(Arrays.asList(mun1, mun2));
+                 enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
+                 secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
+                 protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
+                 assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
+                //departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
 
         }
 }

@@ -42,9 +42,9 @@ public class Secretaria implements Serializable {
 	@JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
 	private Endereco endereco;
     
-	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
-	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
-	private List<Departamento> departamentos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+	// @JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
+	// @OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
+	// private List<Departamento> departamentos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
 
 	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
 	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
@@ -83,9 +83,9 @@ public class Secretaria implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public List<Departamento> getDepartamentos() {
-		return departamentos;
-	}
+	// public List<Departamento> getDepartamentos() {
+	// 	return departamentos;
+	// }
 
 	public void setId_secretaria(Long id_secretaria) {
 		this.id_secretaria = id_secretaria;

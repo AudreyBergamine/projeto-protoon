@@ -44,7 +44,7 @@ public class FuncionarioService {
         entity.setNome(funcionario.getNome());
         entity.setNumCPF(funcionario.getNumCPF());
         entity.setDataNascimento(funcionario.getDataNascimento());
-        entity.setDepartamento(funcionario.getDepartamento());
+        //entity.setDepartamento(funcionario.getDepartamento());
         entity.setSecretaria(entity.getSecretaria());
         entity.setSenha(funcionario.getSenha());
         entity.setCelular(funcionario.getCelular());

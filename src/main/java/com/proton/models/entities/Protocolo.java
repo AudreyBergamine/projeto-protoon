@@ -32,9 +32,9 @@ public class Protocolo implements Serializable {
 	@JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
 	private Secretaria secretaria;
 	
-	@ManyToOne //Associação Muitos para um
-	@JoinColumn(name = "id_departamentoFK",referencedColumnName = "id_departamento") //nome da chave estrangeira
-	private Departamento departamento;
+	// @ManyToOne //Associação Muitos para um
+	// @JoinColumn(name = "id_departamentoFK",referencedColumnName = "id_departamento") //nome da chave estrangeira
+	// private Departamento departamento;
 	
 	@ManyToOne //Associação Muitos para um
 	@JoinColumn(name = "id_municipeFK", referencedColumnName = "id") 

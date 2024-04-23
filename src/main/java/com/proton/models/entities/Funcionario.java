@@ -48,9 +48,9 @@ public class Funcionario extends User  {
     @JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
     private Secretaria secretaria;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_departamentoFK", referencedColumnName = "id_departamento")
-    private Departamento departamento;
+    // @ManyToOne(cascade = CascadeType.ALL)
+    // @JoinColumn(name = "id_departamentoFK", referencedColumnName = "id_departamento")
+    // private Departamento departamento;
     
     // Getters
     public Integer getIdFuncionario() {
