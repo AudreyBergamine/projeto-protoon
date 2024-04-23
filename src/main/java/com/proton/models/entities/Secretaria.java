@@ -135,9 +135,6 @@ public class Secretaria implements Serializable {
 		this.senha = senha;
 	}
 
-	public Endereco getId_endereco() {
-		return endereco;
-	}
 
 
 	@Override
