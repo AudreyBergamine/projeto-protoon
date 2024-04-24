@@ -53,7 +53,9 @@ public class Protocolo implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data_protocolo; //Pega o momento da abertura do protocolo, substitui o tipo Date
 	
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
+
 	private Status status;
 	private Double valor;
 	
