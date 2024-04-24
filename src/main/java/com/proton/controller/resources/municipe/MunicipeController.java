@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.services.municipe.MunicipeService;
 
@@ -64,6 +65,13 @@ public class MunicipeController {
     public ResponseEntity<Municipe> update(@PathVariable Integer id, @RequestBody Municipe obj) {
         obj = service.update(id, obj);
         return ResponseEntity.ok(obj);
+    }
+
+    @GetMapping(value = "/protocolos/{id}")
+    public ResponseEntity<List<Protocolo>> findProtocolosByMunicipeId(@PathVariable Integer id){
+        Municipe mun = service.findById(id);
+        return ResponseEntity.ok().body(mun.getProtocolos());
+
     }
 
 

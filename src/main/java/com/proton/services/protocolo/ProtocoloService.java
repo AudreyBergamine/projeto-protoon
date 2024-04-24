@@ -97,9 +97,11 @@ public class ProtocoloService {
 	@SuppressWarnings("unused")// Serve para parar de aportar o um erro especifico ksksks, mas nem é erro.
 	public String gerarNumeroProtocolo() {
 		String anoAtual = String.valueOf(LocalDate.now().getYear());
-		String sql = "SELECT MAX(CAST(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1) AS UNSIGNED)) FROM Protocolo WHERE numero_protocolo LIKE ?";
+		//TODO: tava dando erro no h2 na geração de numeros de protocolos, daí o GPT fez essa pra mim e resolveu... dps confere José por favor.
+		//String sql = "SELECT MAX(CAST(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1) AS UNSIGNED)) FROM Protocolo WHERE numero_protocolo LIKE ?";
+		String sql = "SELECT MAX(CAST(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1) AS INT)) FROM Protocolo WHERE numero_protocolo LIKE ?";
+		//Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
 		Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
-	
 		if (ultimoNumero == null) {
 			return "001-" + anoAtual;
 		} else {
