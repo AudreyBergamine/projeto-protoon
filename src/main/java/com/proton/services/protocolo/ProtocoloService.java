@@ -18,6 +18,7 @@ import com.proton.models.entities.municipe.Municipe;
 //import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 // import com.proton.models.repositories.SecretariaRepository;
+import com.proton.services.municipe.MunicipeService;
 
 @Service
 public class ProtocoloService {
@@ -25,8 +26,8 @@ public class ProtocoloService {
 	@Autowired
 	private ProtocoloRepository protocoloRepository;
 
-	// @Autowired
-	// private MunicipeRepository municipeRepository;
+	@Autowired
+	private MunicipeService municipeService;
 
 	// @Autowired
 	// private SecretariaRepository secretariaRepository;
@@ -49,10 +50,23 @@ public class ProtocoloService {
 		return obj.get();
 	}
 
+	// Método para encontrar protocolo pelo numero do protocolo
+	public Protocolo findByNumero_protocolo(String numero_protocolo) {
+		Optional<Protocolo> obj = protocoloRepository.findByNumeroProtocolo(numero_protocolo);
+		return obj.get();
+	}
+
 	// Método para encontrar TODOS protocolos do MUNICIPE
 	public List<Protocolo> findByMunicipe(Municipe municipe) {
 		return protocoloRepository.findAllByMunicipe(municipe);
 	}
+
+	public List<Protocolo> findByNomeMunicipe(String nomeMunicipe) {
+		Municipe municipe = municipeService.findByNome(nomeMunicipe);
+		Integer idMunicipe = municipe.getId();
+		return protocoloRepository.findByMunicipe(idMunicipe);
+	}
+	
 
 	public void updateData(Protocolo entity, Protocolo obj) {
 		entity.setSecretaria(obj.getSecretaria());
@@ -69,34 +83,20 @@ public class ProtocoloService {
 		return protocoloRepository.save(entity);
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unused")// Serve para parar de aportar o um erro especifico ksksks, mas nem é erro.
 	public String gerarNumeroProtocolo() {
 		String anoAtual = String.valueOf(LocalDate.now().getYear());
-		String sql = "SELECT MAX(CAST(SUBSTRING(numero_protocolo, 1, POSITION('/' IN numero_protocolo) - 1) AS UNSIGNED)) FROM Protocolo WHERE numero_protocolo LIKE ?";
-		Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%/" + anoAtual);
+		String sql = "SELECT MAX(CAST(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1) AS UNSIGNED)) FROM Protocolo WHERE numero_protocolo LIKE ?";
+		Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
 	
 		if (ultimoNumero == null) {
-			return "001/" + anoAtual;
+			return "001-" + anoAtual;
 		} else {
 			int proximoNumeroProtocolo = ultimoNumero + 1;
 			String novoNumeroProtocolo = String.format("%03d", proximoNumeroProtocolo);
 	
-			return novoNumeroProtocolo + "/" + anoAtual;
+			return novoNumeroProtocolo + "-" + anoAtual;
 		}
 	}
 	
-
-	// public void novoProtocolo(Protocolo protocolo) {
-	// Municipe mun = municipeRepository.findAll(PageRequest.of(0,
-	// 1)).getContent().get(0);
-	// Secretaria secretaria = secretariaRepository.findAll(PageRequest.of(0,
-	// 1)).getContent().get(0);
-	// protocolo.setData_protocolo(new Date());
-	// protocolo.setMunicipe(mun);
-	// protocolo.setEndereco(mun.getEndereco());
-	// protocolo.setSecretaria(secretaria);
-	// protocolo.setStatus(1);
-	// protocolo.setValor(50.0);
-	// protocoloRepository.save(protocolo);
-	// }
 }

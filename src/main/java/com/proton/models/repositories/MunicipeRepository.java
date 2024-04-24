@@ -13,4 +13,5 @@ import com.proton.models.entities.municipe.Municipe;
 @Repository
 public interface MunicipeRepository extends JpaRepository<Municipe, Integer> {
    Optional<Municipe> findByEmail(String email);
+   Optional<Municipe> findByNome(String Nome);
 }

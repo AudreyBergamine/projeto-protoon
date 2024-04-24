@@ -35,6 +35,11 @@ public class MunicipeService {
         return obj.orElseThrow(() -> new ResourceNotFoundException(id)); 
     }
 
+    public Municipe findByNome(String nome) {
+        Optional<Municipe> obj = repository.findByNome(nome);
+        return obj.orElse(null);
+    }    
+
     //Método que insere um municipe novo no banco de dados, junto com o endereço
     public Municipe insert(Municipe obj) {
         //Faz o relacionamento de municipe e endereço

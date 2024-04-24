@@ -50,7 +50,28 @@ public class ProtocoloController {
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}") // Adicionando o caminho da variável id
+    @GetMapping(value = "/{numero_protocolo}")
+    public ResponseEntity<Protocolo> findByNumeroProtocolo(@PathVariable String numero_protocolo) {
+        Optional<Protocolo> protocoloOptional = protocoloRepository.findByNumeroProtocolo(numero_protocolo);
+        if (protocoloOptional.isPresent()) {
+            Protocolo obj = protocoloService.findByNumero_protocolo(numero_protocolo);
+            return ResponseEntity.ok().body(obj);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(value = "/pesquisar-municipe/{nomeMunicipe}")
+    public ResponseEntity<List<Protocolo>> findByNomeMunicipe(@PathVariable String nomeMunicipe) {
+        List<Protocolo> protocolos = protocoloService.findByNomeMunicipe(nomeMunicipe);
+        if (!protocolos.isEmpty()) {
+            return ResponseEntity.ok().body(protocolos); // Retorna os protocolos encontrados
+        } else {
+            return ResponseEntity.notFound().build(); // Retorna status 404 se nenhum protocolo for encontrado
+        }
+    }
+
+    @GetMapping(value = "pesquisar-id/{id}") // Adicionando o caminho da variável id
     public ResponseEntity<Protocolo> findById(@PathVariable Integer id) {
         Protocolo obj = protocoloService.findById(id);
         return ResponseEntity.ok().body(obj);// retorna UM protocolo
@@ -61,8 +82,10 @@ public class ProtocoloController {
             @PathVariable Long id_s) {
         Municipe mun = municipeRepository.getReferenceById(id_m);
         Secretaria sec = secretariaRepository.getReferenceById(id_s);
-        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um repositório para Endereco
-        
+        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um
+                                                                                                // repositório para
+                                                                                                // Endereco
+
         String numeroProtocolo = protocoloService.gerarNumeroProtocolo();
         protocolo.setNumero_protocolo(numeroProtocolo);
         protocolo.setMunicipe(mun);
@@ -73,13 +96,6 @@ public class ProtocoloController {
                 .buildAndExpand(protocolo.getId_protocolo()).toUri();
         return ResponseEntity.created(uri).body(protocolo);
     }
-    
-
-    // @PostMapping(value = "/abrir-protocolos")
-    // public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo) {
-    //     protocoloService.novoProtocolo(protocolo);        
-    //     return ResponseEntity.ok(protocolo);
-    // }
 
     @PutMapping("/alterar-protocolos/{id}") // Adicione o ID do protocolo como parte da URL
     public ResponseEntity<Protocolo> update(@PathVariable Integer id, @RequestBody Protocolo protocolo) {
@@ -102,5 +118,6 @@ public class ProtocoloController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 }
