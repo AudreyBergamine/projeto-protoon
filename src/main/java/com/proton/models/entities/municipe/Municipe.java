@@ -37,7 +37,7 @@ public class Municipe extends User {
     @Column(name = "celular", nullable = false)
     private String celular;
 
-    @JsonFormat(pattern="dd-MM-yyyy")
+    //@JsonFormat(pattern="dd-MM-yyyy")
     @Column(name = "data_nascimento", nullable = true)
     private LocalDate data_nascimento;
     

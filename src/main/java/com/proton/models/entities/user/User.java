@@ -1,5 +1,6 @@
 package com.proton.models.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.proton.models.entities.roles.Role;
 import com.proton.models.entities.token.Token;
 
@@ -49,6 +50,7 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
 
+  @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return role.getAuthorities();

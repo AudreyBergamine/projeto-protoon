@@ -12,11 +12,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.Protocolo;
+import com.proton.models.entities.Secretaria;
 // import com.proton.models.entities.Secretaria;
 import com.proton.models.entities.municipe.Municipe;
 // import com.proton.models.repositories.MunicipeRepository;
 //import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
+import com.proton.models.repositories.SecretariaRepository;
 // import com.proton.models.repositories.SecretariaRepository;
 import com.proton.services.municipe.MunicipeService;
 
@@ -29,8 +31,10 @@ public class ProtocoloService {
 	@Autowired
 	private MunicipeService municipeService;
 
-	// @Autowired
-	// private SecretariaRepository secretariaRepository;
+	
+
+	 @Autowired
+	 private SecretariaRepository secretariaRepository;
 
 	private final JdbcTemplate jdbcTemplate; // Para fazer consultas no sql
 
@@ -68,13 +72,14 @@ public class ProtocoloService {
 	}
 	
 
-	public void updateData(Protocolo entity, Protocolo obj) {
+	private void updateData(Protocolo entity, Protocolo obj) {
 		entity.setSecretaria(obj.getSecretaria());
 		entity.setMunicipe(obj.getMunicipe());
 		entity.setEndereco(obj.getEndereco());
 		entity.setAssunto(obj.getAssunto());
 		entity.setDescricao(obj.getDescricao());
 		entity.setValor(obj.getValor());
+		entity.setStatus(obj.getStatus());
 	}
 
 	public Protocolo update(Integer id, Protocolo obj) {
@@ -82,6 +87,12 @@ public class ProtocoloService {
 		updateData(entity, obj);
 		return protocoloRepository.save(entity);
 	}
+
+	// public Protocolo redirecionar(Integer idProtocolo, Long idSecretaria){
+	// 	Protocolo entity = protocoloRepository.getReferenceById(idProtocolo);
+	// 	Secretaria secretaria = secretariaRepository.getReferenceById(idSecretaria);
+
+	// }
 
 	@SuppressWarnings("unused")// Serve para parar de aportar o um erro especifico ksksks, mas nem é erro.
 	public String gerarNumeroProtocolo() {
