@@ -9,6 +9,7 @@ import java.util.Objects;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.enums.Status;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
