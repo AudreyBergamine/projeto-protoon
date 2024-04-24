@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
 import com.proton.services.seretaria.SecretariaService;
 
@@ -28,6 +29,13 @@ public class SecretariaResource {
     public ResponseEntity<Secretaria> findById(@PathVariable Long id) {
         Secretaria obj = secretariaService.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping(value = "/protocolos/{id}")
+    public ResponseEntity<List<Protocolo>> findProtocolosBySecretariaId(@PathVariable Long id){
+        Secretaria sec = secretariaService.findById(id);
+        return ResponseEntity.ok().body(sec.getProtocolos());
+
     }
 }
 

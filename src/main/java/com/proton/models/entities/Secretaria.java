@@ -42,13 +42,18 @@ public class Secretaria implements Serializable {
 	@JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
 	private Endereco endereco;
     
-	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
-	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
-	private List<Departamento> departamentos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+	// @JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
+	// @OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
+	// private List<Departamento> departamentos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
 
 	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
 	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
 	private List<Funcionario> funcionarios = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+
+	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
+	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
+	private List<Protocolo> protocolos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+
 
 	public Secretaria(){
 		
@@ -74,6 +79,13 @@ public class Secretaria implements Serializable {
 	public List<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
+	public List<Protocolo> getProtocolos(){
+		return protocolos;
+	}
+
+	public void setProtocolos(List<Protocolo> protocolos){
+		this.protocolos = protocolos;
+	}
 
 	public Endereco getEndereco() {
 		return endereco;
@@ -83,9 +95,9 @@ public class Secretaria implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public List<Departamento> getDepartamentos() {
-		return departamentos;
-	}
+	// public List<Departamento> getDepartamentos() {
+	// 	return departamentos;
+	// }
 
 	public void setId_secretaria(Long id_secretaria) {
 		this.id_secretaria = id_secretaria;
@@ -123,9 +135,6 @@ public class Secretaria implements Serializable {
 		this.senha = senha;
 	}
 
-	public Endereco getId_endereco() {
-		return endereco;
-	}
 
 
 	@Override

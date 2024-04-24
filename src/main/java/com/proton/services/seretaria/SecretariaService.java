@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
 import com.proton.models.repositories.SecretariaRepository;
 
@@ -27,5 +28,9 @@ public class SecretariaService {
 	public Secretaria findById(Long id) {
 		Optional <Secretaria> obj = repository.findById(id);
 		return obj.get();
+	}
+
+	public List<Protocolo> findSecretariaProtocolos(Secretaria secretaria){
+		return secretaria.getProtocolos();
 	}
 }

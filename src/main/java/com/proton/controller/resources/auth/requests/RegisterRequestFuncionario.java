@@ -2,7 +2,7 @@ package com.proton.controller.resources.auth.requests;
 
 import java.time.LocalDate;
 
-import com.proton.models.entities.Departamento;
+//import com.proton.models.entities.Departamento;
 import com.proton.models.entities.Endereco;
 import com.proton.models.entities.Secretaria;
 import com.proton.models.entities.roles.Role;
@@ -28,7 +28,7 @@ public class RegisterRequestFuncionario {
   private LocalDate data_nascimento;
   private Endereco endereco;
   private Secretaria secretaria;
-  private Departamento departamento;
+  //private Departamento departamento;
 
   
 }

@@ -51,15 +51,14 @@ public class AuthenticationController {
     return ResponseEntity.ok(authenticationResponse);
 }
 
-@PostMapping("/register/funcionario/{id_d}/{id_s}")
+@PostMapping("/register/funcionario/{id_s}")
   public ResponseEntity<AuthenticationResponse> registerFuncionario(
     @RequestBody RegisterRequestFuncionario request,
-    @PathVariable Long id_d,
     @PathVariable Long id_s,
     HttpServletResponse httpResponse // Inject HttpServletResponse
 ) {
   
-    AuthenticationResponse authenticationResponse = service.registerFuncionario(request,id_d, id_s);
+    AuthenticationResponse authenticationResponse = service.registerFuncionario(request, id_s);
     // Set the access token as an HttpOnly cookie in the response
     // Cookie tokenCookie = new Cookie("token", authenticationResponse.getAccessToken());
     // tokenCookie.setHttpOnly(true); // Set HttpOnly flag

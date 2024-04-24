@@ -71,9 +71,9 @@ public class Endereco implements Serializable{
     @OneToOne(mappedBy = "endereco")
     private Funcionario funcionario;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "endereco")
-    private Departamento departamento;
+    // @JsonIgnore
+    // @OneToOne(mappedBy = "endereco")
+    // private Departamento departamento;
 
     // @JsonIgnore
     // @OneToOne(mappedBy = "endereco")
@@ -141,13 +141,13 @@ public class Endereco implements Serializable{
         this.funcionario = funcionario;
     }
 
-    public Departamento getDepartamento() {
-        return departamento;
-    }
+    // public Departamento getDepartamento() {
+    //     return departamento;
+    // }
 
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
-    }
+    // public void setDepartamento(Departamento departamento) {
+    //     this.departamento = departamento;
+    // }
 
     // public Secretaria getSecretaria() {
     //     return secretaria;

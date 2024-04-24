@@ -5,7 +5,7 @@ import com.proton.services.exceptions.InvalidFieldsException;
 import com.proton.services.jwt.JwtService;
 import com.proton.services.validations.RegisterValidationService;
 import com.proton.models.entities.token.Token;
-import com.proton.models.repositories.DepartamentoRepository;
+// import com.proton.models.repositories.DepartamentoRepository;
 import com.proton.models.repositories.FuncionarioRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.SecretariaRepository;
@@ -16,7 +16,7 @@ import com.proton.controller.resources.auth.AuthenticationResponse;
 import com.proton.controller.resources.auth.requests.RegisterRequest;
 import com.proton.controller.resources.auth.requests.RegisterRequestFuncionario;
 import com.proton.controller.resources.auth.requests.RegisterRequestMunicipe;
-import com.proton.models.entities.Departamento;
+//import com.proton.models.entities.Departamento;
 import com.proton.models.entities.Funcionario;
 import com.proton.models.entities.Secretaria;
 import com.proton.models.entities.municipe.Municipe;
@@ -55,7 +55,7 @@ public class AuthenticationService {
   private final MunicipeRepository municipeRepository;
   private final FuncionarioRepository funcionarioRepository;
   private final SecretariaRepository secretariaRepository;
-  private final DepartamentoRepository departamentoRepository;
+  //private final DepartamentoRepository departamentoRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
@@ -131,13 +131,13 @@ public class AuthenticationService {
 }
 
 //CADASTRAR FUNCIONARIO
-public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario request, Long id_departamento, Long id_secretaria){
+public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario request,  Long id_secretaria){
   try {
     //Método valida os campos da requisição, se tiver algum inválido, é lançaca uma InvalidFieldsException
     //registerValidationService.validateMunicipeFields(request);
     registerValidationService.validateCPF(request.getNum_CPF());
     Secretaria secretaria = secretariaRepository.getReferenceById(id_secretaria);
-    Departamento departamento = departamentoRepository.getReferenceById(id_secretaria);
+    //Departamento departamento = departamentoRepository.getReferenceById(id_secretaria);
     //Caso os campos estejam validos, é construído um Municipe.
     var user = Funcionario.builder()
     .nome(request.getNome())
@@ -147,7 +147,7 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
     .numCPF(request.getNum_CPF())
     .celular(request.getCelular())
     .numTelefoneFixo(request.getNumTelefoneFixo())
-    .departamento(departamento)
+    //.departamento(departamento)
     .secretaria(secretaria)
     .data_nascimento(request.getData_nascimento())
     .endereco(request.getEndereco())
