@@ -20,6 +20,10 @@ import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.services.protocolo.ProtocoloService;
+import com.proton.services.user.AuthenticationService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +47,9 @@ public class ProtocoloController {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @GetMapping // Adicionando a anotação GetMapping para o método findAll
     public ResponseEntity<List<Protocolo>> findAll() {
@@ -77,9 +84,10 @@ public class ProtocoloController {
         return ResponseEntity.ok().body(obj);// retorna UM protocolo
     }
 
-    @PostMapping(value = "/abrir-protocolos/{id_m}/{id_s}")
-    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Integer id_m,
-            @PathVariable Long id_s) {
+    @PostMapping(value = "/abrir-protocolos/{id_s}")
+    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
+    HttpServletRequest request) {
+        Integer id_m = authenticationService.getUserIdFromToken(request);
         Municipe mun = municipeRepository.getReferenceById(id_m);
         Secretaria sec = secretariaRepository.getReferenceById(id_s);
         Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um

@@ -261,21 +261,17 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
     
   }
 
-  public boolean isTokenValid(HttpServletRequest request) {
+  public Integer getUserIdFromToken(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("token")) {
                 String token = cookie.getValue();
-                boolean isTokenValid = tokenRepository.findByToken(token)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
-                return isTokenValid;
-                
+                return jwtService.getUserIdFromToken(token);
             }
         }
     }
-    return false;
+    return 0;
 }
 
 

@@ -17,6 +17,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.Funcionario;
 import com.proton.services.funcionario.FuncionarioService;
+import com.proton.services.user.AuthenticationService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "protoon/funcionarios")
@@ -26,14 +29,18 @@ public class FuncionarioController { // Definição dos endpoints RESTful
     @Autowired
     private FuncionarioService service;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @GetMapping()
     public ResponseEntity<List<Funcionario>> findAll(){
         List<Funcionario> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Funcionario> findById(@PathVariable Integer id){
+    @GetMapping(value = "/bytoken")
+    public ResponseEntity<Funcionario> findById(HttpServletRequest request){
+        Integer id = authenticationService.getUserIdFromToken(request);
         Funcionario obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }

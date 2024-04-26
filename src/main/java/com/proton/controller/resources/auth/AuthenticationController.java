@@ -96,11 +96,7 @@ public class AuthenticationController {
     service.refreshToken(request, response);
   }
 
-  @GetMapping("/esta-logado")
-public ResponseEntity<Boolean> isTokenValid(HttpServletRequest request) {
-    boolean isTokenValid = service.isTokenValid(request);
-    return ResponseEntity.ok(isTokenValid);
-}
+
 
 
 }

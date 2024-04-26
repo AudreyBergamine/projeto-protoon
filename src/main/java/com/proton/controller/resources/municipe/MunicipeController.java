@@ -19,6 +19,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.services.municipe.MunicipeService;
+import com.proton.services.user.AuthenticationService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "protoon/municipe/municipes")
@@ -29,6 +32,9 @@ public class MunicipeController {
     private MunicipeService service; // Dependência para o Service
 
 
+    @Autowired
+    private AuthenticationService authService;
+
     // TODO Remover acesso a lista completa! E retirar retorno do atributo senha!
 
     // Método que responde á requisição do tipo GET do HTTP
@@ -38,8 +44,9 @@ public class MunicipeController {
                 return ResponseEntity.ok().body(list);
         
     }
-    @GetMapping(value = "/{id}") // A requisição vai aceitar um ID dentro do URL
-    public ResponseEntity<Municipe> findById(@PathVariable Integer id) {
+    @GetMapping(value = "/bytoken") // A requisição vai aceitar um ID dentro do URL
+    public ResponseEntity<Municipe> findById(HttpServletRequest request) {
+        Integer id = authService.getUserIdFromToken(request);
         Municipe obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }

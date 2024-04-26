@@ -73,6 +73,9 @@ public class JwtService {
     final String username = extractUsername(token);
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
+  public Integer getUserIdFromToken(String token){
+    return extractClaim(token, claims -> (Integer) claims.get("id"));
+  }
 
   private boolean isTokenExpired(String token) {
     return extractExpiration(token).before(new Date());
