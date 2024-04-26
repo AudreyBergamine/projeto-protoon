@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.proton.models.entities.Assunto;
 //import com.proton.models.entities.Departamento;
@@ -47,6 +48,9 @@ public class TestConfig implements CommandLineRunner {
         // @Autowired
         // private DepartamentoRepository departamentoRepository;
 
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
         @Override
         public void run(String... args) throws Exception {
                 Endereco end1 = new Endereco(null, "apartamento", "54321-876", "Avenida Secundária", "Casa 202",
@@ -74,9 +78,11 @@ public class TestConfig implements CommandLineRunner {
                                 "mariana@example.com",
                                 "senha789", end1);
 
-                // Departamento dep1 = new Departamento(null, "TI", "José", "jose@gmail.com", "123456", end4, sec3);
-                // Departamento dep2 = new Departamento(null, "Segurança", "Livia", "livia@gmail.com", "123456", end5,
-                //                 sec3);
+                // Departamento dep1 = new Departamento(null, "TI", "José", "jose@gmail.com",
+                // "123456", end4, sec3);
+                // Departamento dep2 = new Departamento(null, "Segurança", "Livia",
+                // "livia@gmail.com", "123456", end5,
+                // sec3);
                 // Departamento dep3 = new Departamento(null, "Finanças", "Aldo",
                 // "aldo@gmail.com", "1234", end3);
 
@@ -89,6 +95,13 @@ public class TestConfig implements CommandLineRunner {
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end2);
                 mun2.setRole(Role.MUNICIPE);
+
+                Municipe fun1 = new Municipe("Secretário", "secretario@email.com", "123456", "999.654.321-00",
+                                "(11)96256-8965",
+                                LocalDate.of(1985, 10, 25), end4);
+
+                fun1.setSenha(passwordEncoder.encode("123456"));
+                fun1.setRole(Role.SECRETARIO);
 
                 Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
                                 "Descrição do protocolo", Status.CIENCIA, 100.0, "001/2024");
@@ -107,12 +120,12 @@ public class TestConfig implements CommandLineRunner {
                 Assunto assunto3 = new Assunto(3, "Problema de trânsito", sec3, 30.00);
 
                 // Manda para o banco de dados
-                 municipeRepository.saveAll(Arrays.asList(mun1, mun2));
-                 enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
-                 secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
-                 protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
-                 assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
-                //departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
+                municipeRepository.saveAll(Arrays.asList(mun1, mun2, fun1));
+                enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
+                secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
+                protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
+                assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
+                // departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
 
         }
 }
