@@ -85,23 +85,32 @@ public class TestConfig implements CommandLineRunner {
                 // sec3);
                 // Departamento dep3 = new Departamento(null, "Finanças", "Aldo",
                 // "aldo@gmail.com", "1234", end3);
+                String senha = passwordEncoder.encode("123456");
 
-                Municipe mun1 = new Municipe("Fulano", "fulano@example.com", "senha123", "123.456.789-10",
+                Municipe mun1 = new Municipe("Fulano", "fulano@example.com", senha, "123.456.789-10",
                                 "(11)96256-8965",
                                 LocalDate.of(1990, 5, 15), end3);
                 mun1.setRole(Role.MUNICIPE);
 
-                Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", "senha456", "987.654.321-00",
+                Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", senha, "987.654.321-00",
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end2);
                 mun2.setRole(Role.MUNICIPE);
 
-                Municipe fun1 = new Municipe("Secretário", "secretario@email.com", "123456", "999.654.321-00",
+                Municipe fun1 = new Municipe("Secretário", "secretario@email.com", senha, "999.654.321-00",
                                 "(11)96256-8965",
-                                LocalDate.of(1985, 10, 25), end4);
-
-                fun1.setSenha(passwordEncoder.encode("123456"));
+                                LocalDate.of(1985, 10, 25), end4);                                
                 fun1.setRole(Role.SECRETARIO);
+                
+                Municipe fun2 = new Municipe("Coordenador", "coordenador@email.com", senha, "999.888.777-00",
+                                "(11)96256-8965",
+                                LocalDate.of(1985, 10, 25), end5);                                
+                fun2.setRole(Role.COORDENADOR);
+                
+                Municipe fun3 = new Municipe("Funcionário", "funcionario@email.com", senha, "999.888.321-00",
+                                "(11)96256-8965",
+                                LocalDate.of(1985, 10, 25), end1);                                
+                fun3.setRole(Role.FUNCIONARIO);
 
                 Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
                                 "Descrição do protocolo", Status.CIENCIA, 100.0, "001/2024");
@@ -120,7 +129,7 @@ public class TestConfig implements CommandLineRunner {
                 Assunto assunto3 = new Assunto(3, "Problema de trânsito", sec3, 30.00);
 
                 // Manda para o banco de dados
-                municipeRepository.saveAll(Arrays.asList(mun1, mun2, fun1));
+                municipeRepository.saveAll(Arrays.asList(mun1, mun2, fun1, fun2, fun3));
                 enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
                 secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
                 protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
