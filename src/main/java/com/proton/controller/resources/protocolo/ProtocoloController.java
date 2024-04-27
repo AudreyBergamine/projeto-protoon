@@ -51,13 +51,13 @@ public class ProtocoloController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @GetMapping // Adicionando a anotação GetMapping para o método findAll
+    @GetMapping(value = "/todos-protocolos")// Adicionando a anotação GetMapping para o método findAll
     public ResponseEntity<List<Protocolo>> findAll() {
         List<Protocolo> list = protocoloService.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{numero_protocolo}")
+    @GetMapping(value = "/{numero_protocolo}") //Pesquisa por numero de protocolo
     public ResponseEntity<Protocolo> findByNumeroProtocolo(@PathVariable String numero_protocolo) {
         Optional<Protocolo> protocoloOptional = protocoloRepository.findByNumeroProtocolo(numero_protocolo);
         if (protocoloOptional.isPresent()) {
@@ -68,7 +68,7 @@ public class ProtocoloController {
         }
     }
 
-    @GetMapping(value = "/pesquisar-municipe/{nomeMunicipe}")
+    @GetMapping(value = "/pesquisar-municipe/{nomeMunicipe}") //Pesquisar pelo nome do municipe
     public ResponseEntity<List<Protocolo>> findByNomeMunicipe(@PathVariable String nomeMunicipe) {
         List<Protocolo> protocolos = protocoloService.findByNomeMunicipe(nomeMunicipe);
         if (!protocolos.isEmpty()) {
@@ -78,7 +78,7 @@ public class ProtocoloController {
         }
     }
 
-    @GetMapping(value = "pesquisar-id/{id}") // Adicionando o caminho da variável id
+    @GetMapping(value = "/pesquisar-id/{id}") //pesquisar pelo ID
     public ResponseEntity<Protocolo> findById(@PathVariable Integer id) {
         Protocolo obj = protocoloService.findById(id);
         return ResponseEntity.ok().body(obj);// retorna UM protocolo
@@ -90,10 +90,7 @@ public class ProtocoloController {
         Integer id_m = authenticationService.getUserIdFromToken(request);
         Municipe mun = municipeRepository.getReferenceById(id_m);
         Secretaria sec = secretariaRepository.getReferenceById(id_s);
-        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco()); // Supondo que exista um
-                                                                                                // repositório para
-                                                                                                // Endereco
-
+        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
         String numeroProtocolo = protocoloService.gerarNumeroProtocolo();
         protocolo.setNumero_protocolo(numeroProtocolo);
         protocolo.setMunicipe(mun);
@@ -105,13 +102,13 @@ public class ProtocoloController {
         return ResponseEntity.created(uri).body(protocolo);
     }
 
-    @PutMapping("/alterar-protocolos/{id}") // Adicione o ID do protocolo como parte da URL
-    public ResponseEntity<Protocolo> update(@PathVariable Integer id, @RequestBody Protocolo protocolo) {
-        Protocolo obj = protocoloService.update(id, protocolo);
+    @PutMapping("/alterar-protocolos/{numero_protocolo}")
+    public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
+        Protocolo obj = protocoloService.update(numero_protocolo, protocolo);
         return ResponseEntity.ok(obj);
     }
 
-    @GetMapping(value = "/meus-protocolos/{municipeId}")
+    @GetMapping(value = "/meus-protocolos/{municipeId}")// Pesquisa os protocolos do munipe logado
     public ResponseEntity<List<Protocolo>> findByMunicipe(@PathVariable Integer municipeId) {
         // Recupera o Municipe com base no ID
         Optional<Municipe> municipeOptional = municipeRepository.findById(municipeId); // Optional pode voltar com o

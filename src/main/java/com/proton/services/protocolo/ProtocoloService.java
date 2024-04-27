@@ -82,11 +82,11 @@ public class ProtocoloService {
 		entity.setStatus(obj.getStatus());
 	}
 
-	public Protocolo update(Integer id, Protocolo obj) {
-		Protocolo entity = protocoloRepository.getReferenceById(id);
-		updateData(entity, obj);
-		return protocoloRepository.save(entity);
-	}
+    public Protocolo update(String numeroProtocolo, Protocolo obj) {
+        Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo).orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
+        updateData(entity, obj);
+        return protocoloRepository.save(entity);
+    }
 
 	// public Protocolo redirecionar(Integer idProtocolo, Long idSecretaria){
 	// 	Protocolo entity = protocoloRepository.getReferenceById(idProtocolo);

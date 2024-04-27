@@ -40,7 +40,7 @@ public class SecurityConfiguration {
         private static final String[] WHITE_LIST_URL = { "/protoon/auth/**",
                         // "/protoon/municipe/municipes",
                         // "/protoon/municipe/endereco",
-                        "/**",
+                        // "/**",
 
                         "/webjars/**",
                         "/swagger-ui.html" };
@@ -51,14 +51,23 @@ public class SecurityConfiguration {
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
-                .cors().and()
+                                .cors().and()
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
                                                 .permitAll()
                                                 .requestMatchers("/h2-console/**").permitAll()
+
                                                 .requestMatchers("/protoon/municipe/municipes").permitAll()
+
                                                 .requestMatchers("/protoon/municipe/municipes/**").permitAll()
+
                                                 .requestMatchers("/protoon/auth/register/municipe").permitAll()
+                                                
+                                                .requestMatchers("/protoon/protocolo/pesquisar-id/{id}",
+                                                                "/protoon/protocolo/todos-protocolos",
+                                                                "/protoon/protocolo/pesquisar-municipe/{nomeMunicipe}")
+                                                .hasAnyAuthority("MUNICIPE")
+
                                                 // .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(),
                                                 // MUNICIPE.name())
                                                 // .requestMatchers(GET,
