@@ -68,8 +68,9 @@ public class MunicipeController {
     // código 204
     // }
 
-    @PutMapping(value = "{id}") // A requisição vai aceitar um ID dentro do URL
-    public ResponseEntity<Municipe> update(@PathVariable Integer id, @RequestBody Municipe obj) {
+    @PutMapping(value = "/bytoken") // A requisição vai aceitar um ID dentro do URL
+    public ResponseEntity<Municipe> update(HttpServletRequest request, @RequestBody Municipe obj) {
+        Integer id = authService.getUserIdFromToken(request);
         obj = service.update(id, obj);
         return ResponseEntity.ok(obj);
     }
