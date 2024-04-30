@@ -19,8 +19,11 @@ import com.proton.models.entities.municipe.Municipe;
 //import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
+import com.proton.services.exceptions.ResourceNotFoundException;
 // import com.proton.models.repositories.SecretariaRepository;
 import com.proton.services.municipe.MunicipeService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProtocoloService {
@@ -83,9 +86,13 @@ public class ProtocoloService {
 	}
 
     public Protocolo update(String numeroProtocolo, Protocolo obj) {
-        Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo).orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
-        updateData(entity, obj);
-        return protocoloRepository.save(entity);
+		try{
+			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo).orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
+			updateData(entity, obj);
+			return protocoloRepository.save(entity);
+		} catch (EntityNotFoundException e) { //
+            throw new ResourceNotFoundException(numeroProtocolo);
+        }
     }
 
 	// public Protocolo redirecionar(Integer idProtocolo, Long idSecretaria){
