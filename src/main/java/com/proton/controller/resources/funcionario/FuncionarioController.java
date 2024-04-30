@@ -39,13 +39,13 @@ public class FuncionarioController { // Definição dos endpoints RESTful
     }
 
     @GetMapping(value = "/bytoken")
-    public ResponseEntity<Funcionario> findById(HttpServletRequest request){
+    public ResponseEntity<Funcionario> findByToken(HttpServletRequest request){
         Integer id = authenticationService.getUserIdFromToken(request);
         Funcionario obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
-    @GetMapping(value = "/byid/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Funcionario> findById(@PathVariable Integer id){
         Funcionario obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
@@ -58,10 +58,16 @@ public class FuncionarioController { // Definição dos endpoints RESTful
         return ResponseEntity.created(uri).body(obj);
     }
 
-    @PutMapping(value = "bytoken")
-    public ResponseEntity<Funcionario> update(HttpServletRequest request, @RequestBody Funcionario obj){
+    @PutMapping(value = "/bytoken")
+    public ResponseEntity<Funcionario> updateByToken(HttpServletRequest request, @RequestBody Funcionario obj){
         Integer id = authenticationService.getUserIdFromToken(request);
         obj = service.update(id, obj);
         return ResponseEntity.ok(obj);
     }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Funcionario> updateById(@PathVariable Integer id, @RequestBody Funcionario obj){
+        obj = service.update(id, obj);
+        return ResponseEntity.ok(obj);
+    }
+    
 }

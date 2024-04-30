@@ -42,7 +42,7 @@ public class FuncionarioService {
 
     private void updateData(Funcionario entity, Funcionario funcionario) {
         entity.setNome(funcionario.getNome());
-        entity.setNumCPF(funcionario.getNumCPF());
+        entity.setNumCPF(funcionario.getNum_CPF());
         entity.setDataNascimento(funcionario.getDataNascimento());
         //entity.setDepartamento(funcionario.getDepartamento());
         entity.setSecretaria(entity.getSecretaria());

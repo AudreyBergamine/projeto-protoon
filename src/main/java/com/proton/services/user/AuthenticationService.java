@@ -144,7 +144,7 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
     .email(request.getEmail())
     .senha(passwordEncoder.encode(request.getSenha()))
     .role(request.getRole())
-    .numCPF(request.getNum_CPF())
+    .num_CPF(request.getNum_CPF())
     .celular(request.getCelular())
     .numTelefoneFixo(request.getNumTelefoneFixo())
     //.departamento(departamento)

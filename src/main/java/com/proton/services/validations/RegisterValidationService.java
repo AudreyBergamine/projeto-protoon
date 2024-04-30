@@ -29,6 +29,10 @@ public class RegisterValidationService {
         }
     }
 
+
+
+    
+
     //Função que verifica se o cpf é válido
     public void validateCPF(String CPF) {
         // Remova os pontos e hífen do CPF

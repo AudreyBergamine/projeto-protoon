@@ -25,9 +25,9 @@ import lombok.experimental.SuperBuilder;
 public class Funcionario extends User  { 
 
     @Column(name = "num_CPF", nullable = false, unique = true)
-    private String numCPF;
+    private String num_CPF;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    //@JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate data_nascimento;
 
@@ -56,9 +56,8 @@ public class Funcionario extends User  {
     public Integer getIdFuncionario() {
         return getId();
     }
-   
-    public String getNumCPF() {
-        return numCPF;
+    public String getNum_CPF() {
+        return num_CPF;
     }
 
     public LocalDate getDataNascimento() {
@@ -86,8 +85,8 @@ public class Funcionario extends User  {
 
    
 
-    public void setNumCPF(String numCPF) {
-        this.numCPF = numCPF;
+    public void setNumCPF(String num_CPF) {
+        this.num_CPF = num_CPF;
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
