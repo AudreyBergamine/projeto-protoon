@@ -52,6 +52,7 @@ public class Funcionario extends User  {
     // @JoinColumn(name = "id_departamentoFK", referencedColumnName = "id_departamento")
     // private Departamento departamento;
     
+
     // Getters
     public Integer getIdFuncionario() {
         return getId();

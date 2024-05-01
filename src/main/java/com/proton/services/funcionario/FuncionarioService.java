@@ -8,7 +8,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.Funcionario;
+import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.repositories.FuncionarioRepository;
+import com.proton.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Component
 @Service
@@ -30,26 +35,28 @@ public class FuncionarioService {
         return repository.save(funcionario);
     }
 
-    public Funcionario update(Integer id, Funcionario funcionario) {
-        Optional<Funcionario> optionalFuncionario = repository.findById(id);
-        if (optionalFuncionario.isPresent()) {
-            Funcionario entity = optionalFuncionario.get();
-            updateData(entity, funcionario);
-            return repository.save(entity);
+  public Funcionario update(Integer id, Secretaria secretaria, Funcionario obj) {
+    try {
+        Funcionario entity = repository.getReferenceById(id); //instancia o usuário sem mexer no banco de dados
+        updateData(entity, secretaria, obj);
+        return repository.save(entity);
+    } catch (EntityNotFoundException e) { //
+            throw new ResourceNotFoundException(id);
         }
-        return null; // Retorna null se não encontrar o funcionário
-    }
+}
 
-    private void updateData(Funcionario entity, Funcionario funcionario) {
-        entity.setNome(funcionario.getNome());
-        entity.setNumCPF(funcionario.getNum_CPF());
-        entity.setDataNascimento(funcionario.getDataNascimento());
-        //entity.setDepartamento(funcionario.getDepartamento());
-        entity.setSecretaria(entity.getSecretaria());
-        entity.setSenha(funcionario.getSenha());
-        entity.setCelular(funcionario.getCelular());
-        entity.setNumTelefoneFixo(funcionario.getNumTelefoneFixo());
-        
-    }
+
+  private void updateData(Funcionario entity, Secretaria secretaria, Funcionario obj) {
+        entity.setNome(obj.getNome());
+        entity.setEmail(obj.getEmail());
+        entity.setRole(obj.getRole());
+        entity.setNumCPF(obj.getNum_CPF());
+        entity.setDataNascimento(obj.getData_nascimento());
+        entity.setCelular(obj.getCelular());
+        entity.setNumTelefoneFixo(obj.getNumTelefoneFixo());
+        entity.setEndereco(obj.getEndereco());
+        entity.setSecretaria(secretaria);
+
+     }
 
 }

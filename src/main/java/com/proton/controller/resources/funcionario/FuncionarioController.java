@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.Funcionario;
+import com.proton.models.entities.Secretaria;
 import com.proton.services.funcionario.FuncionarioService;
+import com.proton.services.seretaria.SecretariaService;
 import com.proton.services.user.AuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +31,8 @@ public class FuncionarioController { // Definição dos endpoints RESTful
     @Autowired
     private FuncionarioService service;
 
+    @Autowired
+    private SecretariaService secretariaService;
     @Autowired
     private AuthenticationService authenticationService;
 
@@ -58,15 +62,16 @@ public class FuncionarioController { // Definição dos endpoints RESTful
         return ResponseEntity.created(uri).body(obj);
     }
 
-    @PutMapping(value = "/bytoken")
-    public ResponseEntity<Funcionario> updateByToken(HttpServletRequest request, @RequestBody Funcionario obj){
-        Integer id = authenticationService.getUserIdFromToken(request);
-        obj = service.update(id, obj);
-        return ResponseEntity.ok(obj);
-    }
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Funcionario> updateById(@PathVariable Integer id, @RequestBody Funcionario obj){
-        obj = service.update(id, obj);
+    // @PutMapping(value = "/bytoken")
+    // public ResponseEntity<Funcionario> updateByToken(HttpServletRequest request, @RequestBody Funcionario obj){
+    //     Integer id = authenticationService.getUserIdFromToken(request);
+    //     obj = service.update(id, obj);
+    //     return ResponseEntity.ok(obj);
+    // }
+    @PutMapping(value = "/{id}/{idSec}")
+    public ResponseEntity<Funcionario> updateById(@PathVariable Integer id, @PathVariable Long idSec, @RequestBody Funcionario obj){
+        Secretaria secretaria = secretariaService.findById(idSec);
+        obj = service.update(id, secretaria, obj);
         return ResponseEntity.ok(obj);
     }
     
