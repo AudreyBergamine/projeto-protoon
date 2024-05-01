@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,13 +52,13 @@ public class ProtocoloController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @GetMapping(value = "/todos-protocolos")// Adicionando a anotação GetMapping para o método findAll
+    @GetMapping(value = "/todos-protocolos") // Adicionando a anotação GetMapping para o método findAll
     public ResponseEntity<List<Protocolo>> findAll() {
         List<Protocolo> list = protocoloService.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{numero_protocolo}") //Pesquisa por numero de protocolo
+    @GetMapping(value = "/{numero_protocolo}") // Pesquisa por numero de protocolo
     public ResponseEntity<Protocolo> findByNumeroProtocolo(@PathVariable String numero_protocolo) {
         Optional<Protocolo> protocoloOptional = protocoloRepository.findByNumeroProtocolo(numero_protocolo);
         if (protocoloOptional.isPresent()) {
@@ -68,7 +69,7 @@ public class ProtocoloController {
         }
     }
 
-    @GetMapping(value = "/pesquisar-municipe/{nomeMunicipe}") //Pesquisar pelo nome do municipe
+    @GetMapping(value = "/pesquisar-municipe/{nomeMunicipe}") // Pesquisar pelo nome do municipe
     public ResponseEntity<List<Protocolo>> findByNomeMunicipe(@PathVariable String nomeMunicipe) {
         List<Protocolo> protocolos = protocoloService.findByNomeMunicipe(nomeMunicipe);
         if (!protocolos.isEmpty()) {
@@ -78,15 +79,15 @@ public class ProtocoloController {
         }
     }
 
-    @GetMapping(value = "/pesquisar-id/{id}") //pesquisar pelo ID
+    @GetMapping(value = "/pesquisar-id/{id}") // pesquisar pelo ID
     public ResponseEntity<Protocolo> findById(@PathVariable Integer id) {
         Protocolo obj = protocoloService.findById(id);
         return ResponseEntity.ok().body(obj);// retorna UM protocolo
     }
 
-    @PostMapping(value = "/abrir-protocolos/{id_s}")
+    @PostMapping(value = "/abrir-protocolos/{id_s}") // Gera novos protocolos
     public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
-    HttpServletRequest request) {
+            HttpServletRequest request) {
         Integer id_m = authenticationService.getUserIdFromToken(request);
         Municipe mun = municipeRepository.getReferenceById(id_m);
         Secretaria sec = secretariaRepository.getReferenceById(id_s);
@@ -102,27 +103,30 @@ public class ProtocoloController {
         return ResponseEntity.created(uri).body(protocolo);
     }
 
-    @PutMapping("/alterar-protocolos/{numero_protocolo}")
+    @PutMapping("/alterar-protocolos/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
     public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
         Protocolo obj = protocoloService.update(numero_protocolo, protocolo);
         return ResponseEntity.ok(obj);
     }
 
-    @GetMapping(value = "/meus-protocolos/{municipeId}")// Pesquisa os protocolos do munipe logado
-    public ResponseEntity<List<Protocolo>> findByMunicipe(@PathVariable Integer municipeId) {
-        // Recupera o Municipe com base no ID
-        Optional<Municipe> municipeOptional = municipeRepository.findById(municipeId); // Optional pode voltar com o
-                                                                                       // valor do municipe ou não, e
-                                                                                       // evita o erro de estar null
-        if (municipeOptional.isPresent()) {
-            Municipe municipe = municipeOptional.get();
-            // Usa o municipe recuperado para buscar os protocolos
-            List<Protocolo> protocolos = protocoloService.findByMunicipe(municipe);
-            return ResponseEntity.ok().body(protocolos);// retorna VARIOS protocolos do MUNICIPE LOGADO
+    @GetMapping(value = "/meus-protocolos") // Pesquisa os protocolos do munipe logado
+    public ResponseEntity<List<Protocolo>> findByMunicipe(HttpServletRequest request) {
+        // Extração do ID do munícipe autenticado pelo TOKEN (Atualização para a segurança do site)
+        Integer municipeId = authenticationService.getUserIdFromToken(request);
+        // Validação para ver se o TOKEN foi recebido msm
+        if (municipeId != null) {
+            Optional<Municipe> municipeOptional = municipeRepository.findById(municipeId);
+            if (municipeOptional.isPresent()) {
+                Municipe municipe = municipeOptional.get();
+                // Usa o ID do municipe recuperado ali em cima para buscar os protocolos, igual antes
+                List<Protocolo> protocolos = protocoloService.findByMunicipe(municipe);
+                return ResponseEntity.ok().body(protocolos);// retorna VARIOS protocolos do MUNICIPE LOGADO
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
 
 }

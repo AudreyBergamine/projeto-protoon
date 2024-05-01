@@ -40,7 +40,7 @@ public class SecurityConfiguration {
         private static final String[] WHITE_LIST_URL = { "/protoon/auth/**",
                         // "/protoon/municipe/municipes",
                         // "/protoon/municipe/endereco",
-                        "/**",
+                        //"/**",
 
                         "/webjars/**",
                         "/swagger-ui.html" };
