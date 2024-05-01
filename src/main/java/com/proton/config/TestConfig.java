@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.proton.models.entities.Assunto;
 //import com.proton.models.entities.Departamento;
 import com.proton.models.entities.Endereco;
+import com.proton.models.entities.Funcionario;
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
 import com.proton.models.entities.municipe.Municipe;
@@ -135,6 +136,5 @@ public class TestConfig implements CommandLineRunner {
                 protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
                 assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
                 // departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
-
         }
 }

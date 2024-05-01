@@ -59,4 +59,28 @@ public class FuncionarioService {
 
      }
 
+     public Funcionario updateByToken(Integer id, Funcionario obj) {
+        try {
+            Funcionario entity = repository.getReferenceById(id); //instancia o usuário sem mexer no banco de dados
+            updateDataByToken(entity, obj);
+            return repository.save(entity);
+        } catch (EntityNotFoundException e) { //
+                throw new ResourceNotFoundException(id);
+            }
+    }
+    
+    
+      private void updateDataByToken(Funcionario entity, Funcionario obj) {
+            entity.setNome(obj.getNome());
+            entity.setEmail(obj.getEmail());
+            entity.setRole(obj.getRole());
+            entity.setNumCPF(obj.getNum_CPF());
+            entity.setDataNascimento(obj.getData_nascimento());
+            entity.setCelular(obj.getCelular());
+            entity.setNumTelefoneFixo(obj.getNumTelefoneFixo());
+            entity.setEndereco(obj.getEndereco());
+            entity.setSecretaria(obj.getSecretaria());
+    
+         }
+
 }
