@@ -45,12 +45,12 @@ public class MunicipeController {
         
     }
     
-    @GetMapping(value = "/bytoken") // A requisição vai aceitar um ID dentro do URL
-    public ResponseEntity<Municipe> findById(HttpServletRequest request) {
-        Integer id = authService.getUserIdFromToken(request);
-        Municipe obj = service.findById(id);
-        return ResponseEntity.ok().body(obj);
-    }
+    // @GetMapping(value = "/bytoken") // A requisição vai aceitar um ID dentro do URL
+    // public ResponseEntity<Municipe> findById(HttpServletRequest request) {
+    //     Integer id = authService.getUserIdFromToken(request);
+    //     Municipe obj = service.findById(id);
+    //     return ResponseEntity.ok().body(obj);
+    // }
 
     @GetMapping(value = "/{id}") // A requisição vai aceitar um ID dentro do URL
     public ResponseEntity<Municipe> findById(@PathVariable Integer id) {
