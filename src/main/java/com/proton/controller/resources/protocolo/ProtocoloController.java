@@ -107,21 +107,12 @@ public class ProtocoloController {
     public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Integer id_m, 
     @PathVariable Long id_s
             ) {
-        Municipe mun = municipeRepository.getReferenceById(id_m);
-        Secretaria sec = secretariaRepository.getReferenceById(id_s);
-        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
-        String numeroProtocolo = protocoloService.gerarNumeroProtocolo();
-        protocolo.setNumero_protocolo(numeroProtocolo);
-        protocolo.setMunicipe(mun);
-        protocolo.setEndereco(end);
-        protocolo.setSecretaria(sec);
-        protocoloRepository.save(protocolo);
+                
+            Protocolo prot = protocoloService.insert(protocolo, id_m, id_s);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(protocolo.getId_protocolo()).toUri();
-        return ResponseEntity.created(uri).body(protocolo);
+        return ResponseEntity.created(uri).body(prot);
     }
-
-    
 
     @PutMapping("/alterar-protocolos/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
     public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
@@ -148,7 +139,6 @@ public class ProtocoloController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
     @GetMapping(value = "/meus-protocolos/{id}") // Pesquisa os protocolos do munipe logado
     public ResponseEntity<List<Protocolo>> findByIdMunicipe(@PathVariable Integer id) {
         // Extração do ID do munícipe autenticado pelo TOKEN (Atualização para a segurança do site)

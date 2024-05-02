@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.proton.models.entities.Endereco;
 import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.Secretaria;
 // import com.proton.models.entities.Secretaria;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.repositories.EnderecoRepository;
+import com.proton.models.repositories.MunicipeRepository;
 // import com.proton.models.repositories.MunicipeRepository;
 //import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
@@ -34,7 +37,11 @@ public class ProtocoloService {
 	@Autowired
 	private MunicipeService municipeService;
 
-	
+	@Autowired
+	private MunicipeRepository municipeRepository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	 @Autowired
 	 private SecretariaRepository secretariaRepository;
@@ -61,6 +68,18 @@ public class ProtocoloService {
 	public Protocolo findByNumero_protocolo(String numero_protocolo) {
 		Optional<Protocolo> obj = protocoloRepository.findByNumeroProtocolo(numero_protocolo);
 		return obj.get();
+	}
+
+	public Protocolo insert(Protocolo protocolo, Integer id_m, Long id_s){
+		Municipe mun = municipeRepository.getReferenceById(id_m);
+        Secretaria sec = secretariaRepository.getReferenceById(id_s);
+        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
+        String numeroProtocolo =this.gerarNumeroProtocolo();
+        protocolo.setNumero_protocolo(numeroProtocolo);
+        protocolo.setMunicipe(mun);
+        protocolo.setEndereco(end);
+        protocolo.setSecretaria(sec);
+        return protocoloRepository.save(protocolo);
 	}
 
 	// Método para encontrar TODOS protocolos do MUNICIPE
@@ -101,22 +120,19 @@ public class ProtocoloService {
 
 	// }
 
-	@SuppressWarnings("unused")// Serve para parar de aportar o um erro especifico ksksks, mas nem é erro.
-	public String gerarNumeroProtocolo() {
-		String anoAtual = String.valueOf(LocalDate.now().getYear());
-		//TODO: tava dando erro no h2 na geração de numeros de protocolos, daí o GPT fez essa pra mim e resolveu... dps confere José por favor.
-		//String sql = "SELECT MAX(CAST(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1) AS UNSIGNED)) FROM Protocolo WHERE numero_protocolo LIKE ?";
-		String sql = "SELECT MAX(CAST(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1) AS INT)) FROM Protocolo WHERE numero_protocolo LIKE ?";
-		//Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
-		Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
-		if (ultimoNumero == null) {
-			return "001-" + anoAtual;
-		} else {
-			int proximoNumeroProtocolo = ultimoNumero + 1;
-			String novoNumeroProtocolo = String.format("%03d", proximoNumeroProtocolo);
-	
-			return novoNumeroProtocolo + "-" + anoAtual;
-		}
-	}
-	
+	@SuppressWarnings("unused") // Serve para parar de aportar o um erro especifico ksksks, mas nem é erro.
+public String gerarNumeroProtocolo() {
+    String anoAtual = String.valueOf(LocalDate.now().getYear());
+    String sql = "SELECT MAX(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1)) FROM Protocolo WHERE numero_protocolo LIKE ?";
+    Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
+    if (ultimoNumero == null) {
+        return "001-" + anoAtual;
+    } else {
+        int proximoNumeroProtocolo = ultimoNumero + 1;
+        String novoNumeroProtocolo = String.format("%03d", proximoNumeroProtocolo);
+
+        return novoNumeroProtocolo + "-" + anoAtual;
+    }
+}
+
 }

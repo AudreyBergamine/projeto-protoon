@@ -4,6 +4,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,23 +73,27 @@ public class AuthenticationController {
     return ResponseEntity.ok(authenticationResponse);
 }
 
-  @PostMapping("/authenticate")
-  public ResponseEntity<AuthenticationResponse> authenticate(
-      @RequestBody AuthenticationRequest request,
-      HttpServletResponse httpResponse
-  ) {
-      AuthenticationResponse authenticationResponse = service.authenticate(request);
-  
-      // Set the access token as an HttpOnly cookie in the response
-     Cookie tokenCookie = new Cookie("token", authenticationResponse.getAccessToken());
-     tokenCookie.setHttpOnly(true); // Set HttpOnly flag
-     tokenCookie.setPath("/"); // Set cookie path as needed
-     httpResponse.addCookie(tokenCookie);
-  
-      // Optionally, you can also set the refresh token as a separate HttpOnly cookie if needed
-  
-      return ResponseEntity.ok(authenticationResponse);
-  }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request,
+            HttpServletResponse httpResponse
+    ) {
+        AuthenticationResponse authenticationResponse = service.authenticate(request);
+
+        // Criar o cookie manualmente e adicionar os atributos SameSite e Secure
+        ResponseCookie cookie = ResponseCookie.from("token", authenticationResponse.getAccessToken())
+                .httpOnly(true)
+                .path("/")
+                .sameSite("Lax")
+                .secure(true)
+                .build();
+
+        // Adicionar o cookie na resposta HTTP
+        httpResponse.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return ResponseEntity.ok(authenticationResponse);
+    }
 
   @PostMapping("/refresh-token")
   public void refreshToken(
