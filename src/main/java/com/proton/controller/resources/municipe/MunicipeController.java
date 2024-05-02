@@ -50,6 +50,12 @@ public class MunicipeController {
         Municipe obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+    
+    @GetMapping(value = "/{id}") // A requisição vai aceitar um ID dentro do URL
+    public ResponseEntity<Municipe> findById(@PathVariable Integer id) {
+        Municipe obj = service.findById(id);
+        return ResponseEntity.ok().body(obj);
+    }
 
     // Método que responde á requisição do tipo POST do HTTP
     @PostMapping
@@ -74,6 +80,7 @@ public class MunicipeController {
         obj = service.update(id, obj);
         return ResponseEntity.ok(obj);
     }
+
 
     @GetMapping(value = "/protocolos/{id}")
     public ResponseEntity<List<Protocolo>> findProtocolosByMunicipeId(@PathVariable Integer id){

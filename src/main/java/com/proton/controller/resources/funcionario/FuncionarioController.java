@@ -17,10 +17,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.Funcionario;
 import com.proton.models.entities.Secretaria;
+import com.proton.services.exceptions.ResourceNotFoundException;
 import com.proton.services.funcionario.FuncionarioService;
 import com.proton.services.seretaria.SecretariaService;
 import com.proton.services.user.AuthenticationService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -51,8 +53,14 @@ public class FuncionarioController { // Definição dos endpoints RESTful
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Funcionario> findById(@PathVariable Integer id){
-        Funcionario obj = service.findById(id);
-        return ResponseEntity.ok().body(obj);
+        try {
+            Funcionario obj = service.findById(id);
+            return ResponseEntity.ok().body(obj);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+			throw new ResourceNotFoundException(id);
+        }
+   
     }
 
     @PostMapping

@@ -86,7 +86,7 @@ public class ProtocoloController {
     }
 
     @PostMapping(value = "/abrir-protocolos/{id_s}") // Gera novos protocolos
-    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
+    public ResponseEntity<Protocolo> insertByToken(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
             HttpServletRequest request) {
         Integer id_m = authenticationService.getUserIdFromToken(request);
         Municipe mun = municipeRepository.getReferenceById(id_m);
@@ -102,6 +102,26 @@ public class ProtocoloController {
                 .buildAndExpand(protocolo.getId_protocolo()).toUri();
         return ResponseEntity.created(uri).body(protocolo);
     }
+
+    @PostMapping(value = "/abrir-protocolos/{id_m}/{id_s}") // Gera novos protocolos
+    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Integer id_m, 
+    @PathVariable Long id_s
+            ) {
+        Municipe mun = municipeRepository.getReferenceById(id_m);
+        Secretaria sec = secretariaRepository.getReferenceById(id_s);
+        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
+        String numeroProtocolo = protocoloService.gerarNumeroProtocolo();
+        protocolo.setNumero_protocolo(numeroProtocolo);
+        protocolo.setMunicipe(mun);
+        protocolo.setEndereco(end);
+        protocolo.setSecretaria(sec);
+        protocoloRepository.save(protocolo);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(protocolo.getId_protocolo()).toUri();
+        return ResponseEntity.created(uri).body(protocolo);
+    }
+
+    
 
     @PutMapping("/alterar-protocolos/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
     public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
