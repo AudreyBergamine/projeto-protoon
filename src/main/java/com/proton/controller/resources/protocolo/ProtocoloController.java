@@ -149,4 +149,23 @@ public class ProtocoloController {
         }
     }
 
+    @GetMapping(value = "/meus-protocolos/{id}") // Pesquisa os protocolos do munipe logado
+    public ResponseEntity<List<Protocolo>> findByIdMunicipe(@PathVariable Integer id) {
+        // Extração do ID do munícipe autenticado pelo TOKEN (Atualização para a segurança do site)
+        // Validação para ver se o TOKEN foi recebido msm
+        if (id != null) {
+            Optional<Municipe> municipeOptional = municipeRepository.findById(id);
+            if (municipeOptional.isPresent()) {
+                Municipe municipe = municipeOptional.get();
+                // Usa o ID do municipe recuperado ali em cima para buscar os protocolos, igual antes
+                List<Protocolo> protocolos = protocoloService.findByMunicipe(municipe);
+                return ResponseEntity.ok().body(protocolos);// retorna VARIOS protocolos do MUNICIPE LOGADO
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 }
