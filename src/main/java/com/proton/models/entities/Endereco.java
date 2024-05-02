@@ -40,7 +40,7 @@ public class Endereco implements Serializable{
     @Column(name = "logradouro", nullable = false)
     private String logradouro; 
 
-    @Column(name = "nome_endereco", nullable = false)
+    @Column(name = "nome_endereco", nullable = true)
     private String nome_endereco; 
 
     @Column(name = "num_endereco", nullable = false)
