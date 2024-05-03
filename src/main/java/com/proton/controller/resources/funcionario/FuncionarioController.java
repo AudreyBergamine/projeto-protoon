@@ -83,6 +83,15 @@ public class FuncionarioController { // Definição dos endpoints RESTful
         return ResponseEntity.ok(obj);
     }
 
+    @PutMapping(value = "/bytoken/{idSec}")
+    public ResponseEntity<Funcionario> updateById(HttpServletRequest request, @PathVariable Long idSec, @RequestBody Funcionario obj){
+        Integer id = authenticationService.getUserIdFromToken(request);
+        Secretaria secretaria = secretariaService.findById(idSec);
+        obj = service.update(id, secretaria, obj);
+        return ResponseEntity.ok(obj);
+    }
+    
+
     @PutMapping(value = "/bytoken")
     public ResponseEntity<Funcionario> updateByToken(HttpServletRequest request, @RequestBody Funcionario obj){
         Integer id = authenticationService.getUserIdFromToken(request);

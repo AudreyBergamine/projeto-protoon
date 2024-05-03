@@ -139,10 +139,11 @@ public class ProtocoloController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-    @GetMapping(value = "/meus-protocolos/{id}") // Pesquisa os protocolos do munipe logado
-    public ResponseEntity<List<Protocolo>> findByIdMunicipe(@PathVariable Integer id) {
+    @GetMapping(value = "/meus-protocolos/bytoken") // Pesquisa os protocolos do munipe logado
+    public ResponseEntity<List<Protocolo>> findByIdMunicipe(HttpServletRequest request) {
         // Extração do ID do munícipe autenticado pelo TOKEN (Atualização para a segurança do site)
         // Validação para ver se o TOKEN foi recebido msm
+        Integer id = authenticationService.getUserIdFromToken(request);
         if (id != null) {
             Optional<Municipe> municipeOptional = municipeRepository.findById(id);
             if (municipeOptional.isPresent()) {

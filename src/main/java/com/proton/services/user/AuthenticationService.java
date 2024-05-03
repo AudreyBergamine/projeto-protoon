@@ -262,14 +262,10 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
   }
 
   public Integer getUserIdFromToken(HttpServletRequest request) {
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null) {
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                return jwtService.getUserIdFromToken(token);
-            }
-        }
+    String authorizationHeader = request.getHeader("Authorization");
+    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        String token = authorizationHeader.substring(7); // Remove "Bearer " prefix
+        return jwtService.getUserIdFromToken(token);
     }
     return 0;
 }

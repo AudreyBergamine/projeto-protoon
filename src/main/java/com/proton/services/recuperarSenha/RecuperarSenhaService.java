@@ -67,7 +67,6 @@ public class RecuperarSenhaService {
                 return "Falha ao enviar o email!";
             }
         }
-        System.out.println("Email não encontrado!");
         return "Email não encontrado!";
     }
 
