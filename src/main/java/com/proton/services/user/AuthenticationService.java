@@ -169,8 +169,10 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
 //Caso seja capturado o erro de IntegrityViolation (unique), do banco de dados, ele será enviado de forma personalizada
   } catch (DataIntegrityViolationException e) {
     String message = e.getMessage(); //Pega a mensagem de erro
+    System.out.println(message);
     String fieldName = extractFieldName(message); //Pega a mensagem contendo a coluna que deu erro no banco de dados.
     if (fieldName != null) {
+      System.out.println("FIELD NAME: \n\n\n\n\n"+fieldName);
         if (fieldName.contains("EMAIL")) {
             throw new ConstraintException("O email já está em uso.");
         } else if (fieldName.contains("NUM_CPF")) {
@@ -275,13 +277,13 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
 private String extractFieldName(String errorMessage) {
 
   //Cria um padrão da mensagem de erro, para ser delimitado
-  Pattern pattern = Pattern.compile("ON PUBLIC\\.MUNICIPE\\((.*?) ");
+  Pattern pattern = Pattern.compile("ON PUBLIC\\.(MUNICIPE|FUNCIONARIO)\\((.*?) ");
   //Verifica se o padrão foi encontrado e deliita a mensagem (remove mensagens que não tem haver com o padrão acima)
   Matcher matcher = pattern.matcher(errorMessage);
   
   //Se o padrão for encontrado e bater, retorna a String correpondente (no caso é email ou CPF)
   if (matcher.find()) {
-      return matcher.group(1);
+      return matcher.group(2);
   } else {
       return null;
   }

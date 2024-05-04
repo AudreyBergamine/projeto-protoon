@@ -25,7 +25,7 @@ public class RegisterValidationService {
             throw new InvalidFieldsException("Senha", "A senha deve conter ao menos 6 caracteries ou mais"); 
         }
         else if(registerRequestMunicipe.getNum_CPF().length() != 14){
-            throw new InvalidFieldsException("CPF", "O CPF deve conter 11 dígitos"); 
+            throw new InvalidFieldsException("CPF", "O CPF deve conter 14 caracteries"); 
         }
     }
 
