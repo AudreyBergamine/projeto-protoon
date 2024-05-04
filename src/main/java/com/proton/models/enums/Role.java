@@ -1,34 +1,34 @@
-package com.proton.models.entities.roles;
+package com.proton.models.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import static com.proton.models.enums.Permission.ADMIN_CREATE;
+import static com.proton.models.enums.Permission.ADMIN_DELETE;
+import static com.proton.models.enums.Permission.ADMIN_READ;
+import static com.proton.models.enums.Permission.ADMIN_UPDATE;
+import static com.proton.models.enums.Permission.COORDENADOR_CREATE;
+import static com.proton.models.enums.Permission.COORDENADOR_DELETE;
+import static com.proton.models.enums.Permission.COORDENADOR_READ;
+import static com.proton.models.enums.Permission.COORDENADOR_UPDATE;
+import static com.proton.models.enums.Permission.FUNCIONARIO_CREATE;
+import static com.proton.models.enums.Permission.FUNCIONARIO_DELETE;
+import static com.proton.models.enums.Permission.FUNCIONARIO_READ;
+import static com.proton.models.enums.Permission.FUNCIONARIO_UPDATE;
+import static com.proton.models.enums.Permission.MUNICIPE_CREATE;
+import static com.proton.models.enums.Permission.MUNICIPE_DELETE;
+import static com.proton.models.enums.Permission.MUNICIPE_READ;
+import static com.proton.models.enums.Permission.MUNICIPE_UPDATE;
+import static com.proton.models.enums.Permission.SECRETARIO_CREATE;
+import static com.proton.models.enums.Permission.SECRETARIO_DELETE;
+import static com.proton.models.enums.Permission.SECRETARIO_READ;
+import static com.proton.models.enums.Permission.SECRETARIO_UPDATE;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.proton.models.entities.roles.Permission.ADMIN_CREATE;
-import static com.proton.models.entities.roles.Permission.ADMIN_DELETE;
-import static com.proton.models.entities.roles.Permission.ADMIN_READ;
-import static com.proton.models.entities.roles.Permission.ADMIN_UPDATE;
-import static com.proton.models.entities.roles.Permission.COORDENADOR_CREATE;
-import static com.proton.models.entities.roles.Permission.COORDENADOR_DELETE;
-import static com.proton.models.entities.roles.Permission.COORDENADOR_READ;
-import static com.proton.models.entities.roles.Permission.COORDENADOR_UPDATE;
-import static com.proton.models.entities.roles.Permission.MUNICIPE_CREATE;
-import static com.proton.models.entities.roles.Permission.MUNICIPE_DELETE;
-import static com.proton.models.entities.roles.Permission.MUNICIPE_READ;
-import static com.proton.models.entities.roles.Permission.MUNICIPE_UPDATE;
-import static com.proton.models.entities.roles.Permission.SECRETARIO_CREATE;
-import static com.proton.models.entities.roles.Permission.SECRETARIO_DELETE;
-import static com.proton.models.entities.roles.Permission.SECRETARIO_READ;
-import static com.proton.models.entities.roles.Permission.SECRETARIO_UPDATE;
-import static com.proton.models.entities.roles.Permission.FUNCIONARIO_UPDATE;
-import static com.proton.models.entities.roles.Permission.FUNCIONARIO_READ;
-import static com.proton.models.entities.roles.Permission.FUNCIONARIO_CREATE;
-import static com.proton.models.entities.roles.Permission.FUNCIONARIO_DELETE;
 
 
 

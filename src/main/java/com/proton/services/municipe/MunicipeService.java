@@ -1,5 +1,7 @@
 package com.proton.services.municipe;
 
+import static com.proton.models.enums.Role.MUNICIPE;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -7,14 +9,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.proton.models.entities.Endereco;
+import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
-
-import static com.proton.models.entities.roles.Role.MUNICIPE;
 
 
 @Component

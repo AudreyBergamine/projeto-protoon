@@ -1,6 +1,8 @@
-package com.proton.models.entities;
+package com.proton.models.entities.assunto;
 
 import java.io.Serializable;
+
+import com.proton.models.entities.secretaria.Secretaria;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

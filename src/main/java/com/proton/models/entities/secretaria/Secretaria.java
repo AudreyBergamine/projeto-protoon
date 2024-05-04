@@ -1,4 +1,4 @@
-package com.proton.models.entities;
+package com.proton.models.entities.secretaria;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.proton.models.entities.endereco.Endereco;
+import com.proton.models.entities.funcionario.Funcionario;
+import com.proton.models.entities.protocolo.Protocolo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

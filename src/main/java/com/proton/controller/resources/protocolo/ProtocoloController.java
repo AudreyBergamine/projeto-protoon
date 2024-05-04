@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.proton.models.entities.Endereco;
-import com.proton.models.entities.Protocolo;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.protocolo.Protocolo;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.EnderecoRepository;

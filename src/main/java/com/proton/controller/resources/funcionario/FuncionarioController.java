@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.proton.models.entities.Funcionario;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.funcionario.Funcionario;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.services.exceptions.ResourceNotFoundException;
 import com.proton.services.funcionario.FuncionarioService;
 import com.proton.services.seretaria.SecretariaService;

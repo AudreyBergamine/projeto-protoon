@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.proton.models.entities.Protocolo;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.services.municipe.MunicipeService;
 import com.proton.services.user.AuthenticationService;
 

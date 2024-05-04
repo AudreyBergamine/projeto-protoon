@@ -8,8 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.proton.models.entities.Assunto;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.assunto.Assunto;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.AssuntoRepository;
 import com.proton.models.repositories.SecretariaRepository;
 

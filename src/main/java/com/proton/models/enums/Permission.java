@@ -1,4 +1,4 @@
-package com.proton.models.entities.roles;
+package com.proton.models.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

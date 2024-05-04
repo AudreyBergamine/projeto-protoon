@@ -1,8 +1,9 @@
-package com.proton.models.entities;
+package com.proton.models.entities.endereco;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
 
 import jakarta.persistence.Column;

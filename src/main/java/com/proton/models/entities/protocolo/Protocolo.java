@@ -1,12 +1,12 @@
-package com.proton.models.entities;
+package com.proton.models.entities.protocolo;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-
-
+import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.enums.Status;
 
 import jakarta.persistence.Column;

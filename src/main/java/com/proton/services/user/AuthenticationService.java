@@ -16,10 +16,9 @@ import com.proton.controller.resources.auth.AuthenticationResponse;
 import com.proton.controller.resources.auth.requests.RegisterRequest;
 import com.proton.controller.resources.auth.requests.RegisterRequestFuncionario;
 import com.proton.controller.resources.auth.requests.RegisterRequestMunicipe;
-//import com.proton.models.entities.Departamento;
-import com.proton.models.entities.Funcionario;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.entities.user.User;
 import com.proton.models.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,8 +39,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
-import static com.proton.models.entities.roles.Role.FUNCIONARIO;
-import static com.proton.models.entities.roles.Role.MUNICIPE;
+import static com.proton.models.enums.Role.FUNCIONARIO;
+import static com.proton.models.enums.Role.MUNICIPE;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

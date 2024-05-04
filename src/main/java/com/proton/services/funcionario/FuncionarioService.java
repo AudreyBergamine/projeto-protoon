@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.proton.models.entities.Funcionario;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.FuncionarioRepository;
 import com.proton.services.exceptions.ResourceNotFoundException;
 

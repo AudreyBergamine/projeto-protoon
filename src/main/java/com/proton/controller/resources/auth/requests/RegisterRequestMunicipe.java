@@ -2,7 +2,8 @@ package com.proton.controller.resources.auth.requests;
 
 import java.time.LocalDate;
 
-import com.proton.models.entities.Endereco;
+import com.proton.models.entities.endereco.Endereco;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
