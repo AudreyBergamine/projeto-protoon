@@ -3,7 +3,7 @@ package com.proton.models.enums;
 public enum Status {
     EM_ANDAMENTO(1, "Pagamento Pendente"),
     CIENCIA(2, "Ciência"), // Poderia ser "Em Análise?????? "
-    CIENCIA_ENTREGA(3, "Ciência e entrega"),
+    CIENCIA_ENTREGA(3, "Ciência e entrega"), // Poderia ser "Em Análise e Entrega?????? "
     CONCLUIDO(4, "Concluído");
 
     private final int id; //private final, para não ser alterado
