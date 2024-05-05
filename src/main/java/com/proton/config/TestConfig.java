@@ -116,7 +116,7 @@ public class TestConfig implements CommandLineRunner {
                                 "Descrição do protocolo", Status.CIENCIA, 100.0, "001-2024");
 
                 Protocolo prot2 = new Protocolo(null, sec2, mun2, end3, "Outro assunto", new Date(), "Outra descrição",
-                                Status.EM_ANDAMENTO,
+                                Status.PAGAMENTO_PENDENTE,
                                 150.0, "002-2024");
 
                 Protocolo prot3 = new Protocolo(null, sec2, mun2, end3, "Teste", new Date(), "teste", Status.CONCLUIDO,
