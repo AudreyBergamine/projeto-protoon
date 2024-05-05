@@ -1,7 +1,7 @@
 package com.proton.models.enums;
 
 public enum Status {
-    EM_ANDAMENTO(1, "Em andamento"),
+    EM_ANDAMENTO(1, "Pagamento Pendente"),
     CIENCIA(2, "Ciência"),
     CIENCIA_ENTREGA(3, "Ciência e entrega"),
     CONCLUIDO(4, "Concluído");
