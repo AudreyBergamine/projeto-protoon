@@ -1,8 +1,8 @@
 package com.proton.models.entities.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.proton.models.entities.roles.Role;
 import com.proton.models.entities.token.Token;
+import com.proton.models.enums.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

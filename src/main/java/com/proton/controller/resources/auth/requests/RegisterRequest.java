@@ -1,6 +1,7 @@
 package com.proton.controller.resources.auth.requests;
 
-import com.proton.models.entities.roles.Role;
+import com.proton.models.enums.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

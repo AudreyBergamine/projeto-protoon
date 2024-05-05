@@ -12,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.proton.models.entities.RecuperarSenha;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.recuper_senha.RecuperarSenha;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.RecuperarSenhaRepository;
 import com.proton.services.email.EmailService;

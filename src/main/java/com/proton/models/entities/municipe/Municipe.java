@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.proton.models.entities.Endereco;
-import com.proton.models.entities.Protocolo;
+import com.proton.models.entities.endereco.Endereco;
+import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.user.User;
 
 import jakarta.persistence.CascadeType;

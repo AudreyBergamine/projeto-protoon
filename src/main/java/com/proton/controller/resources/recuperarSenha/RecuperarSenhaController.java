@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.proton.models.entities.RecuperarSenha;
+import com.proton.models.entities.recuper_senha.RecuperarSenha;
 import com.proton.services.recuperarSenha.RecuperarSenhaService;
 
 @RestController

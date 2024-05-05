@@ -1,4 +1,4 @@
-package com.proton.models.entities;
+package com.proton.models.entities.recuper_senha;
 
 import java.util.Date;
 

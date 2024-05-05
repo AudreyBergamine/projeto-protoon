@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.proton.models.entities.Endereco;
+import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.repositories.EnderecoRepository;
 
 @Component

@@ -1,8 +1,10 @@
-package com.proton.models.entities;
+package com.proton.models.entities.funcionario;
 
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.proton.models.entities.endereco.Endereco;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.entities.user.User;
 
 import jakarta.persistence.CascadeType;

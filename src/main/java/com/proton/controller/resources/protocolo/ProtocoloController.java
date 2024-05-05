@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.proton.models.entities.Endereco;
-import com.proton.models.entities.Protocolo;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.protocolo.Protocolo;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.EnderecoRepository;
@@ -86,7 +86,7 @@ public class ProtocoloController {
     }
 
     @PostMapping(value = "/abrir-protocolos/{id_s}") // Gera novos protocolos
-    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
+    public ResponseEntity<Protocolo> insertByToken(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
             HttpServletRequest request) {
         Integer id_m = authenticationService.getUserIdFromToken(request);
         Municipe mun = municipeRepository.getReferenceById(id_m);
@@ -103,6 +103,17 @@ public class ProtocoloController {
         return ResponseEntity.created(uri).body(protocolo);
     }
 
+    @PostMapping(value = "/abrir-protocolos/{id_m}/{id_s}") // Gera novos protocolos
+    public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Integer id_m, 
+    @PathVariable Long id_s
+            ) {
+                
+            Protocolo prot = protocoloService.insert(protocolo, id_m, id_s);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(protocolo.getId_protocolo()).toUri();
+        return ResponseEntity.created(uri).body(prot);
+    }
+
     @PutMapping("/alterar-protocolos/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
     public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
         Protocolo obj = protocoloService.update(numero_protocolo, protocolo);
@@ -116,6 +127,25 @@ public class ProtocoloController {
         // Validação para ver se o TOKEN foi recebido msm
         if (municipeId != null) {
             Optional<Municipe> municipeOptional = municipeRepository.findById(municipeId);
+            if (municipeOptional.isPresent()) {
+                Municipe municipe = municipeOptional.get();
+                // Usa o ID do municipe recuperado ali em cima para buscar os protocolos, igual antes
+                List<Protocolo> protocolos = protocoloService.findByMunicipe(municipe);
+                return ResponseEntity.ok().body(protocolos);// retorna VARIOS protocolos do MUNICIPE LOGADO
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @GetMapping(value = "/meus-protocolos/bytoken") // Pesquisa os protocolos do munipe logado
+    public ResponseEntity<List<Protocolo>> findByIdMunicipe(HttpServletRequest request) {
+        // Extração do ID do munícipe autenticado pelo TOKEN (Atualização para a segurança do site)
+        // Validação para ver se o TOKEN foi recebido msm
+        Integer id = authenticationService.getUserIdFromToken(request);
+        if (id != null) {
+            Optional<Municipe> municipeOptional = municipeRepository.findById(id);
             if (municipeOptional.isPresent()) {
                 Municipe municipe = municipeOptional.get();
                 // Usa o ID do municipe recuperado ali em cima para buscar os protocolos, igual antes

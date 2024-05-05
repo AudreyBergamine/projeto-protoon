@@ -16,10 +16,9 @@ import com.proton.controller.resources.auth.AuthenticationResponse;
 import com.proton.controller.resources.auth.requests.RegisterRequest;
 import com.proton.controller.resources.auth.requests.RegisterRequestFuncionario;
 import com.proton.controller.resources.auth.requests.RegisterRequestMunicipe;
-//import com.proton.models.entities.Departamento;
-import com.proton.models.entities.Funcionario;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.entities.user.User;
 import com.proton.models.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,8 +39,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
-import static com.proton.models.entities.roles.Role.FUNCIONARIO;
-import static com.proton.models.entities.roles.Role.MUNICIPE;
+import static com.proton.models.enums.Role.FUNCIONARIO;
+import static com.proton.models.enums.Role.MUNICIPE;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -170,8 +169,10 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
 //Caso seja capturado o erro de IntegrityViolation (unique), do banco de dados, ele será enviado de forma personalizada
   } catch (DataIntegrityViolationException e) {
     String message = e.getMessage(); //Pega a mensagem de erro
+    System.out.println(message);
     String fieldName = extractFieldName(message); //Pega a mensagem contendo a coluna que deu erro no banco de dados.
     if (fieldName != null) {
+      System.out.println("FIELD NAME: \n\n\n\n\n"+fieldName);
         if (fieldName.contains("EMAIL")) {
             throw new ConstraintException("O email já está em uso.");
         } else if (fieldName.contains("NUM_CPF")) {
@@ -262,14 +263,10 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
   }
 
   public Integer getUserIdFromToken(HttpServletRequest request) {
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null) {
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                return jwtService.getUserIdFromToken(token);
-            }
-        }
+    String authorizationHeader = request.getHeader("Authorization");
+    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        String token = authorizationHeader.substring(7); // Remove "Bearer " prefix
+        return jwtService.getUserIdFromToken(token);
     }
     return 0;
 }
@@ -280,13 +277,13 @@ public AuthenticationResponse registerFuncionario(RegisterRequestFuncionario req
 private String extractFieldName(String errorMessage) {
 
   //Cria um padrão da mensagem de erro, para ser delimitado
-  Pattern pattern = Pattern.compile("ON PUBLIC\\.MUNICIPE\\((.*?) ");
+  Pattern pattern = Pattern.compile("ON PUBLIC\\.(MUNICIPE|FUNCIONARIO)\\((.*?) ");
   //Verifica se o padrão foi encontrado e deliita a mensagem (remove mensagens que não tem haver com o padrão acima)
   Matcher matcher = pattern.matcher(errorMessage);
   
   //Se o padrão for encontrado e bater, retorna a String correpondente (no caso é email ou CPF)
   if (matcher.find()) {
-      return matcher.group(1);
+      return matcher.group(2);
   } else {
       return null;
   }

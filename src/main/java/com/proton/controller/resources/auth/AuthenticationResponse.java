@@ -1,7 +1,7 @@
 package com.proton.controller.resources.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.proton.models.entities.roles.Role;
+import com.proton.models.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

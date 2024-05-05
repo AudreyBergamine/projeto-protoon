@@ -2,10 +2,9 @@ package com.proton.controller.resources.auth.requests;
 
 import java.time.LocalDate;
 
-//import com.proton.models.entities.Departamento;
-import com.proton.models.entities.Endereco;
-import com.proton.models.entities.Secretaria;
-import com.proton.models.entities.roles.Role;
+import com.proton.models.entities.endereco.Endereco;
+import com.proton.models.entities.secretaria.Secretaria;
+import com.proton.models.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

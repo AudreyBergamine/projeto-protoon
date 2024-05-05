@@ -1,3 +1,4 @@
+package com.proton.models.entities.departamento;
 // package com.proton.models.entities;
 
 // import java.io.Serializable;

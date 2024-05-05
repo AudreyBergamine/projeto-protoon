@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.proton.models.entities.Protocolo;
-import com.proton.models.entities.Secretaria;
+import com.proton.models.entities.protocolo.Protocolo;
+import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.services.seretaria.SecretariaService;
 
 @RestController

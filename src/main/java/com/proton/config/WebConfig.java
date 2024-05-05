@@ -11,11 +11,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Permitir solicitações de todas as origens
-                .allowedOrigins("http://localhost:3000", "https://proto-on.vercel.app/") // Permitir solicitações apenas de http://localhost:3000
-                .allowedOrigins("http://localhost:3000", "https://thankful-coast-0bf9e7a0f.5.azurestaticapps.net") // Permitir solicitações apenas de http://localhost:3000
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Permitir métodos específicos
-                .allowedHeaders("*") // Permitir todos os headers
-                .allowCredentials(true); // Permitir credenciais
+        registry.addMapping("/**")
+            .allowedOrigins("http://localhost:3000", "https://projeto-protoon-front.vercel.app/", "https://proto-on-beta.vercel.app/",
+            "https://main--resonant-rugelach-e9d9de.netlify.app")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Adicionando suporte para o método OPTIONS
+            .allowedHeaders("*")
+            .allowCredentials(true)
+            .maxAge(3600); // Definindo o tempo de vida do preflight request para 1 hora
     }
 }
