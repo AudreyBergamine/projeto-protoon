@@ -19,7 +19,7 @@ import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.services.exceptions.ResourceNotFoundException;
 import com.proton.services.funcionario.FuncionarioService;
-import com.proton.services.seretaria.SecretariaService;
+import com.proton.services.secretaria.SecretariaService;
 import com.proton.services.user.AuthenticationService;
 
 import jakarta.persistence.EntityNotFoundException;

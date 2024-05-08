@@ -12,7 +12,9 @@ import com.proton.models.entities.protocolo.Devolutiva;
 @Repository
 public interface DevolutivaRepository extends JpaRepository<Devolutiva, Integer> {
 
-    @Query("SELECT p FROM Protocolo p WHERE p.id_protocolo = :idProtocolo")
-    List<Devolutiva> findByIdProtocolo(@Param("idProtocolo") int idProtocolo);
+    @Query("SELECT d FROM Devolutiva d WHERE d.id_protocolo.id = :idProtocolo")
+    List<Devolutiva> findByIdProtocolo(Integer idProtocolo);
+    
 }
+
 

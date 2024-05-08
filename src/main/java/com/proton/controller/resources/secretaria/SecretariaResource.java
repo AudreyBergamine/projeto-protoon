@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
-import com.proton.services.seretaria.SecretariaService;
+import com.proton.services.secretaria.SecretariaService;
 
 @RestController
 @RequestMapping(value = "protoon/secretaria")

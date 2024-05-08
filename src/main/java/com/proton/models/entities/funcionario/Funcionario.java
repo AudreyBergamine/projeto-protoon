@@ -33,9 +33,6 @@ public class Funcionario extends User  {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate data_nascimento;
 
-
-   
-
     @Column(name = "celular", nullable = false)
     private String celular;
 

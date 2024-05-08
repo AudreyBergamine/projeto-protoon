@@ -1,5 +1,5 @@
 //SERVICE LAYER (RESOURCER -->SERVICE LAYER(AQUI) --> REPOSITORY
-package com.proton.services.seretaria;
+package com.proton.services.secretaria;
 
 import java.util.List;
 import java.util.Optional;

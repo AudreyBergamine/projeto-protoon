@@ -1,6 +1,7 @@
 package com.proton.controller.resources.protocolo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.protocolo.Devolutiva;
+import com.proton.models.repositories.FuncionarioRepository;
 import com.proton.services.protocolo.DevolutivaService;
 import com.proton.services.user.AuthenticationService;
 
@@ -24,6 +27,9 @@ public class DevolutivaController {
 
     @Autowired
     private DevolutivaService devolutivaService;
+
+    @Autowired
+    private FuncionarioRepository fun;
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -54,8 +60,9 @@ public class DevolutivaController {
             HttpServletRequest request) {
         // Extração do ID do funcionário autenticado pelo TOKEN
         Integer id_funcionario = authenticationService.getUserIdFromToken(request);
+        Long id_secretaria = fun.findBySecretaria(id_funcionario);
         if (id_funcionario != null) {
-            Devolutiva insertDevolutiva = devolutivaService.insert(devolutiva, id_funcionario, id_Protocolo);
+            Devolutiva insertDevolutiva = devolutivaService.insert(devolutiva, id_funcionario, id_Protocolo, id_secretaria);
             return ResponseEntity.status(HttpStatus.CREATED).body(insertDevolutiva);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -65,6 +72,7 @@ public class DevolutivaController {
     @GetMapping("/devolutiva-protocolo/{id_protocolo}") // retorna todas as devoluções de um protocolo, TODO organizar esse retorno.
     public ResponseEntity<List<Devolutiva>> findDevolutivasByProtocolo(@PathVariable int id_protocolo) {
         List<Devolutiva> devolutivas = devolutivaService.findByIdProtocolo(id_protocolo);
+        System.out.println("VALOR AQUI: " + devolutivas);
         if (devolutivas.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

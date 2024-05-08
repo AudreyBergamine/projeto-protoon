@@ -41,6 +41,8 @@ public class Devolutiva implements Serializable {
     @JoinColumn(name = "id_protocoloFK", referencedColumnName = "id_protocolo")
     private Protocolo id_protocolo;
 
+    @ManyToOne
+    @JsonIgnoreProperties({"nome_secretaria", "nome_responsavel", "email", "senha", "endereco"})
     @JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
     private Secretaria id_secretaria;
 
