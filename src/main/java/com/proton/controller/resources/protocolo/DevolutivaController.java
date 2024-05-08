@@ -14,13 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proton.models.entities.protocolo.Devolutiva;
 import com.proton.services.protocolo.DevolutivaService;
+import com.proton.services.user.AuthenticationService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(value = "/protoon/devolutivas")
+@RequestMapping(value = "/protoon/devolutiva")
 public class DevolutivaController {
 
     @Autowired
     private DevolutivaService devolutivaService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @GetMapping
     public ResponseEntity<List<Devolutiva>> findAll() {
@@ -33,7 +39,7 @@ public class DevolutivaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Devolutiva> getDevolutivaById(@PathVariable Integer id) {
+    public ResponseEntity<Devolutiva> findDevolutivaById(@PathVariable Integer id) {
         Devolutiva devolutiva = devolutivaService.findById(id);
         if (devolutiva != null) {
             return ResponseEntity.ok(devolutiva);
@@ -42,16 +48,26 @@ public class DevolutivaController {
         }
     }
 
-    @PostMapping(value = "/criar-devolutiva/{idFuncionario}/{idProtocolo}")
+    @PostMapping(value = "/criar-devolutiva/{id_Protocolo}")
     public ResponseEntity<Devolutiva> insertDevolutiva(@RequestBody Devolutiva devolutiva,
-            @PathVariable Integer idFuncionario,
-            @PathVariable Integer idProtocolo) {
-        Devolutiva insertedDevolutiva = devolutivaService.insert(devolutiva, idFuncionario, idProtocolo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(insertedDevolutiva);
+            @PathVariable Integer id_Protocolo,
+            HttpServletRequest request) {
+        // Extração do ID do funcionário autenticado pelo TOKEN
+        Integer id_funcionario = authenticationService.getUserIdFromToken(request);
+        if (id_funcionario != null) {
+            Devolutiva insertDevolutiva = devolutivaService.insert(devolutiva, id_funcionario, id_Protocolo);
+            return ResponseEntity.status(HttpStatus.CREATED).body(insertDevolutiva);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
     
-
-
-
-
+    @GetMapping("/devolutiva-protocolo/{id_protocolo}") // retorna todas as devoluções de um protocolo, TODO organizar esse retorno.
+    public ResponseEntity<List<Devolutiva>> findDevolutivasByProtocolo(@PathVariable int id_protocolo) {
+        List<Devolutiva> devolutivas = devolutivaService.findByIdProtocolo(id_protocolo);
+        if (devolutivas.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(devolutivas);
+    }
 }

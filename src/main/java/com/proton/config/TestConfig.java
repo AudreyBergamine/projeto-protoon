@@ -1,5 +1,6 @@
 package com.proton.config;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,11 +15,13 @@ import com.proton.models.entities.assunto.Assunto;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
+import com.proton.models.entities.protocolo.Devolutiva;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.enums.Role;
 import com.proton.models.enums.Status;
 import com.proton.models.repositories.AssuntoRepository;
+import com.proton.models.repositories.DevolutivaRepository;
 import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
@@ -45,6 +48,9 @@ public class TestConfig implements CommandLineRunner {
         @Autowired
         private AssuntoRepository assuntoRepository;
 
+        @Autowired
+        private DevolutivaRepository devolutivaRepository;
+
         // @Autowired
         // private DepartamentoRepository departamentoRepository;
 
@@ -66,6 +72,8 @@ public class TestConfig implements CommandLineRunner {
                 Endereco end5 = new Endereco(null, "casa", "11111-222", "Rua dos Fundos", "Casa 303",
                                 "101", "Bloco C", "Periferia", "Belo Horizonte", "MG", "Brasil");
 
+                Endereco end6 = new Endereco(null, "pipipipopopo", "11111-222", "Rua dos Fundos", "Casa 303",
+                                "101", "Bloco C", "Periferia", "Belo Horizonte", "MG", "Brasil");
                 Secretaria sec1 = new Secretaria(null, "Secretaria de Educação", "Ana Silva", "ana@example.com",
                                 "senha123",
                                 end2);
@@ -99,17 +107,17 @@ public class TestConfig implements CommandLineRunner {
 
                 Municipe fun1 = new Municipe("Secretário", "secretario@email.com", senha, "999.654.321-00",
                                 "(11)96256-8965",
-                                LocalDate.of(1985, 10, 25), end4);                                
+                                LocalDate.of(1985, 10, 25), end4);
                 fun1.setRole(Role.SECRETARIO);
-                
+
                 Municipe fun2 = new Municipe("Coordenador", "coordenador@email.com", senha, "999.888.777-00",
                                 "(11)96256-8965",
-                                LocalDate.of(1985, 10, 25), end5);                                
+                                LocalDate.of(1985, 10, 25), end5);
                 fun2.setRole(Role.COORDENADOR);
-                
+
                 Municipe fun3 = new Municipe("Funcionário", "funcionario@email.com", senha, "999.888.321-00",
                                 "(11)96256-8965",
-                                LocalDate.of(1985, 10, 25), end1);                                
+                                LocalDate.of(1985, 10, 25), end1);
                 fun3.setRole(Role.FUNCIONARIO);
 
                 Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
@@ -128,12 +136,14 @@ public class TestConfig implements CommandLineRunner {
 
                 Assunto assunto3 = new Assunto(3, "Problema de trânsito", sec3, 30.00);
 
+                Devolutiva dev1 = new Devolutiva(null, null, prot1, Instant.now(), "Teste");
                 // Manda para o banco de dados
                 municipeRepository.saveAll(Arrays.asList(mun1, mun2, fun1, fun2, fun3));
-                enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
+                enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end6));
                 secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
                 protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
                 assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
+                devolutivaRepository.save(dev1);
                 // departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
         }
 }

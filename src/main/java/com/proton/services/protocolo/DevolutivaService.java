@@ -41,7 +41,7 @@ public class DevolutivaService {
 
 
     public Devolutiva insert(Devolutiva devolutiva, Integer id_funcionario, Integer id_protocolo) {
-        // Validação
+        // Validação de funcionario e protocolo
         Funcionario funcionario = funcionarioRepository.findById(id_funcionario)
                 .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado com o ID: " + id_funcionario));
         Protocolo protocolo = protocoloRepository.findById(id_protocolo)
@@ -51,5 +51,9 @@ public class DevolutivaService {
         return devolutivaRepository.save(devolutiva);
     }
 
+    public List<Devolutiva> findByIdProtocolo(int id_protocolo) {
+        return devolutivaRepository.findByIdProtocolo(id_protocolo);
+    }
+    
 
 }

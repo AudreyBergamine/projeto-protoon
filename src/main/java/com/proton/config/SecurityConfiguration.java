@@ -63,10 +63,10 @@ public class SecurityConfiguration {
 
                                                // .requestMatchers("/protoon/auth/register/municipe").permitAll()
                                                 
-                                                .requestMatchers("/protoon/protocolo/pesquisar-id/{id}",
-                                                                "/protoon/protocolo/todos-protocolos",
-                                                                "/protoon/protocolo/pesquisar-municipe/{nomeMunicipe}")
-                                                .hasAnyAuthority("MUNICIPE")
+                                                // .requestMatchers("/protoon/protocolo/pesquisar-id/{id}",
+                                                //                 "/protoon/protocolo/todos-protocolos",
+                                                //                 "/protoon/protocolo/pesquisar-municipe/{nomeMunicipe}")
+                                                // .hasAnyAuthority("MUNICIPE")
 
                                                 // .requestMatchers("/protoon/municipe/**").hasAnyRole(ADMIN.name(),
                                                 // MUNICIPE.name())
