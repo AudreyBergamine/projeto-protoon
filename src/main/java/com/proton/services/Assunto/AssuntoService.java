@@ -31,7 +31,7 @@ public class AssuntoService {
         return obj.get();
     }
 
-    public void updateData(Assunto entity, Assunto obj) {
+    public void updateData(Assunto entity, Assunto obj) {       
         entity.setAssunto(obj.getAssunto());
         entity.setSecretaria(obj.getSecretaria());
     }

@@ -2,6 +2,8 @@
 package com.proton.services.protocolo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.proton.models.entities.Log;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.EnderecoRepository;
+import com.proton.models.repositories.LogRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
@@ -41,7 +45,11 @@ public class ProtocoloService {
 	 @Autowired
 	 private SecretariaRepository secretariaRepository;
 
+	 @Autowired
+	 private LogRepository logRepository;
+
 	private final JdbcTemplate jdbcTemplate; // Para fazer consultas no sql
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
 	@Autowired
 	public ProtocoloService(JdbcTemplate jdbcTemplate) { // Construtor para o Spring injetar o jdbcTemplate no Protocolo
@@ -98,11 +106,21 @@ public class ProtocoloService {
 		entity.setValor(obj.getValor());
 		entity.setStatus(obj.getStatus());
 	}
-
+	
     public Protocolo update(String numeroProtocolo, Protocolo obj) {
 		try{
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo).orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
+			
+			String mensagemLog = String.format("Foi alterado status do protocolo de %s para %s em %s",
+			entity.getStatus(), obj.getStatus(), LocalDateTime.now().format(formatter));
+			
 			updateData(entity, obj);
+
+			Log log = new Log();
+			log.setMensagem(mensagemLog);
+			log.setDataHora(LocalDateTime.now());
+			logRepository.save(log);
+
 			return protocoloRepository.save(entity);
 		} catch (EntityNotFoundException e) { //
             throw new ResourceNotFoundException(numeroProtocolo);
