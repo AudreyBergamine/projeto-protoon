@@ -4,6 +4,7 @@ package com.proton.services.protocolo;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.Instant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,6 @@ public class DevolutivaService {
 	}
 
 
-
     public Devolutiva insert(Devolutiva devolutiva, Integer id_funcionario, Integer id_protocolo, Long id_secretaria) {
         // Validação de funcionario e protocolo
         Funcionario funcionario = funcionarioRepository.findById(id_funcionario)
@@ -52,7 +52,10 @@ public class DevolutivaService {
         Protocolo protocolo = protocoloRepository.findById(id_protocolo)
                 .orElseThrow(() -> new IllegalArgumentException("Protocolo não encontrado com o ID: " + id_protocolo));
         Secretaria secretaria = secretariaRepository.findById(id_secretaria)
-                .orElseThrow(() -> new IllegalArgumentException("Protocolo não encontrado com o ID: " + id_secretaria));
+                .orElseThrow(() -> new IllegalArgumentException("Secretaria não encontrada com o ID: " + id_secretaria));
+        
+        Instant momentoAtual = Instant.now();
+        devolutiva.setMomento_devolutiva(momentoAtual);
         devolutiva.setId_funcionario(funcionario);
         devolutiva.setId_protocolo(protocolo);
         devolutiva.setId_secretaria(secretaria);
