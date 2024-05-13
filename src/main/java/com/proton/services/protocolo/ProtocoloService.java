@@ -42,11 +42,11 @@ public class ProtocoloService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
-	 @Autowired
-	 private SecretariaRepository secretariaRepository;
+	@Autowired
+	private SecretariaRepository secretariaRepository;
 
-	 @Autowired
-	 private LogRepository logRepository;
+	@Autowired
+	private LogRepository logRepository;
 
 	private final JdbcTemplate jdbcTemplate; // Para fazer consultas no sql
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -73,16 +73,16 @@ public class ProtocoloService {
 		return obj.get();
 	}
 
-	public Protocolo insert(Protocolo protocolo, Integer id_m, Long id_s){
+	public Protocolo insert(Protocolo protocolo, Integer id_m, Long id_s) {
 		Municipe mun = municipeRepository.getReferenceById(id_m);
-        Secretaria sec = secretariaRepository.getReferenceById(id_s);
-        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
-        String numeroProtocolo =this.gerarNumeroProtocolo();
-        protocolo.setNumero_protocolo(numeroProtocolo);
-        protocolo.setMunicipe(mun);
-        protocolo.setEndereco(end);
-        protocolo.setSecretaria(sec);
-        return protocoloRepository.save(protocolo);
+		Secretaria sec = secretariaRepository.getReferenceById(id_s);
+		Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
+		String numeroProtocolo = this.gerarNumeroProtocolo();
+		protocolo.setNumero_protocolo(numeroProtocolo);
+		protocolo.setMunicipe(mun);
+		protocolo.setEndereco(end);
+		protocolo.setSecretaria(sec);
+		return protocoloRepository.save(protocolo);
 	}
 
 	// Método para encontrar TODOS protocolos do MUNICIPE
@@ -95,7 +95,6 @@ public class ProtocoloService {
 		Integer idMunicipe = municipe.getId();
 		return protocoloRepository.findByMunicipe(idMunicipe);
 	}
-	
 
 	private void updateData(Protocolo entity, Protocolo obj) {
 		entity.setSecretaria(obj.getSecretaria());
@@ -106,15 +105,16 @@ public class ProtocoloService {
 		entity.setValor(obj.getValor());
 		entity.setStatus(obj.getStatus());
 	}
-	
-    public Protocolo update(String numeroProtocolo, Protocolo obj) {
-		try{
-			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo).orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
-			
+
+	public Protocolo updateStatus(String numeroProtocolo, Protocolo status) {
+		try {
+			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
+					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
+
 			String mensagemLog = String.format("Foi alterado status do protocolo de %s para %s em %s",
-			entity.getStatus(), obj.getStatus(), LocalDateTime.now().format(formatter));
-			
-			updateData(entity, obj);
+					entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
+
+			updateData(entity, status);
 
 			Log log = new Log();
 			log.setMensagem(mensagemLog);
@@ -122,23 +122,44 @@ public class ProtocoloService {
 
 			return protocoloRepository.save(entity);
 		} catch (EntityNotFoundException e) { //
-            throw new ResourceNotFoundException(numeroProtocolo);
-        }
-    }
+			throw new ResourceNotFoundException(numeroProtocolo);
+		}
+	}
+
+	public Protocolo updateRedirect(String numeroProtocolo, Protocolo secretaria) {
+		try {
+			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
+					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
+
+			String mensagemLog = String.format("Foi redirecionado do departamento %s para o departamento %s em %s",
+					entity.getSecretaria().getNome_secretaria(), secretaria.getSecretaria().getNome_secretaria(),
+					LocalDateTime.now().format(formatter));
+
+			updateData(entity, secretaria);
+
+			Log log = new Log();
+			log.setMensagem(mensagemLog);
+			logRepository.save(log);
+
+			return protocoloRepository.save(entity);
+		} catch (EntityNotFoundException e) { //
+			throw new ResourceNotFoundException(numeroProtocolo);
+		}
+	}
 
 	@SuppressWarnings("unused") // Serve para parar de aportar o um erro especifico ksksks, mas nem é erro.
-public String gerarNumeroProtocolo() {
-    String anoAtual = String.valueOf(LocalDate.now().getYear());
-    String sql = "SELECT MAX(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1)) FROM Protocolo WHERE numero_protocolo LIKE ?";
-    Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
-    if (ultimoNumero == null) {
-        return "001-" + anoAtual;
-    } else {
-        int proximoNumeroProtocolo = ultimoNumero + 1;
-        String novoNumeroProtocolo = String.format("%03d", proximoNumeroProtocolo);
+	public String gerarNumeroProtocolo() {
+		String anoAtual = String.valueOf(LocalDate.now().getYear());
+		String sql = "SELECT MAX(SUBSTRING(numero_protocolo, 1, POSITION('-' IN numero_protocolo) - 1)) FROM Protocolo WHERE numero_protocolo LIKE ?";
+		Integer ultimoNumero = jdbcTemplate.queryForObject(sql, Integer.class, "%-" + anoAtual);
+		if (ultimoNumero == null) {
+			return "001-" + anoAtual;
+		} else {
+			int proximoNumeroProtocolo = ultimoNumero + 1;
+			String novoNumeroProtocolo = String.format("%03d", proximoNumeroProtocolo);
 
-        return novoNumeroProtocolo + "-" + anoAtual;
-    }
-}
+			return novoNumeroProtocolo + "-" + anoAtual;
+		}
+	}
 
 }

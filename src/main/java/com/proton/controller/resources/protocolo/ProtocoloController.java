@@ -113,9 +113,15 @@ public class ProtocoloController {
         return ResponseEntity.created(uri).body(prot);
     }
 
-    @PutMapping("/alterar-protocolos/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
+    @PutMapping("/alterar-protocolos/status/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
     public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
-        Protocolo obj = protocoloService.update(numero_protocolo, protocolo);
+        Protocolo obj = protocoloService.updateStatus(numero_protocolo, protocolo);
+        return ResponseEntity.ok(obj);
+    }
+
+    @PutMapping("/alterar-protocolos/departamento/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
+    public ResponseEntity<Protocolo> updateRedirect(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
+        Protocolo obj = protocoloService.updateRedirect(numero_protocolo, protocolo);
         return ResponseEntity.ok(obj);
     }
 
