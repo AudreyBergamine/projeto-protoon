@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.proton.models.entities.assunto.Assunto;
 import com.proton.models.entities.endereco.Endereco;
-import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.protocolo.Devolutiva;
 import com.proton.models.entities.protocolo.Protocolo;
@@ -26,8 +25,7 @@ import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
-import com.proton.models.repositories.AssuntoRepository;
-// import com.proton.models.repositories.DepartamentoRepository;
+import com.proton.services.GeradorCPF;
 
 @Configuration
 @Profile("test")
@@ -50,9 +48,6 @@ public class TestConfig implements CommandLineRunner {
 
         @Autowired
         private DevolutivaRepository devolutivaRepository;
-
-        // @Autowired
-        // private DepartamentoRepository departamentoRepository;
 
         @Autowired
         private PasswordEncoder passwordEncoder;
@@ -86,21 +81,14 @@ public class TestConfig implements CommandLineRunner {
                                 "mariana@example.com",
                                 "senha789", end1);
 
-                // Departamento dep1 = new Departamento(null, "TI", "José", "jose@gmail.com",
-                // "123456", end4, sec3);
-                // Departamento dep2 = new Departamento(null, "Segurança", "Livia",
-                // "livia@gmail.com", "123456", end5,
-                // sec3);
-                // Departamento dep3 = new Departamento(null, "Finanças", "Aldo",
-                // "aldo@gmail.com", "1234", end3);
                 String senha = passwordEncoder.encode("123456");
 
-                Municipe mun1 = new Municipe("Fulano", "fulano@example.com", senha, "123.456.789-10",
+                Municipe mun1 = new Municipe("Fulano", "fulano@example.com", senha, GeradorCPF.generateRandomCPF(),
                                 "(11)96256-8965",
                                 LocalDate.of(1990, 5, 15), end3);
                 mun1.setRole(Role.MUNICIPE);
 
-                Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", senha, "987.654.321-00",
+                Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", senha, GeradorCPF.generateRandomCPF(),
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end2);
                 mun2.setRole(Role.MUNICIPE);
@@ -110,12 +98,12 @@ public class TestConfig implements CommandLineRunner {
                                 LocalDate.of(1985, 10, 25), end4);
                 fun1.setRole(Role.SECRETARIO);
 
-                Municipe fun2 = new Municipe("Coordenador", "coordenador@email.com", senha, "999.888.777-00",
+                Municipe fun2 = new Municipe("Coordenador", "coordenador@email.com", senha, GeradorCPF.generateRandomCPF(),
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end5);
                 fun2.setRole(Role.COORDENADOR);
 
-                Municipe fun3 = new Municipe("Funcionário", "funcionario@email.com", senha, "999.888.321-00",
+                Municipe fun3 = new Municipe("Funcionário", "funcionario@email.com", senha,  GeradorCPF.generateRandomCPF(),
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end1);
                 fun3.setRole(Role.FUNCIONARIO);
@@ -144,6 +132,5 @@ public class TestConfig implements CommandLineRunner {
                 protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
                 assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
                 devolutivaRepository.save(dev1);
-                // departamentoRepository.saveAll(Arrays.asList(dep1, dep2));
         }
 }

@@ -15,7 +15,5 @@ public class Log {
     private Long id;
 
     private String mensagem;
-
-    private LocalDateTime dataHora;
 }
 

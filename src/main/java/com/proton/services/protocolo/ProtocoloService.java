@@ -118,7 +118,6 @@ public class ProtocoloService {
 
 			Log log = new Log();
 			log.setMensagem(mensagemLog);
-			log.setDataHora(LocalDateTime.now());
 			logRepository.save(log);
 
 			return protocoloRepository.save(entity);
