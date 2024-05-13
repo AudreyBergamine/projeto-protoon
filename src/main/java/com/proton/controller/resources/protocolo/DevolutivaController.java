@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.protocolo.Devolutiva;
 import com.proton.models.repositories.FuncionarioRepository;
 import com.proton.services.protocolo.DevolutivaService;
@@ -72,7 +71,7 @@ public class DevolutivaController {
     @GetMapping("/devolutiva-protocolo/{id_protocolo}") // retorna todas as devoluções de um protocolo, TODO organizar esse retorno.
     public ResponseEntity<List<Devolutiva>> findDevolutivasByProtocolo(@PathVariable int id_protocolo) {
         List<Devolutiva> devolutivas = devolutivaService.findByIdProtocolo(id_protocolo);
-        System.out.println("VALOR AQUI: " + devolutivas);
+        //System.out.println("VALOR AQUI: " + devolutivas);
         if (devolutivas.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

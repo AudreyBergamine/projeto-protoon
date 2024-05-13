@@ -30,8 +30,8 @@ public class Devolutiva implements Serializable {
     private Integer id_devolutiva;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "nome", "email", "senha", "role", "num_CPF", "data_nascimento", 
-    "celular", "numTelefoneFixo", "endereco", "secretaria", "idFuncionario", "dataNascimento",
+    @JsonIgnoreProperties(value = {"email", "senha", "role", "num_CPF", "data_nascimento", 
+    "celular", "numTelefoneFixo", "endereco", "idFuncionario", "dataNascimento",
     "enabled", "password", "accountNonLocked", "accountNonExpired", "credentialsNonExpired", "username"})
     @JoinColumn(name = "id_funcionarioFK", referencedColumnName = "id")
     private Funcionario id_funcionario;
