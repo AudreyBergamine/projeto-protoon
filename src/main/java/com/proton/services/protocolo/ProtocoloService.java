@@ -108,13 +108,13 @@ public class ProtocoloService {
 		entity.setStatus(obj.getStatus());
 	}
 
-	public Protocolo updateStatus(String numeroProtocolo, Protocolo status) {
+	public Protocolo updateStatus(String numeroProtocolo, Protocolo status, String Nomefuncionario) {
 		try {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
-			String mensagemLog = String.format("Foi alterado status do protocolo de %s para %s em %s",
-					entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
+			String mensagemLog = String.format("%s alterou status do protocolo de %s para %s em %s",
+			Nomefuncionario, entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
 
 			updateData(entity, status);
 
@@ -127,13 +127,13 @@ public class ProtocoloService {
 		}
 	}
 
-	public Protocolo updateRedirect(String numeroProtocolo, Protocolo secretaria) {
+	public Protocolo updateRedirect(String numeroProtocolo, Protocolo secretaria, String Nomefuncionario) {
 		try {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
-			String mensagemLog = String.format("Foi redirecionado do departamento %s para o departamento %s em %s",
-					entity.getSecretaria().getNome_secretaria(), secretaria.getSecretaria().getNome_secretaria(),
+			String mensagemLog = String.format("%s redirecionou um protocolo do Departamento %s para o departamento %s em %s",
+			Nomefuncionario, entity.getSecretaria().getNome_secretaria(), secretaria.getSecretaria().getNome_secretaria(),
 					LocalDateTime.now().format(formatter));
 
 			updateData(entity, secretaria);

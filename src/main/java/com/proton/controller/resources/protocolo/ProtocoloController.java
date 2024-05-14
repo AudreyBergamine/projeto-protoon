@@ -16,12 +16,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.Log;
 import com.proton.models.entities.endereco.Endereco;
+import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.EnderecoRepository;
+import com.proton.models.repositories.FuncionarioRepository;
 import com.proton.models.repositories.LogRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.services.protocolo.ProtocoloService;
@@ -57,10 +59,13 @@ public class ProtocoloController {
     private AuthenticationService authenticationService;
 
     @Autowired
-	private LogRepository logRepository;
+    private LogRepository logRepository;
+
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-	Log log = new Log();
+    Log log = new Log();
 
     @GetMapping(value = "/todos-protocolos") // Adicionando a anotação GetMapping para o método findAll
     public ResponseEntity<List<Protocolo>> findAll() {
@@ -131,15 +136,25 @@ public class ProtocoloController {
     }
 
     @PutMapping("/alterar-protocolos/status/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
-    public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
-        Protocolo obj = protocoloService.updateStatus(numero_protocolo, protocolo);
+    public ResponseEntity<Protocolo> update(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo,
+            HttpServletRequest request) {
+        Integer id_funcionario = authenticationService.getUserIdFromToken(request);
+        Funcionario funcionario = funcionarioRepository.findById(id_funcionario)
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
+
+        Protocolo obj = protocoloService.updateStatus(numero_protocolo, protocolo, funcionario.getNome());
         return ResponseEntity.ok(obj);
     }
 
     @PutMapping("/alterar-protocolos/departamento/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
     public ResponseEntity<Protocolo> updateRedirect(@PathVariable String numero_protocolo,
-            @RequestBody Protocolo protocolo) {
-        Protocolo obj = protocoloService.updateRedirect(numero_protocolo, protocolo);
+            @RequestBody Protocolo protocolo, HttpServletRequest request) {
+
+        Integer id_funcionario = authenticationService.getUserIdFromToken(request);
+        Funcionario funcionario = funcionarioRepository.findById(id_funcionario)
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
+
+        Protocolo obj = protocoloService.updateRedirect(numero_protocolo, protocolo, funcionario.getNome());
         return ResponseEntity.ok(obj);
     }
 
