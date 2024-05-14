@@ -83,12 +83,12 @@ public class TestConfig implements CommandLineRunner {
 
                 String senha = passwordEncoder.encode("123456");
 
-                Municipe mun1 = new Municipe("Fulano", "fulano@example.com", senha, GeradorCPF.generateRandomCPF(),
+                Municipe mun1 = new Municipe("Fulano", "fulano@example.com", senha, "973.087.140-04",
                                 "(11)96256-8965",
                                 LocalDate.of(1990, 5, 15), end3);
                 mun1.setRole(Role.MUNICIPE);
 
-                Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", senha, GeradorCPF.generateRandomCPF(),
+                Municipe mun2 = new Municipe("Ciclano", "ciclano@example.com", senha, "699.367.750-40",
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end2);
                 mun2.setRole(Role.MUNICIPE);
@@ -98,12 +98,12 @@ public class TestConfig implements CommandLineRunner {
                                 LocalDate.of(1985, 10, 25), end4);
                 fun1.setRole(Role.SECRETARIO);
 
-                Municipe fun2 = new Municipe("Coordenador", "coordenador@email.com", senha, GeradorCPF.generateRandomCPF(),
+                Municipe fun2 = new Municipe("Coordenador", "coordenador@email.com", senha, "818.194.010-57",
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end5);
                 fun2.setRole(Role.COORDENADOR);
 
-                Municipe fun3 = new Municipe("Funcionário", "funcionario@email.com", senha,  GeradorCPF.generateRandomCPF(),
+                Municipe fun3 = new Municipe("Funcionário", "funcionario@email.com", senha, "564.278.220-71",
                                 "(11)96256-8965",
                                 LocalDate.of(1985, 10, 25), end1);
                 fun3.setRole(Role.FUNCIONARIO);

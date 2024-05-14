@@ -50,6 +50,7 @@ public class ProtocoloService {
 
 	private final JdbcTemplate jdbcTemplate; // Para fazer consultas no sql
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+	Log log = new Log();
 
 	@Autowired
 	public ProtocoloService(JdbcTemplate jdbcTemplate) { // Construtor para o Spring injetar o jdbcTemplate no Protocolo
@@ -81,7 +82,8 @@ public class ProtocoloService {
 		protocolo.setNumero_protocolo(numeroProtocolo);
 		protocolo.setMunicipe(mun);
 		protocolo.setEndereco(end);
-		protocolo.setSecretaria(sec);
+		protocolo.setSecretaria(sec);		
+
 		return protocoloRepository.save(protocolo);
 	}
 
@@ -116,7 +118,6 @@ public class ProtocoloService {
 
 			updateData(entity, status);
 
-			Log log = new Log();
 			log.setMensagem(mensagemLog);
 			logRepository.save(log);
 

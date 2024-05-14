@@ -1,6 +1,8 @@
 package com.proton.controller.resources.protocolo;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.proton.models.entities.Log;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.protocolo.Protocolo;
@@ -19,6 +22,7 @@ import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.EnderecoRepository;
+import com.proton.models.repositories.LogRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.services.protocolo.ProtocoloService;
 import com.proton.services.user.AuthenticationService;
@@ -51,6 +55,12 @@ public class ProtocoloController {
 
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+	private LogRepository logRepository;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+	Log log = new Log();
 
     @GetMapping(value = "/todos-protocolos") // Adicionando a anotação GetMapping para o método findAll
     public ResponseEntity<List<Protocolo>> findAll() {
@@ -98,6 +108,13 @@ public class ProtocoloController {
         protocolo.setEndereco(end);
         protocolo.setSecretaria(sec);
         protocoloRepository.save(protocolo);
+
+        String mensagemLog = String.format("Foi Registrado um novo protocolo em %s",
+                LocalDateTime.now().format(formatter));
+
+        log.setMensagem(mensagemLog);
+        logRepository.save(log);
+
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(protocolo.getId_protocolo()).toUri();
         return ResponseEntity.created(uri).body(protocolo);
@@ -120,7 +137,8 @@ public class ProtocoloController {
     }
 
     @PutMapping("/alterar-protocolos/departamento/{numero_protocolo}") // Altera os protocolos (TODO REVER ISSO DEPOIS)
-    public ResponseEntity<Protocolo> updateRedirect(@PathVariable String numero_protocolo, @RequestBody Protocolo protocolo) {
+    public ResponseEntity<Protocolo> updateRedirect(@PathVariable String numero_protocolo,
+            @RequestBody Protocolo protocolo) {
         Protocolo obj = protocoloService.updateRedirect(numero_protocolo, protocolo);
         return ResponseEntity.ok(obj);
     }
