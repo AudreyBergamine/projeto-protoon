@@ -113,7 +113,7 @@ public class ProtocoloService {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
-			String mensagemLog = String.format("%s alterou status do protocolo de %s para %s em %s",
+			String mensagemLog = String.format("%s alterou status do protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
 			Nomefuncionario, entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
 
 			updateData(entity, status);
@@ -132,7 +132,7 @@ public class ProtocoloService {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
-			String mensagemLog = String.format("%s redirecionou um protocolo do Departamento %s para o departamento %s em %s",
+			String mensagemLog = String.format("%s redirecionou o protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
 			Nomefuncionario, entity.getSecretaria().getNome_secretaria(), secretaria.getSecretaria().getNome_secretaria(),
 					LocalDateTime.now().format(formatter));
 

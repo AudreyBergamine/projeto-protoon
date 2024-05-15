@@ -114,7 +114,7 @@ public class ProtocoloController {
         protocolo.setSecretaria(sec);
         protocoloRepository.save(protocolo);
 
-        String mensagemLog = String.format("Foi Registrado um novo protocolo em %s",
+        String mensagemLog = String.format("Foi Registrado um novo protocolo: " + protocolo.getNumero_protocolo() + " em %s",
                 LocalDateTime.now().format(formatter));
 
         log.setMensagem(mensagemLog);

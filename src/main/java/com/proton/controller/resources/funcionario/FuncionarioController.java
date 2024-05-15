@@ -94,7 +94,7 @@ public class FuncionarioController { // Definição dos endpoints RESTful
         Secretaria secretaria = secretariaService.findById(idSec);
         obj = service.update(id, secretaria, obj);
 
-        String mensagemLog = String.format("Foi Atualizado os dados de um Funcionário em %s",
+        String mensagemLog = String.format("Foi Atualizado os dados do Funcionário: " + obj.getEmail() + " em %s",
                 LocalDateTime.now().format(formatter));
 
         log.setMensagem(mensagemLog);

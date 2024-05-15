@@ -91,7 +91,7 @@ public class MunicipeController {
         Integer id = authService.getUserIdFromToken(request);
         obj = service.update(id, obj);
 
-        String mensagemLog = String.format("Foi Atualizado os dados de um Municípe em %s",
+        String mensagemLog = String.format("Foi Atualizado os dados do Municípe: " + obj.getEmail() + " em %s",
                 LocalDateTime.now().format(formatter));
 
         log.setMensagem(mensagemLog);

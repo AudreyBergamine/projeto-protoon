@@ -118,7 +118,7 @@ public class AuthenticationService {
       var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
       saveUserToken(savedUser, jwtToken);
 
-      String mensagemLog = String.format("Foi Registrado um novo Municípe em %s",
+      String mensagemLog = String.format("Foi Registrado um novo Municípe: " + savedUser.getEmail() + " em %s",
           LocalDateTime.now().format(formatter));
 
       log.setMensagem(mensagemLog);
@@ -184,7 +184,7 @@ public class AuthenticationService {
       var refreshToken = jwtService.generateRefreshToken(savedUser.getId(), user);
       saveUserToken(savedUser, jwtToken);
 
-      String mensagemLog = String.format("Foi Registrado um novo Funcionário em %s",
+      String mensagemLog = String.format("Foi Registrado um novo Funcionário: " + savedUser.getEmail() + " em %s",
           LocalDateTime.now().format(formatter));
 
       log.setMensagem(mensagemLog);
