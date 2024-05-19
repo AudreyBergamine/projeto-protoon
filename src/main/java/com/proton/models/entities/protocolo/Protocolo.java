@@ -3,12 +3,17 @@ package com.proton.models.entities.protocolo;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.enums.Status;
+import com.proton.models.redirecionamento.Redirecionamento;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,12 +21,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "protocolo")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Protocolo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -59,6 +66,12 @@ public class Protocolo implements Serializable {
 
 	private Status status;
 	private Double valor;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "protocolo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Redirecionamento> redirecionamentos;
+
+	
 	
 	public Protocolo(){
 		
@@ -114,6 +127,11 @@ public class Protocolo implements Serializable {
 	public String getAssunto() {
 		return assunto;
 	}
+
+	
+	public Set<Redirecionamento> getRedirecionamentos() {
+        return redirecionamentos;
+    }
 
 	public void setAssunto(String assunto) {
 		this.assunto = assunto;

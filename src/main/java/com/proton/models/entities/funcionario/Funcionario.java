@@ -1,11 +1,17 @@
 package com.proton.models.entities.funcionario;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.entities.user.User;
+import com.proton.models.redirecionamento.Redirecionamento;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,6 +30,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Funcionario extends User  { 
 
     @Column(name = "num_CPF", nullable = false, unique = true)
@@ -47,6 +54,9 @@ public class Funcionario extends User  {
     @JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
     private Secretaria secretaria;
 
+    @JsonIgnore    
+    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Redirecionamento> redirecionamentos;
     // @ManyToOne(cascade = CascadeType.ALL)
     // @JoinColumn(name = "id_departamentoFK", referencedColumnName = "id_departamento")
     // private Departamento departamento;
@@ -75,6 +85,11 @@ public class Funcionario extends User  {
     public String getNumTelefoneFixo() {
         return numTelefoneFixo;
     }
+    
+    
+    public List<Redirecionamento> getRedirecionamentos(){
+        return redirecionamentos;
+    }
 
 
 
@@ -97,7 +112,7 @@ public class Funcionario extends User  {
 
 
     public void setSenha(String senha) {
-        setSenha(senha);
+        super.setSenha(senha);
     }
 
     public void setCelular(String celular) {
