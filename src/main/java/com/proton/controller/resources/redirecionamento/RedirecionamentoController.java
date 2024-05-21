@@ -44,6 +44,13 @@ public class RedirecionamentoController {
         return ResponseEntity.ok().body(redirecionamento);
     }
 
+    @GetMapping("/funcionario")
+    public ResponseEntity<List<Redirecionamento>> findByFuncionarioId(HttpServletRequest request){
+        Integer id_fun = authenticationService.getUserIdFromToken(request);
+
+        return ResponseEntity.ok().body(service.findByIdFuncionario(id_fun));
+    }
+
     @PostMapping("/{id_prot}")
     public ResponseEntity<Redirecionamento> insertByToken(@RequestBody Redirecionamento redirecionamento,
     HttpServletRequest request, @PathVariable Integer id_prot){
@@ -53,8 +60,6 @@ public class RedirecionamentoController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
            .buildAndExpand(redirecionamento.getId()).toUri();
         return ResponseEntity.created(uri).body(redSaved);
-
-
     }
 
     @PutMapping("/by-coordenador/{id_red}")

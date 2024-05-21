@@ -36,6 +36,16 @@ public class RedirecionamentoService {
 		return redirecionamentoRepository.findAll();
 	}
 
+      public List<Redirecionamento> findByIdFuncionario(Integer id) {
+        // Encontre o funcionário pelo ID
+        Funcionario funcionario = funcionarioRepository.getReferenceById(id);
+        // Verifique se o funcionário foi encontrado
+   
+            // Se sim, retorne todos os redirecionamentos associados a esse funcionário
+            return redirecionamentoRepository.findByFuncionario(funcionario);
+        
+    }
+
 
     
     public Redirecionamento findById(Integer id) {
