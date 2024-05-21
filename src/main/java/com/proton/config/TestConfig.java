@@ -110,6 +110,7 @@ public class TestConfig implements CommandLineRunner {
 
                 Protocolo prot1 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
                                 "Descrição do protocolo", Status.CIENCIA, 100.0, "001-2024");
+                               
 
                 Protocolo prot2 = new Protocolo(null, sec2, mun2, end3, "Outro assunto", new Date(), "Outra descrição",
                                 Status.PAGAMENTO_PENDENTE,
@@ -117,6 +118,15 @@ public class TestConfig implements CommandLineRunner {
 
                 Protocolo prot3 = new Protocolo(null, sec2, mun2, end3, "Teste", new Date(), "teste", Status.CONCLUIDO,
                                 150.0, "003-2024");
+
+                Protocolo prot4 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
+                "Descrição do protocolo", Status.CIENCIA, 100.0, "004-2024");  
+
+                Protocolo prot5 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
+                "Descrição do protocolo", Status.CIENCIA, 100.0, "005-2024");
+
+                Protocolo prot6 = new Protocolo(null, sec1, mun1, end2, "Assunto do protocolo", new Date(),
+                "Descrição do protocolo", Status.CIENCIA, 100.0, "006-2024");
 
                 Assunto assunto1 = new Assunto(1, "Problema de iluminação pública", sec1, 130.50);
 
@@ -129,7 +139,7 @@ public class TestConfig implements CommandLineRunner {
                 municipeRepository.saveAll(Arrays.asList(mun1, mun2, fun1, fun2, fun3));
                 enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end6));
                 secretariaRepository.saveAll(Arrays.asList(sec1, sec2, sec3));
-                protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3));
+                protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3, prot4, prot5, prot6));
                 assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
                 devolutivaRepository.save(dev1);
         }
