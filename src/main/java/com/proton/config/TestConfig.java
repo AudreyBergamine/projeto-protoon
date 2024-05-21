@@ -19,11 +19,14 @@ import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.enums.Role;
 import com.proton.models.enums.Status;
+import com.proton.models.enums.StatusRedirecionamento;
+import com.proton.models.redirecionamento.Redirecionamento;
 import com.proton.models.repositories.AssuntoRepository;
 import com.proton.models.repositories.DevolutivaRepository;
 import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
+import com.proton.models.repositories.RedirecionamentoRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.services.GeradorCPF;
 
@@ -51,6 +54,9 @@ public class TestConfig implements CommandLineRunner {
 
         @Autowired
         private PasswordEncoder passwordEncoder;
+
+        @Autowired
+        private RedirecionamentoRepository redirecionamentoRepository;
 
         @Override
         public void run(String... args) throws Exception {
@@ -133,6 +139,7 @@ public class TestConfig implements CommandLineRunner {
                 Assunto assunto2 = new Assunto(2, "Problema de coleta de lixo", sec2, 150.55);
 
                 Assunto assunto3 = new Assunto(3, "Problema de trânsito", sec3, 30.00);
+
 
                 Devolutiva dev1 = new Devolutiva(null, null, prot1, Instant.now(), "Teste");
                 // Manda para o banco de dados

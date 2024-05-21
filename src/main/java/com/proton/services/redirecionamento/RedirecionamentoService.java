@@ -36,6 +36,7 @@ public class RedirecionamentoService {
 		return redirecionamentoRepository.findAll();
 	}
 
+
     
     public Redirecionamento findById(Integer id) {
 		return redirecionamentoRepository.getReferenceById(id);
@@ -93,7 +94,7 @@ public class RedirecionamentoService {
 
     public void updateData(Redirecionamento entity, Redirecionamento obj, Funcionario funcionario){
         entity.setStatusRedirecionamento(obj.getStatusRedirecionamento());
-        entity.setDescricao(entity.getDescricao()+" Atualizado pelo coordernador: "+funcionario.getEmail());
+        entity.setDescricao(entity.getDescricao()+" Atualizado pelo coordernador: "+funcionario.getEmail()+ ". No horário: "+LocalDateTime.now().withNano(0));
         entity.setDtConfirmacao(LocalDateTime.now().withNano(0));
     }
 }
