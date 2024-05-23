@@ -62,21 +62,21 @@ public class RedirecionamentoService {
         redirecionamentoValidationService.validateRedirecionamento(this.findAll(),redirecionamento);
         redirecionamento.setDtSolicitacao(LocalDateTime.now().withNano(0));
         
-        //Se a role é de FUNCIONARIO
-        if(funcionario.getRole().equals(Role.FUNCIONARIO)){
-            redirecionamento.setDescricao("Redirecionamento solicitado por: "+funcionario.getEmail()+
-            ". Do protocolo com o número de protocolo: "+protocolo.getNumero_protocolo()+
-            ". ");
-            redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.ANDAMENTO);
+       // Se a role é de FUNCIONARIO
+       if (funcionario.getRole().equals(Role.FUNCIONARIO)) {
+        redirecionamento.setDescricao(
+                "Redirecionamento solicitado por " + funcionario.getEmail() +
+                        ", referente ao protocolo número " + protocolo.getNumero_protocolo() + ".");
+        redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.ANDAMENTO);
 
-        //Se a role é de COORDENADOR
-        }else if(funcionario.getRole().equals(Role.COORDENADOR)){
-            redirecionamento.setDescricao("Redirecionamento efetuado por: "+funcionario.getEmail()+
-            ". Do protocolo com o número de protocolo: "+protocolo.getNumero_protocolo()+
-            ". ");
-            redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.APROVADO);
-            redirecionamento.setDtConfirmacao(LocalDateTime.now().withNano(0));
-        }
+        // Se a role é de COORDENADOR
+    } else if (funcionario.getRole().equals(Role.COORDENADOR)) {
+        redirecionamento.setDescricao(
+                "Redirecionamento efetuado por " + funcionario.getEmail() +
+                        ", referente ao protocolo número " + protocolo.getNumero_protocolo() + ".");
+        redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.APROVADO);
+        redirecionamento.setDtConfirmacao(LocalDateTime.now().withNano(0));
+    }
 
 
         return redirecionamentoRepository.save(redirecionamento);
