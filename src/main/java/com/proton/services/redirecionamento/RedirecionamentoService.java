@@ -63,21 +63,18 @@ public class RedirecionamentoService {
         redirecionamento.setDtSolicitacao(LocalDateTime.now().withNano(0));
         
         //Se a role é de FUNCIONARIO
+        redirecionamento.setDescricao("Redirecionamento solicitado por "+funcionario.getNome()+
+        ", número do protocolo: "+protocolo.getNumero_protocolo());
         if(funcionario.getRole().equals(Role.FUNCIONARIO)){
-            redirecionamento.setDescricao("Redirecionamento solicitado por: "+funcionario.getEmail()+
-            ". Do protocolo com o número de protocolo: "+protocolo.getNumero_protocolo()+
-            ". ");
+
             redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.ANDAMENTO);
 
         //Se a role é de COORDENADOR
         }else if(funcionario.getRole().equals(Role.COORDENADOR)){
-            redirecionamento.setDescricao("Redirecionamento efetuado por: "+funcionario.getEmail()+
-            ". Do protocolo com o número de protocolo: "+protocolo.getNumero_protocolo()+
-            ". ");
+            
             redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.APROVADO);
             redirecionamento.setDtConfirmacao(LocalDateTime.now().withNano(0));
         }
-
 
         return redirecionamentoRepository.save(redirecionamento);
     }
