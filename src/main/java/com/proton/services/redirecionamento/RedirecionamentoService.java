@@ -66,14 +66,14 @@ public class RedirecionamentoService {
        if (funcionario.getRole().equals(Role.FUNCIONARIO)) {
         redirecionamento.setDescricao(
                 "Redirecionamento solicitado por " + funcionario.getEmail() +
-                        ", referente ao protocolo número " + protocolo.getNumero_protocolo() + ".");
+                        ". referente ao protocolo número " + protocolo.getNumero_protocolo() + ".");
         redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.ANDAMENTO);
 
         // Se a role é de COORDENADOR
     } else if (funcionario.getRole().equals(Role.COORDENADOR)) {
         redirecionamento.setDescricao(
                 "Redirecionamento efetuado por " + funcionario.getEmail() +
-                        ", referente ao protocolo número " + protocolo.getNumero_protocolo() + ".");
+                        ". Referente ao protocolo número " + protocolo.getNumero_protocolo() + ".");
         redirecionamento.setStatusRedirecionamento(StatusRedirecionamento.APROVADO);
         redirecionamento.setDtConfirmacao(LocalDateTime.now().withNano(0));
     }
