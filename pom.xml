@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>8.0.32</version>
+			<version>8.0.33</version>
 		</dependency>
 
 		<dependency>
@@ -71,10 +71,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>annotationProcessor</scope>
-		</dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<scope>provided</scope>
+	</dependency>
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
