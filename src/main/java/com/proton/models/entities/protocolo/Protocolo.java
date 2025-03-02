@@ -1,12 +1,14 @@
 package com.proton.models.entities.protocolo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.proton.models.entities.BaseEntity;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.secretaria.Secretaria;
@@ -33,6 +35,8 @@ import jakarta.persistence.TemporalType;
 @Table(name = "protocolo")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Protocolo implements Serializable {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Protocolo extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

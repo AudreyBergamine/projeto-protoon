@@ -61,7 +61,8 @@ public class RedirecionamentoService {
         redirecionamento.setProtocolo(protocolo);
         redirecionamentoValidationService.validateRedirecionamento(this.findAll(),redirecionamento);
         redirecionamento.setDtSolicitacao(LocalDateTime.now().withNano(0));
-        
+        redirecionamento.setCreatedAt(LocalDateTime.now());
+
         //Se a role é de FUNCIONARIO
         redirecionamento.setDescricao("Redirecionamento solicitado por "+funcionario.getNome()+
         ", número do protocolo: "+protocolo.getNumero_protocolo());

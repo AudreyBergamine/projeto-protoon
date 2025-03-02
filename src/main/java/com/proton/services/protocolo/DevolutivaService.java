@@ -68,6 +68,8 @@ public class DevolutivaService {
         devolutiva.setId_funcionario(funcionario);
         devolutiva.setId_protocolo(protocolo);
         devolutiva.setId_secretaria(secretaria);
+        devolutiva.setCreatedAt(LocalDateTime.now());
+
 
         String mensagemLog = String.format(funcionario.getNome() + " fez uma devolutiva do protocolo " + protocolo.getNumero_protocolo() + " em " + LocalDateTime.now().format(formatter));
         System.out.println(mensagemLog);
