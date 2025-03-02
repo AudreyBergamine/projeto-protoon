@@ -50,7 +50,6 @@ public class ProtocoloService {
 
 	private final JdbcTemplate jdbcTemplate; // Para fazer consultas no sql
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-	Log log = new Log();
 
 	@Autowired
 	public ProtocoloService(JdbcTemplate jdbcTemplate) { // Construtor para o Spring injetar o jdbcTemplate no Protocolo
@@ -82,7 +81,7 @@ public class ProtocoloService {
 		protocolo.setNumero_protocolo(numeroProtocolo);
 		protocolo.setMunicipe(mun);
 		protocolo.setEndereco(end);
-		protocolo.setSecretaria(sec);		
+		protocolo.setSecretaria(sec);
 
 		return protocoloRepository.save(protocolo);
 	}
@@ -113,11 +112,13 @@ public class ProtocoloService {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
-			String mensagemLog = String.format("%s alterou status do protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
-			Nomefuncionario, entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
+			String mensagemLog = String.format(
+					"%s alterou status do protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
+					Nomefuncionario, entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
 
 			updateData(entity, status);
 
+			Log log = new Log();
 			log.setMensagem(mensagemLog);
 			logRepository.save(log);
 
@@ -132,8 +133,10 @@ public class ProtocoloService {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
-			String mensagemLog = String.format("%s redirecionou o protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
-			Nomefuncionario, entity.getSecretaria().getNome_secretaria(), secretaria.getSecretaria().getNome_secretaria(),
+			String mensagemLog = String.format(
+					"%s redirecionou o protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
+					Nomefuncionario, entity.getSecretaria().getNome_secretaria(),
+					secretaria.getSecretaria().getNome_secretaria(),
 					LocalDateTime.now().format(formatter));
 
 			updateData(entity, secretaria);

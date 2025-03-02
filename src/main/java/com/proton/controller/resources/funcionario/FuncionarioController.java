@@ -46,7 +46,6 @@ public class FuncionarioController { // Definição dos endpoints RESTful
     private LogRepository logRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    Log log = new Log();
 
     @GetMapping()
     public ResponseEntity<List<Funcionario>> findAll() {
@@ -97,6 +96,7 @@ public class FuncionarioController { // Definição dos endpoints RESTful
         String mensagemLog = String.format("Foi Atualizado os dados do Funcionário: " + obj.getEmail() + " em %s",
                 LocalDateTime.now().format(formatter));
 
+        Log log = new Log();
         log.setMensagem(mensagemLog);
         logRepository.save(log);
 
@@ -113,6 +113,7 @@ public class FuncionarioController { // Definição dos endpoints RESTful
         String mensagemLog = String.format("Foi Atualizado os dados de um Funcionário em %s",
                 LocalDateTime.now().format(formatter));
 
+        Log log = new Log();
         log.setMensagem(mensagemLog);
         logRepository.save(log);
 
@@ -127,6 +128,7 @@ public class FuncionarioController { // Definição dos endpoints RESTful
         String mensagemLog = String.format("Foi Atualizado os dados de um Funcionário em %s",
                 LocalDateTime.now().format(formatter));
 
+        Log log = new Log();
         log.setMensagem(mensagemLog);
         logRepository.save(log);
 

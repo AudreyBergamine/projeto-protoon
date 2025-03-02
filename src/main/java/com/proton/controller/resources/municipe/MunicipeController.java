@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 // import org.springframework.web.bind.annotation.DeleteMapping;  >> NÃO VAI DELETAR USUÁRIO
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -44,7 +42,6 @@ public class MunicipeController {
     private LogRepository logRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    Log log = new Log();
 
     // TODO Remover acesso a lista completa! E retirar retorno do atributo senha!
 
@@ -75,6 +72,14 @@ public class MunicipeController {
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId())
                 .toUri();
+
+        String mensagemLog = String.format("Foi cadastrado um novo Municípe: " + obj.getEmail() + " em %s",
+                LocalDateTime.now().format(formatter));
+
+        Log log = new Log();
+        log.setMensagem(mensagemLog);
+        logRepository.save(log);
+
         return ResponseEntity.created(uri).body(obj); // Código 201
     }
 
@@ -94,6 +99,7 @@ public class MunicipeController {
         String mensagemLog = String.format("Foi Atualizado os dados do Municípe: " + obj.getEmail() + " em %s",
                 LocalDateTime.now().format(formatter));
 
+        Log log = new Log();
         log.setMensagem(mensagemLog);
         logRepository.save(log);
 

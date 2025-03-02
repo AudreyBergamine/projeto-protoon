@@ -65,7 +65,6 @@ public class ProtocoloController {
     private FuncionarioRepository funcionarioRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    Log log = new Log();
 
     @GetMapping(value = "/todos-protocolos") // Adicionando a anotação GetMapping para o método findAll
     public ResponseEntity<List<Protocolo>> findAll() {
@@ -114,9 +113,11 @@ public class ProtocoloController {
         protocolo.setSecretaria(sec);
         protocoloRepository.save(protocolo);
 
-        String mensagemLog = String.format("Foi Registrado um novo protocolo: " + protocolo.getNumero_protocolo() + " em %s",
+        String mensagemLog = String.format(
+                "Foi Registrado um novo protocolo: " + protocolo.getNumero_protocolo() + " em %s",
                 LocalDateTime.now().format(formatter));
 
+        Log log = new Log();
         log.setMensagem(mensagemLog);
         logRepository.save(log);
 

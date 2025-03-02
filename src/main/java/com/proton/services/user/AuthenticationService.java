@@ -69,7 +69,6 @@ public class AuthenticationService {
   private LogRepository logRepository;
 
   private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-  Log log = new Log();
 
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
@@ -121,6 +120,7 @@ public class AuthenticationService {
       String mensagemLog = String.format("Foi Registrado um novo Municípe: " + savedUser.getEmail() + " em %s",
           LocalDateTime.now().format(formatter));
 
+      Log log = new Log();
       log.setMensagem(mensagemLog);
       logRepository.save(log);
 
@@ -187,6 +187,7 @@ public class AuthenticationService {
       String mensagemLog = String.format("Foi Registrado um novo Funcionário: " + savedUser.getEmail() + " em %s",
           LocalDateTime.now().format(formatter));
 
+      Log log = new Log();
       log.setMensagem(mensagemLog);
       logRepository.save(log);
 

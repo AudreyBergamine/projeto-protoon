@@ -2,15 +2,10 @@ package com.proton.models.redirecionamento;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.enums.StatusRedirecionamento;
 
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
