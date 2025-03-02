@@ -1,8 +1,11 @@
 package com.proton.controller.resources.protocolo;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
+import com.proton.models.enums.Prioridade;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.SecretariaRepository;
 import com.proton.models.repositories.EnderecoRepository;
@@ -99,6 +103,16 @@ public class ProtocoloController {
         return ResponseEntity.ok().body(obj);// retorna UM protocolo
     }
 
+    private Prioridade determinarPrioridade(String assunto) {
+        System.out.println("\n\nAssunto recebido: " + assunto + "\n\n"); // Verifique o valor do assunto aqui
+        return switch (assunto.toLowerCase()) {
+            case "Problema de iluminação pública" -> Prioridade.MEDIA;
+            case "Problema de coleta de lixo" -> Prioridade.BAIXA;
+            case "Problema de trânsito" -> Prioridade.ALTA;
+            default -> Prioridade.MEDIA; // Definição padrão para casos não mapeados
+        };
+    }
+
     @PostMapping(value = "/abrir-protocolos/{id_s}") // Gera novos protocolos
     public ResponseEntity<Protocolo> insertByToken(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
             HttpServletRequest request) {
@@ -112,6 +126,20 @@ public class ProtocoloController {
         protocolo.setEndereco(end);
         protocolo.setSecretaria(sec);
         protocoloRepository.save(protocolo);
+
+        // Definir a prioridade com base no assunto
+        Prioridade prioridade = determinarPrioridade(protocolo.getAssunto());
+        protocolo.setPrioridade(prioridade);
+
+        // Definir a data do protocolo e calcular o prazo de conclusão
+        LocalDate dataProtocolo = LocalDate.now();
+        LocalDate prazoConclusao = dataProtocolo.plusDays(prioridade.getDiasParaResolver());
+
+        // Calcular a diferença de dias entre a data atual e o prazo de conclusão
+        long diasParaConclusao = dataProtocolo.until(prazoConclusao, ChronoUnit.DAYS);
+
+        // Definir o prazo de conclusão como o valor em dias
+        protocolo.setPrazoConclusao(diasParaConclusao); // Salvar como long representando dias
 
         String mensagemLog = String.format(
                 "Foi Registrado um novo protocolo: " + protocolo.getNumero_protocolo() + " em %s",

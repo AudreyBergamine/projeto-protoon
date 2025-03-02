@@ -10,8 +10,6 @@ import com.proton.services.exceptions.InvalidFieldsException;
 @Service
 public class RegisterValidationService {
 
-
-
     //Função que valida os campos do cadastro de Municipes
     public void validateMunicipeFields(RegisterRequestMunicipe registerRequestMunicipe){
 
@@ -27,11 +25,7 @@ public class RegisterValidationService {
         else if(registerRequestMunicipe.getNum_CPF().length() != 14){
             throw new InvalidFieldsException("CPF", "O CPF deve conter 14 caracteries"); 
         }
-    }
-
-
-
-    
+    }    
 
     //Função que verifica se o cpf é válido
     public void validateCPF(String CPF) {
@@ -78,9 +72,4 @@ public class RegisterValidationService {
             throw new InvalidFieldsException("CPF", "O CPF fornecido é inválido. Verifique se está no formato correto e tente novamente.");
         }
     }
-
-
-   
-    
-    
 }

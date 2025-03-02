@@ -3,7 +3,9 @@ package com.proton.services.protocolo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,7 @@ import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
+import com.proton.models.enums.Prioridade;
 import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.LogRepository;
 import com.proton.models.repositories.MunicipeRepository;
@@ -73,15 +76,39 @@ public class ProtocoloService {
 		return obj.get();
 	}
 
+	private Prioridade determinarPrioridade(String assunto) {
+		System.out.println("\n\nAssunto recebido: " + assunto + "\n\n");  // Verifique o valor do assunto aqui
+		return switch (assunto.toLowerCase()) {
+			case "Problema de iluminação pública" -> Prioridade.MEDIA;
+			case "Problema de coleta de lixo" -> Prioridade.BAIXA;
+			case "Problema de trânsito" -> Prioridade.ALTA;
+			default -> Prioridade.MEDIA; // Definição padrão para casos não mapeados
+		};
+	}
+	
 	public Protocolo insert(Protocolo protocolo, Integer id_m, Long id_s) {
+		System.out.println("\n\nAssunto recebido: " + protocolo.getAssunto() + "\n\n");  // Verifique o valor do assunto aqui
 		Municipe mun = municipeRepository.getReferenceById(id_m);
 		Secretaria sec = secretariaRepository.getReferenceById(id_s);
 		Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
 		String numeroProtocolo = this.gerarNumeroProtocolo();
+
+		// Definir a prioridade com base no assunto
+		Prioridade prioridade = determinarPrioridade(protocolo.getAssunto());
+		protocolo.setPrioridade(prioridade);
+
+		// Definir a data do protocolo e calcular o prazo de conclusão
+		LocalDate dataProtocolo = LocalDate.now();
+		LocalDate prazoConclusao = dataProtocolo.plusDays(prioridade.getDiasParaResolver());
+
+		// Calcular a diferença de dias entre a data atual e o prazo de conclusão
+        long diasParaConclusao = dataProtocolo.until(prazoConclusao, ChronoUnit.DAYS);
+		
 		protocolo.setNumero_protocolo(numeroProtocolo);
 		protocolo.setMunicipe(mun);
 		protocolo.setEndereco(end);
 		protocolo.setSecretaria(sec);
+        protocolo.setPrazoConclusao(diasParaConclusao); // Salvar como long representando dias
 
 		return protocoloRepository.save(protocolo);
 	}
@@ -95,7 +122,7 @@ public class ProtocoloService {
 		Municipe municipe = municipeService.findByNome(nomeMunicipe);
 		Integer idMunicipe = municipe.getId();
 		return protocoloRepository.findByMunicipe(idMunicipe);
-	}
+	}	
 
 	private void updateData(Protocolo entity, Protocolo obj) {
 		entity.setSecretaria(obj.getSecretaria());
@@ -112,17 +139,22 @@ public class ProtocoloService {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
-			String mensagemLog = String.format(
-					"%s alterou status do protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
-					Nomefuncionario, entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
+			if (!entity.getStatus().equals(status.getStatus())) {
+				String mensagemLog = String.format(
+						"%s alterou status do protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
+						Nomefuncionario, entity.getStatus(), status.getStatus(), LocalDateTime.now().format(formatter));
 
-			updateData(entity, status);
+				updateData(entity, status);
 
-			Log log = new Log();
-			log.setMensagem(mensagemLog);
-			logRepository.save(log);
+				Log log = new Log();
+				log.setMensagem(mensagemLog);
+				logRepository.save(log);
 
-			return protocoloRepository.save(entity);
+				return protocoloRepository.save(entity);
+			} else {
+				return entity;
+			}
+
 		} catch (EntityNotFoundException e) { //
 			throw new ResourceNotFoundException(numeroProtocolo);
 		}

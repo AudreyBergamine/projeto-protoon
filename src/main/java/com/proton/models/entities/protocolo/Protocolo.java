@@ -10,12 +10,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.secretaria.Secretaria;
+import com.proton.models.enums.Prioridade;
 import com.proton.models.enums.Status;
 import com.proton.models.redirecionamento.Redirecionamento;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,39 +31,39 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "protocolo")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Protocolo implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_protocolo;
-	
-	
-	@ManyToOne //Associação Muitos para um
+
+	@ManyToOne // Associação Muitos para um
 	@JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
 	private Secretaria secretaria;
-	
+
 	// @ManyToOne //Associação Muitos para um
-	// @JoinColumn(name = "id_departamentoFK",referencedColumnName = "id_departamento") //nome da chave estrangeira
+	// @JoinColumn(name = "id_departamentoFK",referencedColumnName =
+	// "id_departamento") //nome da chave estrangeira
 	// private Departamento departamento;
-	
-	@ManyToOne //Associação Muitos para um
-	@JoinColumn(name = "id_municipeFK", referencedColumnName = "id") 
+
+	@ManyToOne // Associação Muitos para um
+	@JoinColumn(name = "id_municipeFK", referencedColumnName = "id")
 	private Municipe municipe; // Municipe ou empresa, por enquanto somente municipe
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
-	private Endereco endereco;	
-	
-	private String assunto;	
-	private String numero_protocolo;
-	
+	private Endereco endereco;
 
-	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")//Formatação da data e hora
+	private String assunto;
+	private String numero_protocolo;
+
+	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
+	// "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")//Formatação da data e hora
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date data_protocolo; //Pega o momento da abertura do protocolo, substitui o tipo Date
-	
+	private Date data_protocolo; // Pega o momento da abertura do protocolo, substitui o tipo Date
+
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 
@@ -69,17 +72,20 @@ public class Protocolo implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "protocolo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Redirecionamento> redirecionamentos;
+	private Set<Redirecionamento> redirecionamentos;
 
-	
-	
-	public Protocolo(){
-		
+	@Column(name = "prazo_conclusao")
+	private long prazoConclusao;
+
+	@Enumerated(EnumType.STRING)
+	private Prioridade prioridade;
+
+	public Protocolo() {
 	}
 
-	public Protocolo(Integer id_protocolo, Secretaria secretaria, Municipe municipe, Endereco endereco, String assunto,
-			Date data_protocolo, String descricao, Status status, Double valor, String numero_protocolo) {
-		super();
+	public Protocolo(Integer id_protocolo, Secretaria secretaria, Municipe municipe, Endereco endereco,
+			String assunto, Date data_protocolo, String descricao, Status status,
+			Double valor, String numero_protocolo, long prazoConclusao) {
 		this.id_protocolo = id_protocolo;
 		this.secretaria = secretaria;
 		this.municipe = municipe;
@@ -90,6 +96,7 @@ public class Protocolo implements Serializable {
 		this.status = status;
 		this.valor = valor;
 		this.numero_protocolo = numero_protocolo;
+		this.prazoConclusao = prazoConclusao;
 	}
 
 	public Integer getId_protocolo() {
@@ -128,10 +135,9 @@ public class Protocolo implements Serializable {
 		return assunto;
 	}
 
-	
 	public Set<Redirecionamento> getRedirecionamentos() {
-        return redirecionamentos;
-    }
+		return redirecionamentos;
+	}
 
 	public void setAssunto(String assunto) {
 		this.assunto = assunto;
@@ -177,6 +183,21 @@ public class Protocolo implements Serializable {
 		this.numero_protocolo = numero_protocolo;
 	}
 
+	public long getPrazoConclusao() {
+		return prazoConclusao;
+	}
+
+	public void setPrazoConclusao(long prazoConclusao) {
+		this.prazoConclusao = prazoConclusao;
+	}
+
+	public Prioridade getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(Prioridade prioridade) {
+        this.prioridade = prioridade;
+    }
 
 	@Override
 	public int hashCode() {
@@ -194,7 +215,4 @@ public class Protocolo implements Serializable {
 		Protocolo other = (Protocolo) obj;
 		return Objects.equals(id_protocolo, other.id_protocolo);
 	}
-	
-	
-	
 }
