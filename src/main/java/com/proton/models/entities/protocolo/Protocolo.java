@@ -35,8 +35,6 @@ import jakarta.persistence.TemporalType;
 @Table(name = "protocolo")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Protocolo implements Serializable {
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Protocolo extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
