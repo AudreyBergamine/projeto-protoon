@@ -2,7 +2,6 @@ package com.proton.config;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.proton.models.entities.assunto.Assunto;
 import com.proton.models.entities.endereco.Endereco;
-import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.municipe.Municipe;
 import com.proton.models.entities.protocolo.Devolutiva;
 import com.proton.models.entities.protocolo.Protocolo;
@@ -24,7 +22,6 @@ import com.proton.models.enums.Status;
 import com.proton.models.repositories.AssuntoRepository;
 import com.proton.models.repositories.DevolutivaRepository;
 import com.proton.models.repositories.EnderecoRepository;
-import com.proton.models.repositories.FuncionarioRepository;
 import com.proton.models.repositories.MunicipeRepository;
 import com.proton.models.repositories.ProtocoloRepository;
 import com.proton.models.repositories.SecretariaRepository;
@@ -38,9 +35,6 @@ public class TestConfig implements CommandLineRunner {
 
         @Autowired
         private MunicipeRepository municipeRepository;
-
-        @Autowired
-        private FuncionarioRepository funcionarioRepository;
 
         @Autowired
         private SecretariaRepository secretariaRepository;
@@ -110,11 +104,11 @@ public class TestConfig implements CommandLineRunner {
                                 Status.PAGAMENTO_PENDENTE,
                                 150.0, "002-2024");
 
-                Protocolo prot3 = new Protocolo(null, secEducacao, mun2, end3, "Teste", new Date(), "teste",
+                Protocolo prot3 = new Protocolo(null, secMeioAmb, mun2, end3, "Teste", new Date(), "teste",
                                 Status.CONCLUIDO,
                                 150.0, "003-2024");
 
-                Protocolo prot4 = new Protocolo(null, secSaude, mun1, end2, "Assunto do protocolo", new Date(),
+                Protocolo prot4 = new Protocolo(null, secMeioAmb, mun1, end2, "Assunto do protocolo", new Date(),
                                 "Descrição do protocolo", Status.CIENCIA, 100.0, "004-2024");
 
                 Protocolo prot5 = new Protocolo(null, secSaude, mun1, end2, "Assunto do protocolo", new Date(),
