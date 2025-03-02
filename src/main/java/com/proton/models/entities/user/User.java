@@ -15,8 +15,10 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
 import java.util.Collection;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,14 +27,19 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.proton.models.entities.BaseEntity;
+
+import lombok.EqualsAndHashCode;
+
 @Data
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class User implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.TABLE)

@@ -2,6 +2,7 @@ package com.proton.models.entities.assunto;
 
 import java.io.Serializable;
 
+import com.proton.models.entities.BaseEntity;
 import com.proton.models.entities.secretaria.Secretaria;
 
 import jakarta.persistence.Entity;
@@ -14,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "assunto")
-public class Assunto implements Serializable {
+public class Assunto extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 	
 	@Id

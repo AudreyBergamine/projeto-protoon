@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.proton.models.entities.BaseEntity;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.protocolo.Protocolo;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 @Entity
 @Table(name = "secretaria")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Ignora propriedades Hibernate durante a serialização
-public class Secretaria implements Serializable {
+public class Secretaria extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id

@@ -2,6 +2,7 @@
 
 package com.proton.services.Assunto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,7 @@ public class AssuntoService {
         Secretaria secretaria = secretariaRepository.findById(obj.getSecretaria().getId_secretaria())
                 .orElseThrow(() -> new RuntimeException("Secretaria não encontrada"));
         obj.setSecretaria(secretaria);
+        obj.setCreatedAt(LocalDateTime.now());
         return assuntoRepository.save(obj);
     }
 

@@ -106,6 +106,7 @@ public class AuthenticationService {
           .celular(request.getCelular())
           .data_nascimento(request.getData_nascimento())
           .endereco(request.getEndereco())
+          .createdAt(LocalDateTime.now())
           .build();
 
       // Logo após, o Municipe é salvo usando os métodos de User (isso é possível por
@@ -173,6 +174,7 @@ public class AuthenticationService {
           .secretaria(secretaria)
           .data_nascimento(request.getData_nascimento())
           .endereco(request.getEndereco())
+          .createdAt(LocalDateTime.now())
           .build();
 
       // Logo após, o Municipe é salvo usando os métodos de User (isso é possível por

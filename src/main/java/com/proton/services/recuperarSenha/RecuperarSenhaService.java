@@ -1,5 +1,6 @@
 package com.proton.services.recuperarSenha;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -82,7 +83,9 @@ public class RecuperarSenhaService {
                     municipeRepository.save(municipe);
                     recuperarSenhaBanco.setCodigo(null);
                     recuperarSenhaBanco.setSenha(passwordEncoder.encode(recuperarSenha.getSenha()));
+                    recuperarSenhaBanco.setCreatedAt(LocalDateTime.now());
                     recuperarSenhaRepository.save(recuperarSenhaBanco);
+
                     return "Senha alterada com sucesso!";
                 } else {
                     return "Municipe não encontrado!";

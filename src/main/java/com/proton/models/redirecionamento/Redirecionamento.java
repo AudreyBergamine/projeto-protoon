@@ -2,6 +2,7 @@ package com.proton.models.redirecionamento;
 
 import java.time.LocalDateTime;
 
+import com.proton.models.entities.BaseEntity;
 import com.proton.models.entities.funcionario.Funcionario;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.enums.StatusRedirecionamento;
@@ -13,12 +14,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class Redirecionamento {
+public class Redirecionamento extends BaseEntity {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
