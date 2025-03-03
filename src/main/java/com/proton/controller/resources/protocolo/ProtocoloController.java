@@ -3,7 +3,6 @@ package com.proton.controller.resources.protocolo;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -106,9 +105,9 @@ public class ProtocoloController {
     private Prioridade determinarPrioridade(String assunto) {
         System.out.println("\n\nAssunto recebido: " + assunto + "\n\n"); // Verifique o valor do assunto aqui
         return switch (assunto.toLowerCase()) {
-            case "Problema de iluminação pública" -> Prioridade.MEDIA;
-            case "Problema de coleta de lixo" -> Prioridade.BAIXA;
-            case "Problema de trânsito" -> Prioridade.ALTA;
+            case "problema de iluminação pública" -> Prioridade.MEDIA;
+            case "problema de coleta de lixo" -> Prioridade.BAIXA;
+            case "problema de trânsito" -> Prioridade.ALTA;
             default -> Prioridade.MEDIA; // Definição padrão para casos não mapeados
         };
     }

@@ -1,7 +1,6 @@
 package com.proton.services.user;
 
 import com.proton.services.exceptions.ConstraintException;
-import com.proton.services.exceptions.InvalidFieldsException;
 import com.proton.services.jwt.JwtService;
 import com.proton.services.validations.RegisterValidationService;
 import com.proton.models.entities.token.Token;
@@ -25,12 +24,10 @@ import com.proton.models.entities.user.User;
 import com.proton.models.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -42,7 +39,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
-import static com.proton.models.enums.Role.FUNCIONARIO;
 import static com.proton.models.enums.Role.MUNICIPE;
 
 import java.io.IOException;
