@@ -1,6 +1,7 @@
 package com.proton.models.entities.secretaria;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +20,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
 
 
 @Entity
@@ -35,7 +35,6 @@ public class Secretaria extends BaseEntity implements Serializable {
 	private String nome_secretaria;
 	private String nome_responsavel;
 	private String email;
-	private String senha;
 	
 
 	// @OneToOne(cascade = CascadeType.ALL)
@@ -44,6 +43,7 @@ public class Secretaria extends BaseEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Endereco endereco;
     
 	// @JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
@@ -63,14 +63,13 @@ public class Secretaria extends BaseEntity implements Serializable {
 		
 	}
 
-	public Secretaria(Long id_secretaria, String nome_secretaria, String nome_responsavel, String email, String senha, 
+	public Secretaria(Long id_secretaria, String nome_secretaria, String nome_responsavel, String email, 
 			Endereco id_enderecoFK ) {
 		super();
 		this.id_secretaria = id_secretaria;
 		this.nome_secretaria = nome_secretaria;
 		this.nome_responsavel = nome_responsavel;
 		this.email = email;
-		this.senha = senha;	
 		this.endereco = id_enderecoFK;
 	}
 
@@ -131,14 +130,9 @@ public class Secretaria extends BaseEntity implements Serializable {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
+	
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
+	
 
 
 	@Override

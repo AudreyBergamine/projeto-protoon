@@ -76,15 +76,15 @@ public class TestConfig implements CommandLineRunner {
                 Endereco end6 = new Endereco(null, "Rua Dois", "11111-222", "Rua dos Fundos", "Casa 303",
                                 "101", "Bloco C", "Periferia", "Belo Horizonte", "MG", "Brasil");
 
-                Secretaria secEducacao = new Secretaria(null, "Secretaria de Educação", "Ana Silva", "ana@email.com",
-                                senha, end2);
+                Secretaria secEducacao = new Secretaria(null, "Secretaria de Educação", "Ana Silva", "ana@email.com"
+                , end2);
 
-                Secretaria secSaude = new Secretaria(null, "Secretaria de Saúde", "Carlos Santos", "carlos@email.com",
-                                senha, end3);
+                Secretaria secSaude = new Secretaria(null, "Secretaria de Saúde", "Carlos Santos", "carlos@email.com"
+                                , end3);
 
                 Secretaria secMeioAmb = new Secretaria(null, "Secretaria de Meio Ambiente", "Mariana Oliveira",
-                                "mariana@email.com",
-                                senha, end1);
+                                "mariana@email.com"
+                                , end1);
 
                 Municipe mun1 = new Municipe("Fulano", "fulano@email.com", senha, "973.087.140-04",
                                 "(11)96256-8965",
