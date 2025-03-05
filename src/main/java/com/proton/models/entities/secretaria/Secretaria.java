@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proton.models.entities.BaseEntity;
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.funcionario.Funcionario;
@@ -20,21 +21,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.ToString;
 
 @Entity
 @Table(name = "secretaria")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Ignora propriedades Hibernate durante a serialização
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" }) // Ignora propriedades Hibernate durante a serialização
+@ToString // Gera automaticamente o método toString()
 public class Secretaria extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_secretaria;
-	
+
 	private String nome_secretaria;
 	private String nome_responsavel;
 	private String email;
-	
 
 	// @OneToOne(cascade = CascadeType.ALL)
 	// @JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
@@ -42,25 +44,30 @@ public class Secretaria extends BaseEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_enderecoFK", referencedColumnName = "id_endereco")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Endereco endereco;
-    
-	// @JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
+
+	// @JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco
+	// de dados
 	// @OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
-	// private List<Departamento> departamentos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+	// private List<Departamento> departamentos = new ArrayList<>(); //Quando se
+	// trabalha com uma coleção, só se usa os gets (não se usa set)
 
-	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
-	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
-	private List<Funcionario> funcionarios = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+	@JsonIgnore // Serve para evitar o loop que gera em um relacionamento de banco de dados
+	@OneToMany(mappedBy = "secretaria") // Aqui serve para acessar as orders
+	private List<Funcionario> funcionarios = new ArrayList<>(); // Quando se trabalha com uma coleção, só se usa os gets
+																// (não se usa set)
 
-	@JsonIgnore //Serve para evitar o loop que gera em um relacionamento de banco de dados
-	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
-	private List<Protocolo> protocolos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
+	@JsonIgnore // Serve para evitar o loop que gera em um relacionamento de banco de dados
+	@OneToMany(mappedBy = "secretaria") // Aqui serve para acessar as orders
+	private List<Protocolo> protocolos = new ArrayList<>(); // Quando se trabalha com uma coleção, só se usa os gets
+															// (não se usa set)
 
-	public Secretaria(){}
+	public Secretaria() {
+	}
 
-	public Secretaria(Long id_secretaria, String nome_secretaria, String nome_responsavel, String email, 
-			Endereco id_enderecoFK ) {
+	public Secretaria(Long id_secretaria, String nome_secretaria, String nome_responsavel, String email,
+			Endereco id_enderecoFK) {
 		super();
 		this.id_secretaria = id_secretaria;
 		this.nome_secretaria = nome_secretaria;
@@ -77,11 +84,11 @@ public class Secretaria extends BaseEntity implements Serializable {
 		return funcionarios;
 	}
 
-	public List<Protocolo> getProtocolos(){
+	public List<Protocolo> getProtocolos() {
 		return protocolos;
 	}
 
-	public void setProtocolos(List<Protocolo> protocolos){
+	public void setProtocolos(List<Protocolo> protocolos) {
 		this.protocolos = protocolos;
 	}
 
@@ -94,17 +101,19 @@ public class Secretaria extends BaseEntity implements Serializable {
 	}
 
 	// public List<Departamento> getDepartamentos() {
-	// 	return departamentos;
+	// return departamentos;
 	// }
 
 	public void setId_secretaria(Long id_secretaria) {
 		this.id_secretaria = id_secretaria;
 	}
 
+	@JsonProperty("nome_secretaria")
 	public String getNome_secretaria() {
 		return nome_secretaria;
 	}
 
+	@JsonProperty("nome_secretaria")
 	public void setNome_secretaria(String nome_secretaria) {
 		this.nome_secretaria = nome_secretaria;
 	}
