@@ -21,7 +21,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "secretaria")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Ignora propriedades Hibernate durante a serialização
@@ -58,10 +57,7 @@ public class Secretaria extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy = "secretaria") //Aqui serve para acessar as orders
 	private List<Protocolo> protocolos = new ArrayList<>(); //Quando se trabalha com uma coleção, só se usa os gets (não se usa set)
 
-
-	public Secretaria(){
-		
-	}
+	public Secretaria(){}
 
 	public Secretaria(Long id_secretaria, String nome_secretaria, String nome_responsavel, String email, 
 			Endereco id_enderecoFK ) {
@@ -77,11 +73,10 @@ public class Secretaria extends BaseEntity implements Serializable {
 		return id_secretaria;
 	}
 
-	
-
 	public List<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
+
 	public List<Protocolo> getProtocolos(){
 		return protocolos;
 	}
@@ -130,11 +125,6 @@ public class Secretaria extends BaseEntity implements Serializable {
 		this.email = email;
 	}
 
-	
-
-	
-
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id_secretaria);
@@ -151,6 +141,4 @@ public class Secretaria extends BaseEntity implements Serializable {
 		Secretaria other = (Secretaria) obj;
 		return Objects.equals(id_secretaria, other.id_secretaria);
 	}
-	
-	
 }

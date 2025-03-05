@@ -28,7 +28,7 @@ public class SecretariaService {
 
 	@Transactional
 	public Secretaria insert(Secretaria obj, Integer idEnd){
-		Endereco endereco =  enderecoRepository.getReferenceById(idEnd);
+		Endereco endereco = enderecoRepository.getReferenceById(idEnd);
 		obj.setEndereco(endereco);
 		return repository.save(obj);
 	}
