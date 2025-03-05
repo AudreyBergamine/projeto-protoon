@@ -1,49 +1,42 @@
-//SERVICE LAYER (RESOURCER -->SERVICE LAYER(AQUI) --> REPOSITORY
 package com.proton.services.secretaria;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.proton.models.entities.endereco.Endereco;
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.models.repositories.EnderecoRepository;
 import com.proton.models.repositories.SecretariaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
 
-
-
-// Esta classe representa um serviço responsável por operações relacionadas a secretaria
 @Service
+@RequiredArgsConstructor
 public class SecretariaService {
-	
-	@Autowired
-	private SecretariaRepository repository; // Repositório de dados para acesso a secretaria
-	@Autowired
-	private EnderecoRepository enderecoRepository;
 
-	@Transactional
-	public Secretaria insert(Secretaria obj, Integer idEnd){
-		Endereco endereco = enderecoRepository.getReferenceById(idEnd);
-		obj.setEndereco(endereco);
-		return repository.save(obj);
-	}
-	
-	// Método para encontrar todos as secretarias
-	public List<Secretaria> findAll(){
-		return repository.findAll(); // Retorna todos as secretarias armazenadas no banco de dados
-	}
-	
-	public Secretaria findById(Long id) {
-		Optional <Secretaria> obj = repository.findById(id);
-		return obj.get();
-	}
+    private final SecretariaRepository repository; // Repositório de dados para acesso a secretaria
+    private final EnderecoRepository enderecoRepository; // Repositório de dados para acesso ao endereco
 
-	public List<Protocolo> findSecretariaProtocolos(Secretaria secretaria){
-		return secretaria.getProtocolos();
-	}
+    @Transactional
+    public Secretaria insert(Secretaria secretaria, Integer idEnd) {
+        Endereco endereco = enderecoRepository.findById(idEnd)
+                .orElseThrow(() -> new RuntimeException("Endereço não encontrado")); // Tratamento de erro se o Endereço não for encontrado
+        secretaria.setEndereco(endereco);
+        return repository.save(secretaria); // Salva a secretaria associada ao endereço
+    }
+
+    public List<Secretaria> findAll() {
+        return repository.findAll(); // Retorna todas as secretarias
+    }
+
+    public Secretaria findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Secretaria não encontrada com id: " + id)); // Retorna a secretaria ou lança erro
+    }
+
+    public List<Protocolo> findProtocolosBySecretariaId(Long id) {
+        Secretaria secretaria = findById(id); // Reutiliza o método findById para obter a secretaria
+        return secretaria.getProtocolos(); // Retorna os protocolos associados à secretaria
+    }
 }

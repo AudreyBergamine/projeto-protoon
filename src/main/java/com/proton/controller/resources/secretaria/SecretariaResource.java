@@ -1,57 +1,54 @@
 package com.proton.controller.resources.secretaria;
-import java.net.URI;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.proton.models.entities.protocolo.Protocolo;
 import com.proton.models.entities.secretaria.Secretaria;
 import com.proton.services.secretaria.SecretariaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import java.net.URI;
+import java.util.List;
 
 @RestController
-@RequestMapping(value = "protoon/secretaria")
+@RequestMapping(SecretariaResource.BASE_PATH)
+@RequiredArgsConstructor
 public class SecretariaResource {
     
-    @Autowired
-    private SecretariaService secretariaService;
+    public static final String BASE_PATH = "protoon/secretaria";
+    
+    private final SecretariaService secretariaService;
 
-    @PostMapping(value = "/{idEnd}")
-    public ResponseEntity<Secretaria> insert(@RequestBody Secretaria secretaria, @PathVariable Integer idEnd){
+    @PostMapping("/{idEnd}")
+    public ResponseEntity<Secretaria> insert(@RequestBody Secretaria secretaria, @PathVariable Integer idEnd) {
         Secretaria entity = secretariaService.insert(secretaria, idEnd);
         URI location = ServletUriComponentsBuilder
-        .fromCurrentRequest() // Baseado na URL da requisição atual
-        .path("/{id}") // Adiciona o ID do recurso criado ao caminho
-        .buildAndExpand(entity.getId_secretaria()) // Substitui o {id} pelo ID do usuário criado
-        .toUri();
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(entity.getId_secretaria())
+                .toUri();
         return ResponseEntity.created(location).body(entity);
     }
     
-    @GetMapping // Adicionando a anotação GetMapping para o método findAll
+    @GetMapping
     public ResponseEntity<List<Secretaria>> findAll() {
-        List<Secretaria> list = secretariaService.findAll();
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok(secretariaService.findAll());
     }
     
-    @GetMapping(value = "/{id}") // Adicionando o caminho da variável id
+    @GetMapping("/{id}")
     public ResponseEntity<Secretaria> findById(@PathVariable Long id) {
-        Secretaria obj = secretariaService.findById(id);
-        return ResponseEntity.ok().body(obj);
+        return ResponseEntity.ok(secretariaService.findById(id));
     }
 
-    @GetMapping(value = "/protocolos/{id}")
-    public ResponseEntity<List<Protocolo>> findProtocolosBySecretariaId(@PathVariable Long id){
+    @GetMapping("/protocolos/{id}")
+    public ResponseEntity<List<Protocolo>> findProtocolosBySecretariaId(@PathVariable Long id) {
         Secretaria sec = secretariaService.findById(id);
-        return ResponseEntity.ok().body(sec.getProtocolos());
+        
+        if (sec == null) {
+            return ResponseEntity.notFound().build();
+        }
 
+        return ResponseEntity.ok(sec.getProtocolos());
     }
 }
-
