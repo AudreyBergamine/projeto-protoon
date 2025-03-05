@@ -47,9 +47,9 @@ public class DevolutivaService {
     }
 
     // Método para encontrar Devolutiva pelo id
-    public Devolutiva findById(Integer id) {
-        Optional<Devolutiva> obj = devolutivaRepository.findById(id);
-        return obj.get();
+    public Devolutiva findById(Long id) {
+        Optional<Devolutiva> devolutiva = devolutivaRepository.findById(id);
+        return devolutiva.orElse(null); // Retorna null se não encontrar
     }
 
     public Devolutiva insert(Devolutiva devolutiva, Integer id_funcionario, Integer id_protocolo, Long id_secretaria) {
@@ -83,6 +83,14 @@ public class DevolutivaService {
 
     public List<Devolutiva> findByIdProtocolo(int id_protocolo) {
         return devolutivaRepository.findByIdProtocolo(id_protocolo);
+    }
+
+    public void deleteDevolutiva(Long id) {
+        if (devolutivaRepository.existsById(id)) {
+            devolutivaRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Devolutiva não encontrada para o ID: " + id);
+        }
     }
 
 }

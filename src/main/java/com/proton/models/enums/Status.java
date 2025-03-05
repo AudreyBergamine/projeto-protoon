@@ -4,7 +4,8 @@ public enum Status {
     PAGAMENTO_PENDENTE(1, "Pagamento Pendente"),
     CIENCIA(2, "Ciência"), //TODO: Poderia ser "Em Análise? "
     CIENCIA_ENTREGA(3, "Ciência e entrega"), // TODO: Poderia ser "Em Análise e Entrega?"
-    CONCLUIDO(4, "Concluído");
+    CONCLUIDO(4, "Concluído"),
+    CANCELADO(4, "Cancelado");
 
     private final int id; //private final, para não ser alterado
     private final String descricao; //private final, para não ser alterado

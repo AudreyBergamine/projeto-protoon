@@ -47,7 +47,6 @@ public class Devolutiva extends BaseEntity implements Serializable {
     @JoinColumn(name = "id_secretariaFK", referencedColumnName = "id_secretaria")
     private Secretaria id_secretaria;
 
-
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", timezone = "America/Sao_Paulo")
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Instant momento_devolutiva;

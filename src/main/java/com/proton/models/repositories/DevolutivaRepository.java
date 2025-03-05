@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.proton.models.entities.protocolo.Devolutiva;
 
 @Repository
-public interface DevolutivaRepository extends JpaRepository<Devolutiva, Integer> {
+public interface DevolutivaRepository extends JpaRepository<Devolutiva, Long> {
 
     @Query("SELECT d FROM Devolutiva d WHERE d.id_protocolo.id = :idProtocolo")
     List<Devolutiva> findByIdProtocolo(Integer idProtocolo);
