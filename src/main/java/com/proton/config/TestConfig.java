@@ -88,7 +88,7 @@ public class TestConfig implements CommandLineRunner {
 
                 Municipe mun1 = new Municipe("Fulano", "fulano@email.com", senha, "973.087.140-04",
                                 "(11)96256-8965",
-                                LocalDate.of(1990, 5, 15), end3);
+                                LocalDate.of(1990, 5, 15), end5);
                 mun1.setRole(Role.MUNICIPE);
 
                 Municipe mun2 = new Municipe("Ciclano", "ciclano@email.com", senha, "699.367.750-40",
@@ -109,40 +109,44 @@ public class TestConfig implements CommandLineRunner {
                                 .atZone(ZoneId.systemDefault()).toLocalDate();
 
                 // Adicionar 7 dias
-                LocalDate prazo = dataProtocoloLocalDate.plusDays(7);
+                LocalDate prazo1 = dataProtocoloLocalDate.plusDays(3);
+                LocalDate prazo2 = dataProtocoloLocalDate.plusDays(5);
+                LocalDate prazo3 = dataProtocoloLocalDate.plusDays(10);
 
                 // Converter de volta para Date
-                long prazoConclusao = ChronoUnit.DAYS.between(LocalDate.now(), prazo);
+                long prazoConclusao1 = ChronoUnit.DAYS.between(LocalDate.now(), prazo1);
+                long prazoConclusao2 = ChronoUnit.DAYS.between(LocalDate.now(), prazo2);
+                long prazoConclusao3 = ChronoUnit.DAYS.between(LocalDate.now(), prazo3);
 
                 Protocolo prot1 = new Protocolo(null, secSaude, mun1, end2, "Assunto do protocolo", new Date(),
                                 "Descrição do protocolo", Status.CIENCIA, 100.0, "001-2025",
-                                prazoConclusao);
+                                prazoConclusao1);
 
                 Protocolo prot2 = new Protocolo(null, secEducacao, mun2, end3, "Outro assunto", new Date(),
                                 "Outra descrição",
                                 Status.PAGAMENTO_PENDENTE,
-                                150.0, "002-2025", prazoConclusao);
+                                150.0, "002-2025", prazoConclusao2);
 
                 Protocolo prot3 = new Protocolo(null, secMeioAmb, mun2, end3, "Teste", new Date(), "teste",
                                 Status.CONCLUIDO,
-                                150.0, "003-2025", prazoConclusao);
+                                150.0, "003-2025", prazoConclusao3);
 
                 Protocolo prot4 = new Protocolo(null, secMeioAmb, mun1, end2, "Assunto do protocolo", new Date(),
-                                "Descrição do protocolo", Status.CIENCIA, 100.0, "004-2025", prazoConclusao);
+                                "Descrição do protocolo", Status.CIENCIA, 100.0, "004-2025", prazoConclusao1);
 
                 Protocolo prot5 = new Protocolo(null, secSaude, mun1, end2, "Assunto do protocolo", new Date(),
-                                "Descrição do protocolo", Status.CIENCIA, 100.0, "005-2025", prazoConclusao);
+                                "Descrição do protocolo", Status.CIENCIA, 100.0, "005-2025", prazoConclusao2);
 
                 Protocolo prot6 = new Protocolo(null, secSaude, mun1, end2, "Assunto do protocolo", new Date(),
-                                "Descrição do protocolo", Status.CIENCIA, 100.0, "006-2025", prazoConclusao);
+                                "Descrição do protocolo", Status.CIENCIA, 100.0, "006-2025", prazoConclusao3);
 
                 Assunto assunto1 = new Assunto(1, "Problema de iluminação pública", secSaude, 130.50, Prioridade.MEDIA,
-                                48);
+                                7);
 
                 Assunto assunto2 = new Assunto(2, "Problema de coleta de lixo", secEducacao, 150.55, Prioridade.BAIXA,
-                                72);
+                                10);
 
-                Assunto assunto3 = new Assunto(3, "Problema de trânsito", secMeioAmb, 30.00, Prioridade.ALTA, 24);
+                Assunto assunto3 = new Assunto(3, "Problema de trânsito", secMeioAmb, 30.00, Prioridade.ALTA, 3);
 
                 Devolutiva dev1 = new Devolutiva(null, null, prot1, Instant.now(), "Teste");
                 // Manda para o banco de dados
