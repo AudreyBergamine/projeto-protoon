@@ -75,7 +75,6 @@ public class ProtocoloService {
 	}
 
 	private Prioridade determinarPrioridade(String assunto) {
-		System.out.println("\n\nAssunto recebido: " + assunto + "\n\n");  // Verifique o valor do assunto aqui
 		return switch (assunto.toLowerCase()) {
 			case "problema de iluminação pública" -> Prioridade.MEDIA;
 			case "problema de coleta de lixo" -> Prioridade.BAIXA;
@@ -85,7 +84,6 @@ public class ProtocoloService {
 	}
 	
 	public Protocolo insert(Protocolo protocolo, Integer id_m, Long id_s) {
-		System.out.println("\n\nAssunto recebido: " + protocolo.getAssunto() + "\n\n");  // Verifique o valor do assunto aqui
 		Municipe mun = municipeRepository.getReferenceById(id_m);
 		Secretaria sec = secretariaRepository.getReferenceById(id_s);
 		Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
