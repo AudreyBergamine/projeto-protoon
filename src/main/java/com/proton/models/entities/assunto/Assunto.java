@@ -26,7 +26,7 @@ public class Assunto extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private Prioridade prioridade;
     
-    private Integer tempoResolucao; // Tempo em horas ou dias
+    private Integer tempoResolucao; // Tempo em dias
 
     public Assunto() {
     }

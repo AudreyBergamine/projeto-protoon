@@ -148,6 +148,8 @@ public class TestConfig implements CommandLineRunner {
 
                 Assunto assunto3 = new Assunto(3, "Problema de trânsito", secMeioAmb, 30.00, Prioridade.ALTA, 3);
 
+                Assunto assunto4 = new Assunto(4, "Outros", secSaude, null, Prioridade.BAIXA, 10);
+
                 Devolutiva dev1 = new Devolutiva(null, null, prot1, Instant.now(), "Teste");
                 // Manda para o banco de dados
                 municipeRepository.saveAll(Arrays.asList(mun1, mun2, secretario));
@@ -155,7 +157,7 @@ public class TestConfig implements CommandLineRunner {
                 secretariaRepository.saveAll(Arrays.asList(secSaude, secEducacao, secMeioAmb));
 
                 protocoloRepository.saveAll(Arrays.asList(prot1, prot2, prot3, prot4, prot5, prot6));
-                assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3)));
+                assuntoRepository.saveAll((Arrays.asList(assunto1, assunto2, assunto3, assunto4)));
                 devolutivaRepository.save(dev1);
         }
 }

@@ -108,6 +108,7 @@ public class ProtocoloController {
             case "problema de iluminação pública" -> Prioridade.MEDIA;
             case "problema de coleta de lixo" -> Prioridade.BAIXA;
             case "problema de trânsito" -> Prioridade.ALTA;
+            case "outros" -> Prioridade.BAIXA;
             default -> Prioridade.MEDIA; // Definição padrão para casos não mapeados
         };
     }
