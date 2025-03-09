@@ -248,5 +248,4 @@ public class ProtocoloController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
 }
