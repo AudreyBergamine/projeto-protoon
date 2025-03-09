@@ -140,15 +140,15 @@ public class TestConfig implements CommandLineRunner {
                 Protocolo prot6 = new Protocolo(null, secSaude, mun1, end2, "Assunto do protocolo", new Date(),
                                 "Descrição do protocolo", Status.CIENCIA, 100.0, "006-2025", prazoConclusao3);
 
-                Assunto assunto1 = new Assunto(1, "Problema de iluminação pública", secSaude, 130.50, Prioridade.MEDIA,
+                Assunto assunto1 = new Assunto(1, "Problema de iluminação pública", secSaude, 130.00, Prioridade.MEDIA,
                                 7);
 
-                Assunto assunto2 = new Assunto(2, "Problema de coleta de lixo", secEducacao, 150.55, Prioridade.BAIXA,
+                Assunto assunto2 = new Assunto(2, "Problema de coleta de lixo", secEducacao, 150.00, Prioridade.BAIXA,
                                 10);
 
                 Assunto assunto3 = new Assunto(3, "Problema de trânsito", secMeioAmb, 30.00, Prioridade.ALTA, 3);
 
-                Assunto assunto4 = new Assunto(4, "Outros", secSaude, null, Prioridade.BAIXA, 10);
+                Assunto assunto4 = new Assunto(4, "Outros", secSaude, 30.00, Prioridade.BAIXA, 10);
 
                 Devolutiva dev1 = new Devolutiva(null, null, prot1, Instant.now(), "Teste");
                 // Manda para o banco de dados

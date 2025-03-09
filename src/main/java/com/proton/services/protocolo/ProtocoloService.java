@@ -83,7 +83,7 @@ public class ProtocoloService {
 			default -> Prioridade.MEDIA; // Definição padrão para casos não mapeados
 		};
 	}
-	
+
 	public Protocolo insert(Protocolo protocolo, Integer id_m, Long id_s) {
 		Municipe mun = municipeRepository.getReferenceById(id_m);
 		Secretaria sec = secretariaRepository.getReferenceById(id_s);
@@ -99,13 +99,13 @@ public class ProtocoloService {
 		LocalDate prazoConclusao = dataProtocolo.plusDays(prioridade.getDiasParaResolver());
 
 		// Calcular a diferença de dias entre a data atual e o prazo de conclusão
-        long diasParaConclusao = dataProtocolo.until(prazoConclusao, ChronoUnit.DAYS);
-		
+		long diasParaConclusao = dataProtocolo.until(prazoConclusao, ChronoUnit.DAYS);
+
 		protocolo.setNumero_protocolo(numeroProtocolo);
 		protocolo.setMunicipe(mun);
 		protocolo.setEndereco(end);
 		protocolo.setSecretaria(sec);
-        protocolo.setPrazoConclusao(diasParaConclusao); // Salvar como long representando dias
+		protocolo.setPrazoConclusao(diasParaConclusao); // Salvar como long representando dias
 
 		return protocoloRepository.save(protocolo);
 	}
@@ -119,7 +119,7 @@ public class ProtocoloService {
 		Municipe municipe = municipeService.findByNome(nomeMunicipe);
 		Integer idMunicipe = municipe.getId();
 		return protocoloRepository.findByMunicipe(idMunicipe);
-	}	
+	}
 
 	private void updateData(Protocolo entity, Protocolo obj) {
 		entity.setSecretaria(obj.getSecretaria());
@@ -157,18 +157,43 @@ public class ProtocoloService {
 		}
 	}
 
-	public Protocolo updateRedirect(String numeroProtocolo, Protocolo secretaria, String Nomefuncionario) {
+	public Protocolo updateRedirect(String numeroProtocolo, Protocolo protocolo, String Nomefuncionario) {
 		try {
 			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
 					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
 
 			String mensagemLog = String.format(
 					"%s redirecionou o protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
-					Nomefuncionario, entity.getSecretaria().getNome_secretaria(),
-					secretaria.getSecretaria().getNome_secretaria(),
+					Nomefuncionario,
+					(entity.getSecretaria() != null ? entity.getSecretaria().getNome_secretaria() : "Sem Secretaria"),
+					(protocolo.getSecretaria() != null ? protocolo.getSecretaria().getNome_secretaria()
+							: "Sem Secretaria"),
 					LocalDateTime.now().format(formatter));
 
-			updateData(entity, secretaria);
+			updateData(entity, protocolo);
+
+			Log log = new Log();
+			log.setMensagem(mensagemLog);
+			logRepository.save(log);
+
+			return protocoloRepository.save(entity);
+		} catch (EntityNotFoundException e) { //
+			throw new ResourceNotFoundException(numeroProtocolo);
+		}
+	}
+
+	public Protocolo updateValor(String numeroProtocolo, Protocolo valor, String Nomefuncionario) {
+		try {
+			Protocolo entity = protocoloRepository.findByNumeroProtocolo(numeroProtocolo)
+					.orElseThrow(() -> new RuntimeException("Protocolo não encontrado"));
+
+			String mensagemLog = String.format(
+					"%s alterou o valor do protocolo " + entity.getNumero_protocolo() + " de %s para %s em %s",
+					Nomefuncionario, entity.getValor(),
+					valor.getValor(),
+					LocalDateTime.now().format(formatter));
+
+			updateData(entity, valor);
 
 			Log log = new Log();
 			log.setMensagem(mensagemLog);
