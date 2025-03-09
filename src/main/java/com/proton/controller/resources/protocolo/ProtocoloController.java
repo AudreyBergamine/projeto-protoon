@@ -153,6 +153,47 @@ public class ProtocoloController {
         return ResponseEntity.created(uri).body(protocolo);
     }
 
+    @PostMapping(value = "/abrir-protocolos-reclamar/{id_s}") // Gera novos protocolos
+    public ResponseEntity<Protocolo> insertReclamarByToken(@RequestBody Protocolo protocolo, @PathVariable Long id_s,
+            HttpServletRequest request) {
+        Integer id_m = authenticationService.getUserIdFromToken(request);
+        Municipe mun = municipeRepository.getReferenceById(id_m);
+        Secretaria sec = secretariaRepository.getReferenceById(id_s);
+        Endereco end = enderecoRepository.getReferenceById(mun.getEndereco().getId_endereco());
+        String numeroProtocolo = protocoloService.gerarNumeroProtocolo();
+        protocolo.setNumero_protocolo(numeroProtocolo);
+        protocolo.setMunicipe(mun);
+        protocolo.setEndereco(end);
+        protocolo.setSecretaria(sec);
+        protocoloRepository.save(protocolo);
+
+        // Definir a prioridade com base no assunto
+        Prioridade prioridade = determinarPrioridade(protocolo.getAssunto());
+        protocolo.setPrioridade(prioridade);
+
+        // Definir a data do protocolo e calcular o prazo de conclusão
+        LocalDate dataProtocolo = LocalDate.now();
+        LocalDate prazoConclusao = dataProtocolo.plusDays(prioridade.getDiasParaResolver());
+
+        // Calcular a diferença de dias entre a data atual e o prazo de conclusão
+        long diasParaConclusao = dataProtocolo.until(prazoConclusao, ChronoUnit.DAYS);
+
+        // Definir o prazo de conclusão como o valor em dias
+        protocolo.setPrazoConclusao(diasParaConclusao); // Salvar como long representando dias
+
+        String mensagemLog = String.format(
+                "Foi Registrado um novo protocolo: " + protocolo.getNumero_protocolo() + " em %s",
+                LocalDateTime.now().format(formatter));
+
+        Log log = new Log();
+        log.setMensagem(mensagemLog);
+        logRepository.save(log);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(protocolo.getId_protocolo()).toUri();
+        return ResponseEntity.created(uri).body(protocolo);
+    }
+
     @PostMapping(value = "/abrir-protocolos/{id_m}/{id_s}") // Gera novos protocolos
     public ResponseEntity<Protocolo> insert(@RequestBody Protocolo protocolo, @PathVariable Integer id_m,
             @PathVariable Long id_s) {
